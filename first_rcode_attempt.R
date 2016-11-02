@@ -46,6 +46,16 @@ qmplot(Lon, Lat, data = df, colour = y, size = I(0.8), darken = .4, alpha = I(.6
 ### DE-TREND DATA ###
 #####################
 
+#Plot y versus latitude.
+plot(df$Lat,df$y,pch=20)
+
+#Plot y versus longitude.
+plot(df$Lon,df$y,pch=20)
+
+#Plot y versus temperature.
+plot(df$temp,df$y,pch=20)
+
+#Looks like no de-trending is required in this case.
 
 #####################################################
 ### ANSCOMBE TRANSFORMATION TO NORMALIZE Y COUNTS ###
