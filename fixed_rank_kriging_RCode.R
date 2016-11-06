@@ -136,8 +136,8 @@ sigma2_eps_vargram_est = function(df){
 #ALTERNATIVE:
 #Variogram function to estimate sigma2_eps takes a long time to run on data this size.
 #Saved vargram_cressie and sigma2_eps as R objects to load.
-load(file='/Users/jennstarling/UTAustin/2016_Fall_SDS 385_Big_Data/spatialsmoothing/variogram_cressie.Rdata')
-load(file='/Users/jennstarling/UTAustin/2016_Fall_SDS 385_Big_Data/spatialsmoothing/sigma2_eps.Rdata')
+load(file='/Users/jennstarling/UTAustin/2016_Fall_SDS 385_Big_Data/spatialsmoothing/R Objects/variogram_cressie.Rdata')
+load(file='/Users/jennstarling/UTAustin/2016_Fall_SDS 385_Big_Data/spatialsmoothing/R Objects/sigma2_eps.Rdata')
 vargram = vargram_cressie
 vargram
 sigma2_eps
