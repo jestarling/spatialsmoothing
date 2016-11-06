@@ -5,7 +5,6 @@ setwd('/Users/jennstarling/UTAustin/2016_Fall_SDS 385_Big_Data/Final Project')
 library(SpatialTools)
 library(Matrix) #For sparse matrix V_eps.
 library(nlme) #For semi-variogram estimation.
-library(fields) #For fast dist function.
 library(gstat)
 library(rgl)
 library(splines)
@@ -220,16 +219,19 @@ emEsts = em(S=S,z=y.norm,v=v_eps,sigeps=sigma2_eps,maxiter=30,avgtol=1E-2)
 lat_range = range(df$Lat)
 lon_range = range(df$Lon)
 
-pred.lat = seq(lat_range[1], lat_range[2],length.out = 1000)
-pred.lon = seq(lon_range[1], lon_range[2],length.out = 1000)
+pred.lat = seq(lat_range[1], lat_range[2],length.out = 200)
+pred.lon = seq(lon_range[1], lon_range[2],length.out = 200)
 pred.grid = expand.grid(pred.lon,pred.lat)
+colnames(pred.grid) = c("Lon","Lat")
+
+#Alternatively, just predict values at observed points.
+pred.grid = df[,1:2]
 
 #Call FRK function.
 
 #Plot predicted values.
 
 #FRK Function
-
 data=df
 pred_locs=pred.grid
 K = emEsts$K
@@ -237,6 +239,8 @@ sigxi= emEsts$sigma2_xi
 sige = sigma2_eps
 
 frk = function(data,pred_locs,K,sigxi,sige,v){
+  
+  #DATA PREP:
   
   #Data values.
   lon = data[,1]
@@ -252,18 +256,51 @@ frk = function(data,pred_locs,K,sigxi,sige,v){
   n = length(S[,1])  #Number of observations.
   m = length(lon_pred) #Number of predicted obs.
   
-
-  
   V = sparseMatrix(i=1:n,j=1:n,x=v)
   V2 = sparseMatrix(i=1:n,j=1:n,x=rep(1,n))
 
+  #Set up basis functions for actual and predicted coordinates.
+  #S = create_basis(lon,lat)
+  #Sp = create_basis(lon_pred, lat_pred)
+  Sp=S #GET RID OF THIS LATER
+  #-------------------------
+  #DATA SMOOTHING
   
-  varest = var(z)
-  K_old = .9 * varest * diag(1,r)
-  sig2 = .1*varest
-  t=1
-  converged=0
+  #Diagonal error var matrix.
+  DInv = (sigxi * V2 + sige * V)
+  diag(DInv) = 1/diag(DInv)
   
+  #Calc rxr part of inverse of Sigma.
+  temp = solve(solve(K) + crossprod(S,DInv) %*% S)
+  
+  #Indicator matrix for observed locations. 
+  #(no need for E matrix if feeding in just predicted vals as grid)
+  obs_only = (identical(lon,lon_pred) & identical(lat,lat_pred))
+  if(!obs_only){
+    E = sparseMatrix(dims=c(m,n),i={},j={})
+    for (i in 1:n){ #Iterate over columns.
+      idx = which(lon_pred==lon[i] & lat_pred==lat[i])
+      if(length(idx)>0){
+        E[which(lon_pred==lon[i] & lat_pred==lat[i]), i] = TRUE
+      } 
+    }
+  }
+  
+  #Predict (NORMALIZED) smoothed residuals for observed locations.
+  SigInvZ = DInv %*% z - DInv %*% S %*% (tcrossprod(temp,S) %*% DInv %*% z)
+  
+  if(obs_only==TRUE){ #Saves computational time if only smoothing observed vals.
+    pred = Sp %*% (tcrossprod(K,S) %*% SigInvZ) + sigxi * SigInvZ
+  }
+  if(obs_only==FALSE){
+    pred = Sp %*% (tcrossprod(K,S) %*% SigInvZ) + sigxi * E %*% SigInvZ
+  }
+  
+  #Save predicted values with location coordinates.
+  pred_with_locs = cbind(lon_pred,lat_pred,pred)
+  
+  #-------------------------
+  #CALC FRK VARIANCE
   
 }
 
