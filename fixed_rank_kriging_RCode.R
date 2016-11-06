@@ -89,7 +89,12 @@ df$y.norm = y.norm
 ####################################
 ### Generate Basis Functions     ###
 ####################################
-Sbasis = bs(df$y.norm) #Using B-Spline basis
+create_basis = function(data){
+  Sbasis = bs(data) #Using b-splines basis.
+  return(Sbasis)
+}
+
+Sbasis = create_basis(df$y.norm) #Using B-Spline basis
 S = as.matrix(Sbasis[1:nrow(Sbasis),]) #Dropping 'basis' formatting.
   #Required to be able to perform matrix multiplication later.
 
@@ -217,11 +222,48 @@ lon_range = range(df$Lon)
 
 pred.lat = seq(lat_range[1], lat_range[2],length.out = 1000)
 pred.lon = seq(lon_range[1], lon_range[2],length.out = 1000)
-pred.grid = expand.grid(pred.lat,pred.lon)
+pred.grid = expand.grid(pred.lon,pred.lat)
 
 #Call FRK function.
 
 #Plot predicted values.
 
 #FRK Function
+
+data=df
+pred_locs=pred.grid
+K = emEsts$K
+sigxi= emEsts$sigma2_xi
+sige = sigma2_eps
+
+frk = function(data,pred_locs,K,sigxi,sige,v){
+  
+  #Data values.
+  lon = data[,1]
+  lat = data[,2]
+  z = data$y.norm
+  
+  #Coords of predicted locations.
+  lon_pred = pred_locs[,1]
+  lat_pred = pred_locs[,2]
+  
+  #Set up dimensions.
+  r = ncol(S)         #Number of basis vectors.
+  n = length(S[,1])  #Number of observations.
+  m = length(lon_pred) #Number of predicted obs.
+  
+
+  
+  V = sparseMatrix(i=1:n,j=1:n,x=v)
+  V2 = sparseMatrix(i=1:n,j=1:n,x=rep(1,n))
+
+  
+  varest = var(z)
+  K_old = .9 * varest * diag(1,r)
+  sig2 = .1*varest
+  t=1
+  converged=0
+  
+  
+}
 
