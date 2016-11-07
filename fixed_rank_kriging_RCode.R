@@ -4,6 +4,8 @@ setwd('/Users/jennstarling/UTAustin/2016_Fall_SDS 385_Big_Data/Final Project')
 
 library(SpatialTools)
 library(Matrix) #For sparse matrix V_eps.
+library(Rcpp) #For FRK function, estimating p3.
+library(RcppArmadillo) #For FRK function, estimating p3.
 library(nlme) #For semi-variogram estimation.
 library(gstat)
 library(rgl)
@@ -82,6 +84,11 @@ hist(df$y)
 y.norm = 2*sqrt(df$y + 3/8)
 hist(y.norm)
 
+#De-trend the mean.
+mean.to.add = mean(y.norm)
+y.norm = y.norm - mean(y.norm)
+hist(y.norm)
+
 #Add y.norm to data frame.
 df$y.norm = y.norm
 
@@ -132,6 +139,8 @@ sigma2_eps_vargram_est = function(df){
   
   return(list(vargram_cressie = vargram, sigma2_eps=sigma2_eps))
 }
+
+vargram = sigma2_eps_vargram_est(df)
 
 #ALTERNATIVE:
 #Variogram function to estimate sigma2_eps takes a long time to run on data this size.
@@ -210,7 +219,7 @@ em = function(S,z=y.norm,v=v_eps,sigeps=sigma2_eps,maxiter=10,avgtol=1E-6){
   return(list( K = K_new, sigma2_xi = sig2[t], t=t+1, converged=converged))
 }
 
-emEsts = em(S=S,z=y.norm,v=v_eps,sigeps=sigma2_eps,maxiter=30,avgtol=1E-2)
+emEsts = em(S=S,z=y.norm,v=v_eps,sigeps=sigma2_eps,maxiter=50,avgtol=1E-2)
 
 ####################################
 ### Fixed Rank Kriging           ###
@@ -220,15 +229,14 @@ emEsts = em(S=S,z=y.norm,v=v_eps,sigeps=sigma2_eps,maxiter=30,avgtol=1E-2)
 lat_range = range(df$Lat)
 lon_range = range(df$Lon)
 
-pred.lat = seq(lat_range[1], lat_range[2],length.out = 10)
-pred.lon = seq(lon_range[1], lon_range[2],length.out = 10)
+pred.lat = seq(lat_range[1], lat_range[2],length.out = 100)
+pred.lon = seq(lon_range[1], lon_range[2],length.out = 100)
 pred.grid = expand.grid(pred.lon,pred.lat)
 colnames(pred.grid) = c("Lon","Lat")
 
-pred.grid = rbind(df[,1:2],pred.grid)
+#pred.grid = rbind(df[,1:2],pred.grid)
 
-#Alternatively, just predict values at observed points.
-#pred.grid = df[,1:2]
+pred.grid=df[,1:2]
 
 #Call FRK function.
 
@@ -241,8 +249,43 @@ K = emEsts$K
 sigxi= emEsts$sigma2_xi
 sige = sigma2_eps
 
-frk = function(data,pred_locs,K,sigxi,sige,v){
+#Try calling FRK function for smoothing:
+#Alternatively, just predict values at observed points.
+
+myFRK = frk(data=df, 
+            K=emEsts$K,
+            sigxi = emEsts$sigma2_xi,
+            sige = sigma2_eps,
+            v = v_eps,
+            goal="smooth")
+
+myFRK = frk(data=df, 
+              pred_locs=pred.grid,
+              K=emEsts$K,
+              sigxi = emEsts$sigma2_xi,
+              sige = sigma2_eps,
+              v = v_eps,
+              goal="smooth")
+
+#Try calling FRK function for prediction:
+
+
+frk = function(data,pred_locs=NULL,K,sigxi,sige,v,goal="predict"){
   
+  #-------------------------
+  #INPUT VALIDATION CHECKS:
+  
+  #1. Check goal is either "smooth" or "predict".
+  valid_goals = c("smooth","predict")
+  if (!(goal %in% valid_goals)) stop("Goal must be 'smooth' or 'predict'.")
+  
+  #2. Check pred_locs provided if goal = predict.
+  if (goal=="predict" & is.null(pred_locs)) stop("pred_locs required for prediction.")
+ 
+  #3. If pred_locs != NULL and goal = smooth, warn user that only observed locs used.
+  if(!is.null(pred_locs) & goal=="smooth") print("Warning: For smoothing, predicted locations not included in observed data will be ignored. Only observed locations are used.")
+  
+  #-------------------------
   #DATA PREP:
   
   #Data values.
@@ -250,10 +293,12 @@ frk = function(data,pred_locs,K,sigxi,sige,v){
   lat = data[,2]
   z = data$y.norm
   
-  #Coords of predicted locations.
+  #Coordinates of predicted locations.
+  #If doing smoothing, set predicted locations equal to observed locations.
+  if (pred_locs==NULL || goal=="smooth") pred_locs = df[,1:2]
   lon_pred = pred_locs[,1]
   lat_pred = pred_locs[,2]
-  
+
   #Set up dimensions.
   r = ncol(S)         #Number of basis vectors.
   n = length(S[,1])  #Number of observations.
@@ -264,8 +309,7 @@ frk = function(data,pred_locs,K,sigxi,sige,v){
 
   #Set up basis functions for actual and predicted coordinates.
   S = create_basis(y.norm)
-  #Sp = S
-  Sp=create_basis(rnorm(m)) #GET RID OF THIS LATER
+  Sp=S
   
   #-------------------------
   #DATA SMOOTHING
@@ -276,56 +320,77 @@ frk = function(data,pred_locs,K,sigxi,sige,v){
   
   #Calc rxr part of inverse of Sigma.
   temp = solve(solve(K) + crossprod(S,DInv) %*% S)
-  
-  #Indicator matrix setup:
+
+  if (goal == "smooth"){
+    #Predict (NORMALIZED) smoothed residuals for observed locations only.
+    SigInvZ = DInv %*% z - DInv %*% S %*% (tcrossprod(temp,S) %*% DInv %*% z)
+    pred = Sp %*% (tcrossprod(K,S) %*% SigInvZ) + sigxi * SigInvZ
+  }
+
+  if (goal == "predict"){
+    #Indicator matrix setup:
     #Flag pred locations that exist as observed locations.
     loc_obs = paste(lon,lat,sep=",")
     loc_pred = paste(lon_pred,lat_pred,sep=",")
-  
+    
     #Save indices corresponding to observed coords.
     idx_obs_in_pred = match(loc_pred,loc_obs,nomatch=0)
     matched_i = which(idx_obs_in_pred != 0)
     matched_j = idx_obs_in_pred[which(idx_obs_in_pred != 0)]
-
+    
     #Indicator matrix for observed locations. 
     E = sparseMatrix(dims=c(m,n),i=matched_i, j=matched_j)
     
-  #Predict (NORMALIZED) smoothed residuals for observed locations.
-  SigInvZ = DInv %*% z - DInv %*% S %*% (tcrossprod(temp,S) %*% DInv %*% z)
-  pred = Sp %*% (tcrossprod(K,S) %*% SigInvZ) + sigxi * E %*% SigInvZ
+    #Predict (NORMALIZED) smoothed residuals for predicted locations.
+    SigInvZ = DInv %*% z - DInv %*% S %*% (tcrossprod(temp,S) %*% DInv %*% z)
+    pred = Sp %*% (tcrossprod(K,S) %*% SigInvZ) + sigxi * E %*% SigInvZ
+  }
   
   #Save predicted values with location coordinates.
   pred_with_locs = cbind(Lon=lon_pred,Lat=lat_pred,Yhat.norm=pred)
   
   #-------------------------
   #CALCULATE FRK VARIANCE
+  #Due to computational intensity, only performing this operation
+  #if doing interpolation, not smoothing.
+  sig2FRK = 999
   
-  #Find rows () corresponding to observed locations.
-  index = summary(E)$i
+  if(goal=="predict"){
+    #Find rows () corresponding to observed locations.
+    index = summary(E)$i
   
-  #Part 1 of variance.
-  SpK = Sp %*% K
-  p1 = apply(SpK,1,crossprod)
+    #Part 1 of variance.
+    SpK = Sp %*% K
+    p1 = apply(SpK,1,crossprod)
   
-  #Part 3 of variance.
-  KSSigInv = tcrossprod(K,S) %*% DInv - 
-    (tcrossprod(K,S) %*% DInv %*% S %*% temp) %*% crossprod(S,DInv)
+    #Part 3 of variance.
+    KSSigInv = tcrossprod(K,S) %*% DInv - 
+        (tcrossprod(K,S) %*% DInv %*% S %*% temp) %*% crossprod(S,DInv)
   
-  SpKSSigInvSK = Sp %*% (KSSigInv %*% S %*% K)
-  SigInv1 = DInv %*% S %*% temp
-  SigInv2 = crossprod(S,DInv)
+    SpKSSigInvSK = Sp %*% (KSSigInv %*% S %*% K)
+    SigInv1 = DInv %*% S %*% temp
+    SigInv2 = crossprod(S,DInv)
   
-  p3 = rep(0,m)
-  p3 = rowSums(SpKSSigInvSK * Sp)
-  
-  #TAKES A LONG TIME:
-  Sys.time()
-  for (i in 1:length(index)){
-    ind = index[i]
-    ESigInvE = as.numeric(DInv[ind,ind] - SigInv1[ind,] %*% SigInv2[,ind])
-    p3[i] = p3[i] + 2 * sigxi * Sp[i,] %*% KSSigInv[,ind] + sigxi^2 * ESigInvE
-  } 
-  Sys.time()
-  
-}
+    p3 = rep(0,m)
+    p3 = rowSums(SpKSSigInvSK * Sp)
+    
+    for (i in 1:length(index)){
+      ind = index[i]
+      ESigInvE = as.numeric(DInv[ind,ind] - SigInv1[ind,] %*% SigInv2[,ind])
+      p3[i] = p3[i] + 2 * sigxi * Sp[i,] %*% KSSigInv[,ind] + sigxi^2 * ESigInvE
+    } 
+    
+    #Add up pieces of FRK variance.
+    sig2FRK = p1 + sigxi - p3
+  }
+
+  #Return function values.
+ 
+  return(list(pred = pred_with_locs,
+              sig2FRK=sig2FRK,
+              K=K,
+              sig2_eps = sige,
+              sig2_xi = sigxi ))
+ 
+} #End FRK function.
 
