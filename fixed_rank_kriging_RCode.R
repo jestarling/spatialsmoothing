@@ -90,12 +90,13 @@ df$y.norm = y.norm
 ####################################
 create_basis = function(data){
   Sbasis = bs(data) #Using b-splines basis.
-  return(Sbasis)
+  S = as.matrix(Sbasis[1:nrow(Sbasis),]) #Drop 'basis' format.
+    #Required for matrix multiplication.
+  return(S)
 }
 
-Sbasis = create_basis(df$y.norm) #Using B-Spline basis
-S = as.matrix(Sbasis[1:nrow(Sbasis),]) #Dropping 'basis' formatting.
-  #Required to be able to perform matrix multiplication later.
+S = create_basis(df$y.norm) #Using B-Spline basis
+
 
 ####################################
 ### Estimate Parameters          ###
@@ -219,13 +220,15 @@ emEsts = em(S=S,z=y.norm,v=v_eps,sigeps=sigma2_eps,maxiter=30,avgtol=1E-2)
 lat_range = range(df$Lat)
 lon_range = range(df$Lon)
 
-pred.lat = seq(lat_range[1], lat_range[2],length.out = 200)
-pred.lon = seq(lon_range[1], lon_range[2],length.out = 200)
+pred.lat = seq(lat_range[1], lat_range[2],length.out = 10)
+pred.lon = seq(lon_range[1], lon_range[2],length.out = 10)
 pred.grid = expand.grid(pred.lon,pred.lat)
 colnames(pred.grid) = c("Lon","Lat")
 
+pred.grid = rbind(df[,1:2],pred.grid)
+
 #Alternatively, just predict values at observed points.
-pred.grid = df[,1:2]
+#pred.grid = df[,1:2]
 
 #Call FRK function.
 
@@ -260,9 +263,10 @@ frk = function(data,pred_locs,K,sigxi,sige,v){
   V2 = sparseMatrix(i=1:n,j=1:n,x=rep(1,n))
 
   #Set up basis functions for actual and predicted coordinates.
-  #S = create_basis(lon,lat)
-  #Sp = create_basis(lon_pred, lat_pred)
-  Sp=S #GET RID OF THIS LATER
+  S = create_basis(y.norm)
+  #Sp = S
+  Sp=create_basis(rnorm(m)) #GET RID OF THIS LATER
+  
   #-------------------------
   #DATA SMOOTHING
   
@@ -273,34 +277,55 @@ frk = function(data,pred_locs,K,sigxi,sige,v){
   #Calc rxr part of inverse of Sigma.
   temp = solve(solve(K) + crossprod(S,DInv) %*% S)
   
-  #Indicator matrix for observed locations. 
-  #(no need for E matrix if feeding in just predicted vals as grid)
-  obs_only = (identical(lon,lon_pred) & identical(lat,lat_pred))
-  if(!obs_only){
-    E = sparseMatrix(dims=c(m,n),i={},j={})
-    for (i in 1:n){ #Iterate over columns.
-      idx = which(lon_pred==lon[i] & lat_pred==lat[i])
-      if(length(idx)>0){
-        E[which(lon_pred==lon[i] & lat_pred==lat[i]), i] = TRUE
-      } 
-    }
-  }
+  #Indicator matrix setup:
+    #Flag pred locations that exist as observed locations.
+    loc_obs = paste(lon,lat,sep=",")
+    loc_pred = paste(lon_pred,lat_pred,sep=",")
   
+    #Save indices corresponding to observed coords.
+    idx_obs_in_pred = match(loc_pred,loc_obs,nomatch=0)
+    matched_i = which(idx_obs_in_pred != 0)
+    matched_j = idx_obs_in_pred[which(idx_obs_in_pred != 0)]
+
+    #Indicator matrix for observed locations. 
+    E = sparseMatrix(dims=c(m,n),i=matched_i, j=matched_j)
+    
   #Predict (NORMALIZED) smoothed residuals for observed locations.
   SigInvZ = DInv %*% z - DInv %*% S %*% (tcrossprod(temp,S) %*% DInv %*% z)
-  
-  if(obs_only==TRUE){ #Saves computational time if only smoothing observed vals.
-    pred = Sp %*% (tcrossprod(K,S) %*% SigInvZ) + sigxi * SigInvZ
-  }
-  if(obs_only==FALSE){
-    pred = Sp %*% (tcrossprod(K,S) %*% SigInvZ) + sigxi * E %*% SigInvZ
-  }
+  pred = Sp %*% (tcrossprod(K,S) %*% SigInvZ) + sigxi * E %*% SigInvZ
   
   #Save predicted values with location coordinates.
-  pred_with_locs = cbind(lon_pred,lat_pred,pred)
+  pred_with_locs = cbind(Lon=lon_pred,Lat=lat_pred,Yhat.norm=pred)
   
   #-------------------------
-  #CALC FRK VARIANCE
+  #CALCULATE FRK VARIANCE
+  
+  #Find rows () corresponding to observed locations.
+  index = summary(E)$i
+  
+  #Part 1 of variance.
+  SpK = Sp %*% K
+  p1 = apply(SpK,1,crossprod)
+  
+  #Part 3 of variance.
+  KSSigInv = tcrossprod(K,S) %*% DInv - 
+    (tcrossprod(K,S) %*% DInv %*% S %*% temp) %*% crossprod(S,DInv)
+  
+  SpKSSigInvSK = Sp %*% (KSSigInv %*% S %*% K)
+  SigInv1 = DInv %*% S %*% temp
+  SigInv2 = crossprod(S,DInv)
+  
+  p3 = rep(0,m)
+  p3 = rowSums(SpKSSigInvSK * Sp)
+  
+  #TAKES A LONG TIME:
+  Sys.time()
+  for (i in 1:length(index)){
+    ind = index[i]
+    ESigInvE = as.numeric(DInv[ind,ind] - SigInv1[ind,] %*% SigInv2[,ind])
+    p3[i] = p3[i] + 2 * sigxi * Sp[i,] %*% KSSigInv[,ind] + sigxi^2 * ESigInvE
+  } 
+  Sys.time()
   
 }
 
