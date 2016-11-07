@@ -1,6 +1,14 @@
 
 rm(list=ls())
-setwd('/Users/jennstarling/UTAustin/2016_Fall_SDS 385_Big_Data/Final Project')
+
+###############################
+#JENNIFER FILE PATH SETUP
+setwd('/Users/jennstarling/UTAustin/2016_Fall_SDS 385_Big_Data/')
+
+#GIORGIO FILE PATH SETUP
+
+
+###############################
 
 library(SpatialTools)
 library(Matrix) #For sparse matrix V_eps.
@@ -153,7 +161,7 @@ sigma2_eps
 
 #Code for saving vargram and sigma2_eps if need to rerun code.
 #save(sigma2_eps, file='/Users/jennstarling/UTAustin/2016_Fall_SDS 385_Big_Data/spatialsmoothing/sigma2_eps.Rdata')
-#save(vargram, file='/Users/jennstarling/UTAustin/2016_Fall_SDS 385_Big_Data/spatialsmoothing/vargram_cressie.Rdata')
+save(vargram, file='/Users/jennstarling/UTAustin/2016_Fall_SDS 385_Big_Data/spatialsmoothing/vargram_cressie_ctr.Rdata')
 
 #-----------------------------------
 #1. Estimate K and sigma2_xi with EM algorithm.
@@ -225,14 +233,6 @@ emEsts = em(S=S,z=y.norm,v=v_eps,sigeps=sigma2_eps,maxiter=50,avgtol=1E-2)
 ### Fixed Rank Kriging           ###
 ####################################
 
-#Create a grid of y-values to predict.
-lat_range = range(df$Lat)
-lon_range = range(df$Lon)
-
-pred.lat = seq(lat_range[1], lat_range[2],length.out = 100)
-pred.lon = seq(lon_range[1], lon_range[2],length.out = 100)
-pred.grid = expand.grid(pred.lon,pred.lat)
-colnames(pred.grid) = c("Lon","Lat")
 
 #pred.grid = rbind(df[,1:2],pred.grid)
 
@@ -259,16 +259,27 @@ myFRK = frk(data=df,
             v = v_eps,
             goal="smooth")
 
-myFRK = frk(data=df, 
-              pred_locs=pred.grid,
-              K=emEsts$K,
-              sigxi = emEsts$sigma2_xi,
-              sige = sigma2_eps,
-              v = v_eps,
-              goal="smooth")
 
 #Try calling FRK function for prediction:
 
+#Create a grid of y-values to predict.
+lat_range = range(df$Lat)
+lon_range = range(df$Lon)
+
+pred.lat = seq(lat_range[1], lat_range[2],length.out = 100)
+pred.lon = seq(lon_range[1], lon_range[2],length.out = 100)
+pred.grid = expand.grid(pred.lon,pred.lat)
+colnames(pred.grid) = c("Lon","Lat")
+
+Sp = S[1:10000,] #DELETE LATER
+
+myFRKpred = frk(data=df, 
+            pred_locs=pred.grid,
+            K=emEsts$K,
+            sigxi = emEsts$sigma2_xi,
+            sige = sigma2_eps,
+            v = v_eps,
+            goal="predict")
 
 frk = function(data,pred_locs=NULL,K,sigxi,sige,v,goal="predict"){
   
@@ -295,7 +306,7 @@ frk = function(data,pred_locs=NULL,K,sigxi,sige,v,goal="predict"){
   
   #Coordinates of predicted locations.
   #If doing smoothing, set predicted locations equal to observed locations.
-  if (pred_locs==NULL || goal=="smooth") pred_locs = df[,1:2]
+  if (is.null(pred_locs) || goal=="smooth") pred_locs = df[,1:2]
   lon_pred = pred_locs[,1]
   lat_pred = pred_locs[,2]
 
@@ -309,7 +320,7 @@ frk = function(data,pred_locs=NULL,K,sigxi,sige,v,goal="predict"){
 
   #Set up basis functions for actual and predicted coordinates.
   S = create_basis(y.norm)
-  Sp=S
+  #Sp=S
   
   #-------------------------
   #DATA SMOOTHING
@@ -374,12 +385,13 @@ frk = function(data,pred_locs=NULL,K,sigxi,sige,v,goal="predict"){
     p3 = rep(0,m)
     p3 = rowSums(SpKSSigInvSK * Sp)
     
-    for (i in 1:length(index)){
-      ind = index[i]
-      ESigInvE = as.numeric(DInv[ind,ind] - SigInv1[ind,] %*% SigInv2[,ind])
-      p3[i] = p3[i] + 2 * sigxi * Sp[i,] %*% KSSigInv[,ind] + sigxi^2 * ESigInvE
-    } 
-    
+    if (length(index)>0){
+      for (i in 1:length(index)){
+        ind = index[i]
+        ESigInvE = as.numeric(DInv[ind,ind] - SigInv1[ind,] %*% SigInv2[,ind])
+        p3[i] = p3[i] + 2 * sigxi * Sp[i,] %*% KSSigInv[,ind] + sigxi^2 * ESigInvE
+      } 
+    }
     #Add up pieces of FRK variance.
     sig2FRK = p1 + sigxi - p3
   }
