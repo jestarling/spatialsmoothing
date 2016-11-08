@@ -101,6 +101,7 @@ frk = function(data,pred_locs=NULL,K,sigxi,sige,v,S,Sp,goal="predict"){
   
   #Save predicted values with location coordinates.
   pred_with_locs = cbind(Lon=lon_pred,Lat=lat_pred,Yhat=pred)
+  colnames(pred_with_locs) = c("Lon","Lat","yhat.norm")
   
   #-------------------------
   #CALCULATE FRK VARIANCE
