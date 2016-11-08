@@ -12,10 +12,7 @@ setwd('/Users/jennstarling/UTAustin/2016_Fall_SDS 385_Big_Data/Final Project')
 
 library(SpatialTools)
 library(Matrix) #For sparse matrix V_eps.
-library(Rcpp) #For FRK function, estimating p3.
-library(RcppArmadillo) #For FRK function, estimating p3.
-library(nlme) #For semi-variogram estimation.
-library(gstat)
+library(gstat) #For semi-variogram estimation.
 library(rgl)
 library(splines)
 library(ggmap)
@@ -30,8 +27,7 @@ library(lubridate)
 source('./spatialsmoothing/R Code/em.R')
 source('./spatialsmoothing/R Code/frk.R')
 source('./spatialsmoothing/R Code/variogram_est.R')
-
-### ADD BASIS FUNCTION
+source('./spatialsmoothing/R Code/bisquare.basis.R')
 
 ############################### 
 ### READ & PRE-PROCESS DATA ###
@@ -108,17 +104,33 @@ hist(y.norm)
 #Add y.norm to data frame.
 df$y.norm = y.norm
 
-####################################
-### Generate Basis Functions     ###
-####################################
-create_basis = function(data){
-  Sbasis = bs(data) #Using b-splines basis.
-  S = as.matrix(Sbasis[1:nrow(Sbasis),]) #Drop 'basis' format.
-    #Required for matrix multiplication.
-  return(S)
-}
+###########################################################
+### Generate Basis Functions for Observed Locations     ###
+###########################################################
 
-S = create_basis(df$y.norm) #Using B-Spline basis
+#Set up data used to create centers.
+fine.grid <- 40
+x <- seq(-97.74280, -97.72277, length.out = fine.grid)
+y <- seq(30.27794, 30.29534, length.out = fine.grid)
+
+rangex <- range(x)[2] - range(x)[1]
+rangey <- range(y)[2] - range(y)[1]
+
+# Create the centers of the three scale levels
+level1 <- as.matrix(expand.grid(seq(min(x) + rangex/5, max(x) - rangex/5, length.out = 2), seq(min(y) + rangey/5, max(y) - rangey/5, length.out = 2)))
+level2 <- as.matrix(expand.grid(seq(min(x) + rangex/10, max(x) - rangex/10, length.out = 3), seq(min(y) + rangey/10, max(y) - rangey/10, length.out = 3)))
+level3 <- as.matrix(expand.grid(seq(min(x) + rangex/20, max(x) - rangex/20, length.out = 4), seq(min(y) + rangey/20, max(y) - rangey/20, length.out = 4)))
+
+S = bisquare.basis(coord = df[,1:2],level1, level2, level3)
+
+# create_basis = function(data){
+#   Sbasis = bs(data) #Using b-splines basis.
+#   S = as.matrix(Sbasis[1:nrow(Sbasis),]) #Drop 'basis' format.
+#     #Required for matrix multiplication.
+#   return(S)
+# }
+# 
+# S = create_basis(df$y.norm) #Using B-Spline basis
 
 
 ####################################
@@ -164,7 +176,11 @@ myFRK = frk(data=df,
             sigxi = emEsts$sigma2_xi,
             sige = sigma2_eps,
             v = v_eps,
+            S = S, 
+            Sp = S,
             goal="smooth")
+colnames(myFRK$pred) = c("Lon","Lat","Predicted")
+head(cbind(myFRK$pred,y.norm))
 
 #-----------------------------
 #Call FRK function for prediction:
@@ -178,13 +194,20 @@ pred.lon = seq(lon_range[1], lon_range[2],length.out = 100)
 pred.grid = expand.grid(pred.lon,pred.lat)
 colnames(pred.grid) = c("Lon","Lat")
 
+#Create a basis for predicted coordinates.
+Sp = bisquare.basis(coord = pred.grid,level1, level2, level3)
+
+#Call FRK function.
 myFRKpred = frk(data=df, 
             pred_locs=pred.grid,
             K=emEsts$K,
             sigxi = emEsts$sigma2_xi,
             sige = sigma2_eps,
             v = v_eps,
+            S = S,
+            Sp = Sp,
             goal="predict")
+colnames(myFRKpred$pred) = c("Lon","Lat","Predicted")
 
 #-----------------------------
 #Preview results:
@@ -194,4 +217,51 @@ head(cbind(myFRK$pred,df$y.norm))
 
 #New predicted points.
 head(myFRKpred$pred)
+head(myFRKpred$sig2FRK)
+
+head(myFRKpred$sig2FRK)
+length(myFRKpred$sig2FRK)
+mean(myFRKpred$sig2FRK)
+
+####################################
+### PLOT FRK RESULTS             ###
+####################################
+
+#Save map for fast re-use.
+map = ggmap(get_map("University of Texas, Austin", zoom=15))
+
+#Plot predicted FRK run.
+plot_pred_dat = as.data.frame(as.matrix(myFRKpred$pred))
+map +
+  geom_tile(data = plot_pred_dat, aes(x = Lon, y = Lat, alpha = Predicted),
+        fill = 'red') + 
+        theme(axis.title.y = element_blank(), axis.title.x = element_blank())
+
+#Plot FRK variances for predicted values.
+plot_FRK_var = as.data.frame(as.matrix(cbind(myFRKpred$pred,FRKvar=myFRKpred$sig2FRK)))
+
+map +
+  geom_tile(data = plot_FRK_var, aes(x = Lon, y = Lat, alpha = FRKvar),
+            fill = 'red') + 
+  theme(axis.title.y = element_blank(), axis.title.x = element_blank())
+
+
+
+
+# map + 
+#   geom_density2d(data=plot_pred_dat, aes(x=Lon, y=Lat,size=.001)) +
+#   stat_density2d(data=plot_pred_dat, aes(x=Lon,y=Lat,
+#                                              fill=Predicted, alpha=Predicted), size=.001, geom="polygon")
+
+#Plot smoothed (observed locations) values.
+plot_smoothed_dat = as.data.frame(as.matrix(myFRK$pred))
+map +
+  geom_tile(data = plot_smoothed_dat, aes(x = Lon, y = Lat, alpha = Predicted),
+            fill = 'red') + 
+  theme(axis.title.y = element_blank(), axis.title.x = element_blank())
+
+map + 
+  geom_density2d(data=plot_smoothed_dat, aes(x=Lon, y=Lat, size=.3)) +
+    stat_density2d(data=plot_smoothed_dat, aes(x=Lon,y=Lat,
+    fill=Predicted, alpha=Predicted), size=.01, bins=16, geom="polygon")
 
