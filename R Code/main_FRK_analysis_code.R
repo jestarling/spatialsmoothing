@@ -121,17 +121,8 @@ level1 <- as.matrix(expand.grid(seq(min(x) + rangex/5, max(x) - rangex/5, length
 level2 <- as.matrix(expand.grid(seq(min(x) + rangex/10, max(x) - rangex/10, length.out = 3), seq(min(y) + rangey/10, max(y) - rangey/10, length.out = 3)))
 level3 <- as.matrix(expand.grid(seq(min(x) + rangex/20, max(x) - rangex/20, length.out = 4), seq(min(y) + rangey/20, max(y) - rangey/20, length.out = 4)))
 
+#Create basis for observed coordinate locations.
 S = bisquare.basis(coord = df[,1:2],level1, level2, level3)
-
-# create_basis = function(data){
-#   Sbasis = bs(data) #Using b-splines basis.
-#   S = as.matrix(Sbasis[1:nrow(Sbasis),]) #Drop 'basis' format.
-#     #Required for matrix multiplication.
-#   return(S)
-# }
-# 
-# S = create_basis(df$y.norm) #Using B-Spline basis
-
 
 ####################################
 ### Estimate Parameters          ###
@@ -160,7 +151,7 @@ vargram = vargram$vargram_cressie
 #save(vargram, file='./spatialsmoothing/vargram_cressie.Rdata')
 
 #-----------------------------------
-#1. Estimate K and sigma2_xi with EM algorithm.
+#2. Estimate K and sigma2_xi with EM algorithm.
 emEsts = em(S=S,z=y.norm,v=v_eps,sigeps=sigma2_eps,maxiter=50,avgtol=1E-2)
 
 ####################################
