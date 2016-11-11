@@ -13,6 +13,8 @@
 # sigxi = estimated sigma2_xi fine-sample variance value. 
 # sige = estimated sigma2_eps overall variance value. (Est from semivariogram.)
 # v = estimated vector of vars, we use 1's.
+# S = matrix of basis functions for observed locations.
+# Sp = matrix of basis functions for predicted locations.
 # goal = 'predict' or 'smooth'.  
 #     Smooth only kriges values at observed locations.
 #     Predict interpolates values at grid of new locations.
@@ -25,7 +27,7 @@
 # sig2_eps = sigma2_eps estimated overall variance.
 # sig2_xi = sigma2_xi estimated fine-scale variance.
 
-frk = function(data,pred_locs=NULL,K,sigxi,sige,v,goal="predict"){
+frk = function(data,pred_locs=NULL,K,sigxi,sige,v,S,Sp,goal="predict"){
   
   #-------------------------
   #INPUT VALIDATION CHECKS:
@@ -61,18 +63,6 @@ frk = function(data,pred_locs=NULL,K,sigxi,sige,v,goal="predict"){
   
   V = sparseMatrix(i=1:n,j=1:n,x=v)
   V2 = sparseMatrix(i=1:n,j=1:n,x=rep(1,n))
-  
-  #Set up basis functions for actual and predicted coordinates.
-  S = create_basis(y.norm)
-  
-  #REMOVE LATER:
-  if(goal=="smooth"){
-  	Sp=S
-  }
-  if(goal=="predict"){
-  	Sp=S[1:10000,]
-  }
-
   
   #-------------------------
   #DATA SMOOTHING
@@ -110,7 +100,8 @@ frk = function(data,pred_locs=NULL,K,sigxi,sige,v,goal="predict"){
   }
   
   #Save predicted values with location coordinates.
-  pred_with_locs = cbind(Lon=lon_pred,Lat=lat_pred,Yhat.norm=pred)
+  pred_with_locs = cbind(Lon=lon_pred,Lat=lat_pred,Yhat=pred)
+  colnames(pred_with_locs) = c("Lon","Lat","yhat.norm")
   
   #-------------------------
   #CALCULATE FRK VARIANCE
