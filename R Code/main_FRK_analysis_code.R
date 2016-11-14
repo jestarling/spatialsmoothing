@@ -13,7 +13,7 @@ setwd('/Users/jennstarling/UTAustin/2016_Fall_SDS 385_Big_Data/Final Project')
 library(SpatialTools)
 library(Matrix) #For sparse matrix V_eps.
 library(gstat) #For semi-variogram estimation.
-library(rgl)
+#library(rgl)
 library(splines)
 library(ggmap)
 library(leaflet)
@@ -154,6 +154,8 @@ vargram = vargram$vargram_cressie
 #2. Estimate K and sigma2_xi with EM algorithm.
 emEsts = em(S=S,z=y.norm,v=v_eps,sigeps=sigma2_eps,maxiter=50,avgtol=1E-2)
 
+emEststest = em(S=S,z=y.norm,v=v_eps,sigeps=.25,maxiter=50,avgtol=1E-2)
+
 ####################################
 ### Fixed Rank Kriging           ###
 ####################################
@@ -211,27 +213,37 @@ frkPred$pred = cbind(frkPred$pred,yhat)
 #Preview results:
 
 #Smoothed observed points.
-head(cbind(frkSmooth$pred,df$y.norm))
+head(frkSmooth$pred)
 
 #New predicted points.
-head(cbind(frkPred$pred,frkPred$sig2FRK))
+head(frkPred$pred)
 mean(frkPred$sig2FRK)
+median(frkPred$sig2FRK)
 
 ####################################
 ### PLOT FRK RESULTS             ###
 ####################################
+lat_lims= c(30.277942, 30.295346)
+lon_lims = c(-97.742802, -97.72277)
 
 #Save map for fast re-use.
-map = ggmap(get_map("University of Texas, Austin", zoom=15))
-map.bw = ggmap(get_map("University of Texas, Austin", zoom=15,col='bw'))
+bw.map <- get_map(location = c(-97.742802,30.277942,-97.72277,30.295346), 
+                source = "osm",col='bw')
+
+ggmap(bw.map) +
+  geom_tile(data = as.data.frame(as.matrix(frkPred$pred)), 
+                        aes(x = Lon, y = Lat, alpha = yhat.norm),
+                        fill = 'red') + 
+  theme(axis.title.y = element_blank(), axis.title.x = element_blank())
 
 #Plot predicted FRK run.
 plot_pred_dat = as.data.frame(as.matrix(frkPred$pred))
 map.bw +
-  geom_tile(data = as.data.frame(as.matrix(frkPred$pred)), 
-        aes(x = Lon, y = Lat, alpha = yhat.norm),
-        fill = 'red') + 
-        theme(axis.title.y = element_blank(), axis.title.x = element_blank())
+  
+  scale_x_continuous(limits = lon_lims, expand = c(0, 0)) +
+  scale_y_continuous(limits = lat_lims, expand = c(0, 0))
+  
+  
 
 #Plot FRK variances for predicted values.
 plot_FRK_var = as.data.frame(as.matrix(cbind(frkPred$pred,FRKvar=frkPred$sig2FRK)))
