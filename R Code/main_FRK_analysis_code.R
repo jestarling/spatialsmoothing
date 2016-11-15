@@ -6,7 +6,7 @@ rm(list=ls()) #Clean workspace.
 setwd('/Users/jennstarling/UTAustin/2016_Fall_SDS 385_Big_Data/Final Project')
 
 #GIORGIO FILE PATH SETUP
-
+setwd('~/Desktop/Semester 1/Stat Models for Big Data/Project/')
 
 ###############################
 
@@ -51,12 +51,15 @@ colnames(df) <- c('Lon','Lat','y','temp','day','month','wday','hour')
 idx <- which(df$Lat > 30.277942 & df$Lat < 30.295346 & df$Lon > -97.742802 & df$Lon < -97.72277)
 df <- df[idx,]
 
+# Find locations corresponding to the POLICE STATION
+idx.police <- which(df$Lat > 30.283093 & df$Lat < 30.285740 & df$Lon > -97.732350 & df$Lon < -97.727853)
+
 ################# 
 ### PLOT DATA ###
 #################
-ggplot() + geom_point(data=df, aes(x=Lon,y=Lat),col='blue')
-# Plot heatmap using ggmap
-qmplot(Lon, Lat, data = df, colour = y, size = I(0.8), darken = .4, alpha = I(.6))
+# ggplot() + geom_point(data=df, aes(x=Lon,y=Lat),col='blue')
+# # Plot heatmap using ggmap
+# qmplot(Lon, Lat, data = df, colour = y, size = I(0.8), darken = .4, alpha = I(.6))
 
 ##################### 
 ### DE-TREND DATA ###
@@ -136,8 +139,27 @@ S = bisquare.basis(coord = df[,1:2],level1, level2, level3)
 v_eps = rep(1,length(df$y.norm))
 
 #Estimate sigma2_eps using
-#Cressie robust variogram estimate.
-#vargram = variogram_est(df)
+#Cressie robust variogram estimate: we here take out the POLICE STATION COORDINATES
+vargram = sigma2_eps_vargram_est(df[-idx.police])
+
+df.nopolice <- df[-idx.police]
+# Divide the data in 4 quadrants
+idx21 <- which(df.nopolice$Lat < min(df.nopolice$Lat) + 0.5*(max(df.nopolice$Lat) - min(df.nopolice$Lat)) & df$Lon < min(df.nopolice$Lon) + 0.5*(max(df.nopolice$Lon) - min(df.nopolice$Lon)))
+idx11 <- which(df.nopolice$Lat >= min(df.nopolice$Lat) + 0.5*(max(df.nopolice$Lat) - min(df.nopolice$Lat)) & df$Lon < min(df.nopolice$Lon) + 0.5*(max(df.nopolice$Lon) - min(df.nopolice$Lon)))
+idx22 <- which(df.nopolice$Lat < min(df.nopolice$Lat) + 0.5*(max(df.nopolice$Lat) - min(df.nopolice$Lat)) & df$Lon >= min(df.nopolice$Lon) + 0.5*(max(df.nopolice$Lon) - min(df.nopolice$Lon)))
+idx12 <- which(df.nopolice$Lat >= min(df.nopolice) + 0.5*(max(df.nopolice$Lat) - min(df.nopolice$Lat)) & df$Lon >= min(df.nopolice$Lon) + 0.5*(max(df.nopolice$Lon) - min(df.nopolice$Lon)))
+
+# RUN ONLY if you want to get the 4 semivariograms
+vargram11 = sigma2_eps_vargram_est(df.nopolice[idx11,])
+vargram12 = sigma2_eps_vargram_est(df.nopolice[idx12,])
+vargram21 = sigma2_eps_vargram_est(df.nopolice[idx21,])
+vargram22 = sigma2_eps_vargram_est(df.nopolice[idx22,])
+# 
+# plot(vargram11$vargram_cressie)
+# plot(vargram12$vargram_cressie)
+# plot(vargram21$vargram_cressie)
+# plot(vargram22$vargram_cressie)
+
 
 #ALTERNATIVE:
 #Variogram function to estimate sigma2_eps takes a long time to run on data this size.
@@ -220,23 +242,31 @@ mean(frkPred$sig2FRK)
 ####################################
 ### PLOT FRK RESULTS             ###
 ####################################
+lat_lims= c(30.277942, 30.295346)
+lon_lims = c(-97.742802, -97.72277)
 
 #Save map for fast re-use.
-map = ggmap(get_map("University of Texas, Austin", zoom=15))
-map.bw = ggmap(get_map("University of Texas, Austin", zoom=15,col='bw'))
+bw.map <- get_map(location = c(-97.742802,30.277942,-97.72277,30.295346), 
+                  source = "osm",col='bw')
+
+ggmap(bw.map) +
+  geom_tile(data = as.data.frame(as.matrix(frkPred$pred)), 
+            aes(x = Lon, y = Lat, alpha = yhat.norm),
+            fill = 'red') + 
+  theme(axis.title.y = element_blank(), axis.title.x = element_blank())
 
 #Plot predicted FRK run.
 plot_pred_dat = as.data.frame(as.matrix(frkPred$pred))
-map.bw +
-  geom_tile(data = as.data.frame(as.matrix(frkPred$pred)), 
-        aes(x = Lon, y = Lat, alpha = yhat.norm),
-        fill = 'red') + 
-        theme(axis.title.y = element_blank(), axis.title.x = element_blank())
+ggmap(bw.map) +
+  scale_x_continuous(limits = lon_lims, expand = c(0, 0)) +
+  scale_y_continuous(limits = lat_lims, expand = c(0, 0))
+
+
 
 #Plot FRK variances for predicted values.
 plot_FRK_var = as.data.frame(as.matrix(cbind(frkPred$pred,FRKvar=frkPred$sig2FRK)))
 
-map +
+ggmap(bw.map) +
   geom_tile(data = plot_FRK_var, aes(x = Lon, y = Lat, alpha = FRKvar),
             fill = 'red') + 
   theme(axis.title.y = element_blank(), axis.title.x = element_blank())
@@ -262,9 +292,5 @@ map +
 
 map + 
   geom_density2d(data=plot_smoothed_dat, aes(x=Lon, y=Lat, size=.3)) +
-    stat_density2d(data=plot_smoothed_dat, aes(x=Lon,y=Lat,
-    fill=Predicted, alpha=Predicted), size=.01, bins=16, geom="polygon")
-
-
-
-
+  stat_density2d(data=plot_smoothed_dat, aes(x=Lon,y=Lat,
+                                             fill=Predicted, alpha=Predicted), size=.01, bins=16, geom="polygon")
