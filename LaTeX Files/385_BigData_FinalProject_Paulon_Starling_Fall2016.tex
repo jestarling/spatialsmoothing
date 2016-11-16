@@ -2,7 +2,7 @@
 %	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
 %----------------------------------------------------------------------------------------
 
-\documentclass{article}
+\documentclass[11pt]{article}
 
 \usepackage{fancyhdr} % Required for custom headers
 \usepackage{lastpage} % Required to determine the last page for the footer
@@ -16,6 +16,7 @@
 \usepackage{enumerate} % Required for enumerating with letters
 \usepackage{amssymb} %Required for QED symbols.
 \usepackage{bbm}  %Required for indicator function.
+\usepackage{bm}
 
 %CUSTOMIZE INDENTS:
 \newcommand{\myindent}{\hspace*{1cm}}
@@ -187,7 +188,47 @@ Method goes here. \\
 
 \subsection{Basis Function Generation}
 
-Stuff.\\
+The choice of the basis functions is a very important step in the model specification for FRK. In fact, the matrix $S$ allows us to represent the covariance structure as a linear combination of some basis function $S_1(\bm{u}), \dots, S_r(\bm{u})$, which results in a loss of information with respect to the full covariance representation.
+
+The choice of the basis functions has to combine two goals. First of all, we should choose a number of basis functions $r \ll n$ in order to see an actual gain in terms of computational efficiency. Moreover, the basis functions have to be multiresolutional, that is, they should be allowed to capture multiple scales of variation in the covariance structure. In practice, there are a few smooth basis functions with large support (the limit case is the constant basis function, that is already implied in the centering step), and many spiky basis functions with small support. 
+
+The choice of the basis functions involves three separate problem: the choice of the type, the number $r$ and the locations. The basis functions do not have to be necessarily orthogonal. In this work, we use bisquare functions, i.e. functions of the form
+\begin{equation*}
+f(r) = \begin{cases}
+\left[ 1 - \left( \frac{r}{c} \right)^2 \right]^2 & r \leq c
+\\
+0 & r > c
+\end{cases}
+\end{equation*}
+where $c$ represents the resolution of the function and $r$ is the euclidean distance of the coordinate from the center of the function. The number of basis functions $r$ is chosen heuristically, in such a way that it can represent well the domain but that it does not compromise the performance of the algorithm. As far as the locations are concerned, they should cover as much as possible the spatial domain of interest (the prediction grid), and they should not overlap for different basis functions.
+
+In this work we use a total of $r = $ basis functions with three different resolutions. In particular, $r_1 = 9$ functions have a low resolution $c_1 = 5 \cdot 10^{-3}$, $r_2 = 16$ functions have an intermediate resolution $c_2 = 2 \cdot 10^{-3}$ and $r_3 = 25$ functions have a high resolution $c_3 = 10^{-3}$. 
+
+\textbf{Check and try again to use resolution = 1.5 times the shortest distance between the center of any of the functions with that resolution [see Cressie, pag 6].}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.55\columnwidth]{./Images/res1}
+\includegraphics[width=0.44\columnwidth]{./Images/res11}
+\caption{}
+\label{fig:res1}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.55\columnwidth]{./Images/res2}
+\includegraphics[width=0.44\columnwidth]{./Images/res21}
+\caption{}
+\label{fig:res2}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.55\columnwidth]{./Images/res3}
+\includegraphics[width=0.44\columnwidth]{./Images/res31}
+\caption{}
+\label{fig:res3}
+\end{figure}
 
 \subsection{Estimation of $\sigma^2_{\epsilon}$ via Semivariogram}
 
