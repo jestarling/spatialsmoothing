@@ -172,11 +172,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 
-Summary sentence. 
+Here we apply the Fixed Rank Kriging method, as described by Katzfuss and Cressie in their 2011 paper "Tutorial on Fixed Rank Kriging of CO2 Data", to continuous spatial data consisting of gamma radiation measurements over the University of Texas at Austin campus.  
 
 \section{1. Introduction}
 
-Intro goes here.
+Kriging is a general technique for interpolating a response variable over a geospatial region, where the response has been observed at a limited number of locations within the region, and measurement error is present.  Kriging allows us to predict the response on a fine mesh grid over the region. There are various methods of Kriging.  The most basic technique, 'Ordinary Kriging', uses a weighted average of surrounding observations to predict the estimated response at the new location.  A semi-variogram is used to optimize the weights.  \\
+
+Traditional kriging methods are computationally intractible in the big data setting, as they  require inversion of the covariance matrix of the observed data set.  With $n$ observations, the efficiency of the inversion is $O(n^3)$.  With data sets ranging from $n$ in the tens of thousands to millions, covariance matrix inversion quickly becomes unscalable. \\
+
+Katfuss and Cressie describe a variation on the traditional techniques called Fixed Rank Kriging (FRK).  This technique was originally presented by Cressie and Johnanneson (2008).  Fixed Rank Kriging relies on dimension reduction by way of basis functions; the response is modeled using a combinations of basis functions and fine-scale variance.  This results in a covariance matrix which is the dimension of the number of basis functions used.  In order for Fixed Rank Kriging to be computationally efficient compared to traditional kriging methods, the number of basis functions must be considerably smaller than the number of total observations in the data set.  This is easily managed; Katzfuss and Cressie model CO2 readings over the entire globe using 396 basis functions of varying resolutions.  \\
+
+Here we apply the Fixed Rank Kriging data to a large data set of gamma-radiation readings from the University of Texas at Austin campus.  The data is spatio-temporal in nature; here we focus on modeling only the spatial aspect of the data.  We follow the analysis steps laid out in the Katzfuss and Cressie tutorial, including an exploratory analysis of the data. \\
+
+Kriging is intended for predicting response values at new locations.  In this work, we use Kriging to smooth the locations already observed, as well as predict responses over a grid of new locations. \\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                     METHOD                                     %%
@@ -258,6 +266,8 @@ Results go here. \\
 \section{4. Discussion}
 
 Discussion goes here. \\
+
+DO NOT FORGET TO CHECK NORMALITY OF RESIDUALS!!!!!!!\\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                     R APPENDIX & DOCUMENTATION                 %%
