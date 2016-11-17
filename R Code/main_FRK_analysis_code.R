@@ -13,7 +13,7 @@ setwd('~/Desktop/Semester 1/Stat Models for Big Data/Project/')
 library(SpatialTools)
 library(Matrix) #For sparse matrix V_eps.
 library(gstat) #For semi-variogram estimation.
-library(rgl)
+#library(rgl)
 library(splines)
 library(ggmap)
 library(leaflet)
