@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  17 NOV 2016 16:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  17 NOV 2016 16:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -371,6 +371,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 195--196
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 199--200
+
+ []
+
 Package epstopdf Info: Source file: <./Images/res1.eps>
 (epstopdf)                    date: 2016-11-17 10:52:22
 (epstopdf)                    size: 498328 bytes
@@ -379,14 +384,14 @@ Package epstopdf Info: Source file: <./Images/res1.eps>
 (epstopdf)                    size: 132124 bytes
 (epstopdf)             Command: <repstopdf --outfile=./Images/res1-eps-converte
 d-to.pdf ./Images/res1.eps>
-(epstopdf)             \includegraphics on input line 219.
+(epstopdf)             \includegraphics on input line 223.
 Package epstopdf Info: Output file is already uptodate.
 <./Images/res1-eps-converted-to.pdf, id=13, 602.25pt x 404.51125pt>
 File: ./Images/res1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./Images/res1-eps-converted-to.pdf>
 Package pdftex.def Info: ./Images/res1-eps-converted-to.pdf used on input line 
-219.
+223.
 (pdftex.def)             Requested size: 258.36667pt x 173.54141pt.
 Package epstopdf Info: Source file: <./Images/res11.eps>
 (epstopdf)                    date: 2016-11-17 10:52:22
@@ -396,7 +401,7 @@ Package epstopdf Info: Source file: <./Images/res11.eps>
 (epstopdf)                    size: 70617 bytes
 (epstopdf)             Command: <repstopdf --outfile=./Images/res11-eps-convert
 ed-to.pdf ./Images/res11.eps>
-(epstopdf)             \includegraphics on input line 220.
+(epstopdf)             \includegraphics on input line 224.
 Package epstopdf Info: Output file is already uptodate.
 
 <./Images/res11-eps-converted-to.pdf, id=14, 602.25pt x 404.51125pt>
@@ -404,7 +409,7 @@ File: ./Images/res11-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./Images/res11-eps-converted-to.pdf>
 Package pdftex.def Info: ./Images/res11-eps-converted-to.pdf used on input line
- 220.
+ 224.
 (pdftex.def)             Requested size: 206.69333pt x 138.82819pt.
 Package epstopdf Info: Source file: <./Images/res2.eps>
 (epstopdf)                    date: 2016-11-17 10:52:22
@@ -414,7 +419,7 @@ Package epstopdf Info: Source file: <./Images/res2.eps>
 (epstopdf)                    size: 145717 bytes
 (epstopdf)             Command: <repstopdf --outfile=./Images/res2-eps-converte
 d-to.pdf ./Images/res2.eps>
-(epstopdf)             \includegraphics on input line 227.
+(epstopdf)             \includegraphics on input line 231.
 Package epstopdf Info: Output file is already uptodate.
 
 <./Images/res2-eps-converted-to.pdf, id=15, 602.25pt x 404.51125pt>
@@ -422,7 +427,7 @@ File: ./Images/res2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./Images/res2-eps-converted-to.pdf>
 Package pdftex.def Info: ./Images/res2-eps-converted-to.pdf used on input line 
-227.
+231.
 (pdftex.def)             Requested size: 258.36667pt x 173.54141pt.
 Package epstopdf Info: Source file: <./Images/res21.eps>
 (epstopdf)                    date: 2016-11-17 10:52:22
@@ -432,7 +437,7 @@ Package epstopdf Info: Source file: <./Images/res21.eps>
 (epstopdf)                    size: 182004 bytes
 (epstopdf)             Command: <repstopdf --outfile=./Images/res21-eps-convert
 ed-to.pdf ./Images/res21.eps>
-(epstopdf)             \includegraphics on input line 228.
+(epstopdf)             \includegraphics on input line 232.
 Package epstopdf Info: Output file is already uptodate.
 
 <./Images/res21-eps-converted-to.pdf, id=16, 602.25pt x 404.51125pt>
@@ -440,7 +445,7 @@ File: ./Images/res21-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./Images/res21-eps-converted-to.pdf>
 Package pdftex.def Info: ./Images/res21-eps-converted-to.pdf used on input line
- 228.
+ 232.
 (pdftex.def)             Requested size: 206.69333pt x 138.82819pt.
 Package epstopdf Info: Source file: <./Images/res3.eps>
 (epstopdf)                    date: 2016-11-17 10:52:22
@@ -450,7 +455,7 @@ Package epstopdf Info: Source file: <./Images/res3.eps>
 (epstopdf)                    size: 137529 bytes
 (epstopdf)             Command: <repstopdf --outfile=./Images/res3-eps-converte
 d-to.pdf ./Images/res3.eps>
-(epstopdf)             \includegraphics on input line 235.
+(epstopdf)             \includegraphics on input line 239.
 Package epstopdf Info: Output file is already uptodate.
 
 <./Images/res3-eps-converted-to.pdf, id=17, 602.25pt x 404.51125pt>
@@ -458,7 +463,7 @@ File: ./Images/res3-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./Images/res3-eps-converted-to.pdf>
 Package pdftex.def Info: ./Images/res3-eps-converted-to.pdf used on input line 
-235.
+239.
 (pdftex.def)             Requested size: 258.36667pt x 173.54141pt.
 Package epstopdf Info: Source file: <./Images/res31.eps>
 (epstopdf)                    date: 2016-11-17 10:52:22
@@ -468,7 +473,7 @@ Package epstopdf Info: Source file: <./Images/res31.eps>
 (epstopdf)                    size: 179773 bytes
 (epstopdf)             Command: <repstopdf --outfile=./Images/res31-eps-convert
 ed-to.pdf ./Images/res31.eps>
-(epstopdf)             \includegraphics on input line 236.
+(epstopdf)             \includegraphics on input line 240.
 Package epstopdf Info: Output file is already uptodate.
 
 <./Images/res31-eps-converted-to.pdf, id=18, 602.25pt x 404.51125pt>
@@ -476,13 +481,8 @@ File: ./Images/res31-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./Images/res31-eps-converted-to.pdf>
 Package pdftex.def Info: ./Images/res31-eps-converted-to.pdf used on input line
- 236.
+ 240.
 (pdftex.def)             Requested size: 206.69333pt x 138.82819pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 243--244
-
- []
-
 
 Underfull \hbox (badness 10000) in paragraph at lines 247--248
 
@@ -516,13 +516,18 @@ Underfull \hbox (badness 10000) in paragraph at lines 251--252
  []
 
 
+Underfull \hbox (badness 10000) in paragraph at lines 255--256
+
+ []
+
+
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
 [5]
-Underfull \hbox (badness 10000) in paragraph at lines 260--261
+Underfull \hbox (badness 10000) in paragraph at lines 264--265
 
  []
 
@@ -533,12 +538,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [6]
-Underfull \hbox (badness 10000) in paragraph at lines 268--269
+Underfull \hbox (badness 10000) in paragraph at lines 272--273
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 270--271
+Underfull \hbox (badness 10000) in paragraph at lines 274--275
 
  []
 
@@ -549,7 +554,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [7]
-Underfull \hbox (badness 10000) in paragraph at lines 279--280
+Underfull \hbox (badness 10000) in paragraph at lines 283--284
 
  []
 
@@ -583,7 +588,7 @@ texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2015/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2015/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
 Output written on 385_BigData_FinalProject_Paulon_Starling_Fall2016.pdf (8 page
-s, 956445 bytes).
+s, 956446 bytes).
 PDF statistics:
  123 PDF objects out of 1000 (max. 8388607)
  83 compressed objects within 1 object stream
