@@ -102,7 +102,6 @@ frk = function(data,pred_locs=NULL,K,sigxi,sige,v,S,Sp,goal="predict"){
   #Save predicted values with location coordinates.
   pred_with_locs = cbind(Lon=lon_pred,Lat=lat_pred,Yhat=pred)
   colnames(pred_with_locs) = c("Lon","Lat","yhat.norm")
-  
   #-------------------------
   #CALCULATE FRK VARIANCE
   #Due to computational intensity, only performing this operation
@@ -115,8 +114,11 @@ frk = function(data,pred_locs=NULL,K,sigxi,sige,v,S,Sp,goal="predict"){
     
     #Part 1 of variance.
     SpK = Sp %*% K
-    p1 = apply(SpK,1,crossprod)
-    
+    p1 = rep(0,m)
+    for (i in 1:m){
+      p1[i] = sum(SpK[i,] * Sp[i,])
+    }
+   
     #Part 3 of variance.
     KSSigInv = tcrossprod(K,S) %*% DInv - 
       (tcrossprod(K,S) %*% DInv %*% S %*% temp) %*% crossprod(S,DInv)

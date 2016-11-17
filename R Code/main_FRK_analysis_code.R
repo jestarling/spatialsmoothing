@@ -140,9 +140,10 @@ v_eps = rep(1,length(df$y.norm))
 
 #Estimate sigma2_eps using
 #Cressie robust variogram estimate: we here take out the POLICE STATION COORDINATES
-vargram = sigma2_eps_vargram_est(df[-idx.police])
+df.nopolice <- df[-idx.police,]
+vargram = sigma2_eps_vargram_est(df.nopolice)
+sigma2_eps = vargram$sigma2_eps
 
-df.nopolice <- df[-idx.police]
 # Divide the data in 4 quadrants
 idx21 <- which(df.nopolice$Lat < min(df.nopolice$Lat) + 0.5*(max(df.nopolice$Lat) - min(df.nopolice$Lat)) & df$Lon < min(df.nopolice$Lon) + 0.5*(max(df.nopolice$Lon) - min(df.nopolice$Lon)))
 idx11 <- which(df.nopolice$Lat >= min(df.nopolice$Lat) + 0.5*(max(df.nopolice$Lat) - min(df.nopolice$Lat)) & df$Lon < min(df.nopolice$Lon) + 0.5*(max(df.nopolice$Lon) - min(df.nopolice$Lon)))
@@ -164,10 +165,10 @@ vargram22 = sigma2_eps_vargram_est(df.nopolice[idx22,])
 #ALTERNATIVE:
 #Variogram function to estimate sigma2_eps takes a long time to run on data this size.
 #Saved vargram_cressie and sigma2_eps as R objects to load.
-load(file='./spatialsmoothing/R Objects/vargram_cressie_ctr.Rdata')
+#load(file='./spatialsmoothing/R Objects/vargram_cressie_ctr.Rdata')
 
-sigma2_eps = vargram$sigma2_eps
-vargram = vargram$vargram_cressie
+#sigma2_eps = vargram$sigma2_eps
+#vargram = vargram$vargram_cressie
 
 #Code for saving vargram and sigma2_eps if need to rerun code.
 #save(vargram, file='./spatialsmoothing/vargram_cressie.Rdata')
