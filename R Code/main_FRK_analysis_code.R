@@ -225,19 +225,19 @@ frkPred = frk(data=df,
 
 #For smoothed data.
 yhat = ((frkSmooth$pred[,3] + mean.to.add) / 2)^2 - 1/8
-frkSmooth$pred = cbind(frkSmooth$pred,yhat,y.norm=df$y.norm,y=df$y)
+results.Smooth = cbind(frkSmooth$pred,y.norm=df$y.norm,yhat,y=df$y)
 
 #For predicted data.
 yhat = ((frkPred$pred[,3] + mean.to.add) / 2)^2 - 1/8
-frkPred$pred = cbind(frkPred$pred,yhat)
+results.Pred = cbind(frkPred$pred,yhat)
 
 #Preview results:
 
 #Smoothed observed points.
-head(cbind(frkSmooth$pred,df$y.norm))
+head(results.Smooth)  
 
 #New predicted points.
-head(cbind(frkPred$pred,frkPred$sig2FRK))
+head(cbind(results.Pred,frkPred$sig2FRK))
 mean(frkPred$sig2FRK)
 
 ####################################
@@ -250,48 +250,19 @@ lon_lims = c(-97.742802, -97.72277)
 bw.map <- get_map(location = c(-97.742802,30.277942,-97.72277,30.295346), 
                   source = "osm",col='bw')
 
+#Plot predicted FRK run.
 ggmap(bw.map) +
-  geom_tile(data = as.data.frame(as.matrix(frkPred$pred)), 
-            aes(x = Lon, y = Lat, alpha = yhat.norm),
+  geom_tile(data = as.data.frame(as.matrix(results.Pred)), 
+            aes(x = Lon, y = Lat, alpha = pred),
             fill = 'red') + 
   theme(axis.title.y = element_blank(), axis.title.x = element_blank())
 
-#Plot predicted FRK run.
-plot_pred_dat = as.data.frame(as.matrix(frkPred$pred))
-ggmap(bw.map) +
-  scale_x_continuous(limits = lon_lims, expand = c(0, 0)) +
-  scale_y_continuous(limits = lat_lims, expand = c(0, 0))
-
-
-
 #Plot FRK variances for predicted values.
-plot_FRK_var = as.data.frame(as.matrix(cbind(frkPred$pred,FRKvar=frkPred$sig2FRK)))
-
+plot_FRK_var = as.data.frame(as.matrix(cbind(results.Pred,FRKvar=frkPred$sig2FRK)))
 ggmap(bw.map) +
   geom_tile(data = plot_FRK_var, aes(x = Lon, y = Lat, alpha = FRKvar),
             fill = 'red') + 
   theme(axis.title.y = element_blank(), axis.title.x = element_blank())
 
-# #Try another predicted plot
-# map.bw + 
-#   geom_density2d(data=plot_pred_dat, aes(x=Lon, y=Lat, size=.3)) +
-#   stat_density2d(data=plot_pred_dat, aes(x=Lon,y=Lat,
-#                                              fill=..level.., alpha=..level..), size=.01, bins=16, geom="polygon")
-
-
-# map + 
-#   geom_density2d(data=plot_pred_dat, aes(x=Lon, y=Lat,size=.001)) +
-#   stat_density2d(data=plot_pred_dat, aes(x=Lon,y=Lat,
-#                                              fill=Predicted, alpha=Predicted), size=.001, geom="polygon")
-
-#Plot smoothed (observed locations) values.
-plot_smoothed_dat = as.data.frame(as.matrix(frkSmooth$pred))
-map +
-  geom_tile(data = plot_smoothed_dat, aes(x = Lon, y = Lat, alpha = Predicted),
-            fill = 'red') + 
-  theme(axis.title.y = element_blank(), axis.title.x = element_blank())
-
-map + 
-  geom_density2d(data=plot_smoothed_dat, aes(x=Lon, y=Lat, size=.3)) +
-  stat_density2d(data=plot_smoothed_dat, aes(x=Lon,y=Lat,
-                                             fill=Predicted, alpha=Predicted), size=.01, bins=16, geom="polygon")
+#Plot Kriging Variances boxplot:
+boxplot(frkPred$sig2FRK)
