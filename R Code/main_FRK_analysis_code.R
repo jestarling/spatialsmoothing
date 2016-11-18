@@ -48,7 +48,9 @@ df <- as.data.frame(cbind(data$lon,data$lat, data$y, data$temp,data$day, data$mo
 colnames(df) <- c('Lon','Lat','y','temp','day','month','wday','hour')
 
 # Preprocess LOCATIONS: cut latitude and longitude that are outside UT campus
-idx <- which(df$Lat > 30.277942 & df$Lat < 30.295346 & df$Lon > -97.742802 & df$Lon < -97.72277)
+#idx <- which(df$Lat > 30.277942 & df$Lat < 30.295346 & df$Lon > -97.742802 & df$Lon < -97.72277)
+idx <- which(df$Lat > 30.277942 & df$Lat < 30.292040 & df$Lon > -97.742802 & df$Lon < -97.72277)
+
 df <- df[idx,]
 
 # Find locations corresponding to the POLICE STATION
@@ -115,17 +117,51 @@ df$y.norm = y.norm
 fine.grid <- 40
 x <- seq(-97.74280, -97.72277, length.out = fine.grid)
 y <- seq(30.27794, 30.29534, length.out = fine.grid)
+pred.grid = expand.grid(x, y)
 
 rangex <- range(x)[2] - range(x)[1]
 rangey <- range(y)[2] - range(y)[1]
 
 # Create the centers of the three scale levels
-level1 <- as.matrix(expand.grid(seq(min(x) + rangex/5, max(x) - rangex/5, length.out = 2), seq(min(y) + rangey/5, max(y) - rangey/5, length.out = 2)))
-level2 <- as.matrix(expand.grid(seq(min(x) + rangex/10, max(x) - rangex/10, length.out = 3), seq(min(y) + rangey/10, max(y) - rangey/10, length.out = 3)))
-level3 <- as.matrix(expand.grid(seq(min(x) + rangex/20, max(x) - rangex/20, length.out = 4), seq(min(y) + rangey/20, max(y) - rangey/20, length.out = 4)))
+level1 <- as.matrix(expand.grid(seq(min(x) + rangex/5, max(x) - rangex/5, length.out = 3), seq(min(y) + rangey/5, max(y) - rangey/5, length.out = 3)))
+level2 <- as.matrix(expand.grid(seq(min(x) + rangex/10, max(x) - rangex/10, length.out = 4), seq(min(y) + rangey/10, max(y) - rangey/10, length.out = 4)))
+level3 <- as.matrix(expand.grid(seq(min(x) + rangex/20, max(x) - rangex/20, length.out = 5), seq(min(y) + rangey/20, max(y) - rangey/20, length.out = 5)))
+
+# Choose the three scales for the basis functions
+#scale <- c(2E-2, 1E-2, 5E-3)
+scale <- c(1E-2, 8E-3, 5E-3)
+
+# #Create basis for predicted coordinate locations
+# S = bisquare.basis(coord = pred.grid, scale, level1, level2, level3)
+# 
+# r1 <- dim(level1)[1]
+# r2 <- dim(level2)[1]
+# r3 <- dim(level3)[1]
+# 
+# z <- rowSums(S[,(r1+r2+1):(r1+r2+r3)])
+# z <- S[,30]
+# z <- matrix(z, fine.grid, fine.grid, byrow = T)
+# 
+# # Define colors
+# nrz <- nrow(z)
+# ncz <- ncol(z)
+# jet.colors <- colorRampPalette(c("blue", "red"))
+# nbcol <- 100
+# color <- jet.colors(nbcol)
+# zfacet <- z[-1, -1] + z[-1, -ncz] + z[-nrz, -1] + z[-nrz, -ncz]
+# facetcol <- cut(zfacet , nbcol)
+# 
+# # # Plot
+# persp(x, y, z, col = color[facetcol], phi = 30, theta = 45)
+# # Contour plot
+# filled.contour(x, y, z, color.palette = heat.colors, asp = 1, plot.axes={points(level3)})
+
+
+
+
 
 #Create basis for observed coordinate locations.
-S = bisquare.basis(coord = df[,1:2],level1, level2, level3)
+S = bisquare.basis(coord = df[,1:2], scale, level1, level2, level3)
 
 ####################################
 ### Estimate Parameters          ###
@@ -206,7 +242,7 @@ pred.lon = seq(lon_range[1], lon_range[2],length.out = 100)
 pred.grid = expand.grid(Lon=pred.lon,Lat=pred.lat)
 
 #Create a basis for predicted coordinates.
-Sp = bisquare.basis(coord = pred.grid,level1, level2, level3)
+Sp = bisquare.basis(coord = pred.grid, scale, level1, level2, level3)
 
 #Call FRK function.
 frkPred = frk(data=df, 
@@ -243,11 +279,13 @@ mean(frkPred$sig2FRK)
 ####################################
 ### PLOT FRK RESULTS             ###
 ####################################
-lat_lims= c(30.277942, 30.295346)
+#lat_lims= c(30.277942, 30.295346)
+lat_lims= c(30.277942, 30.292040)
 lon_lims = c(-97.742802, -97.72277)
 
+
 #Save map for fast re-use.
-bw.map <- get_map(location = c(-97.742802,30.277942,-97.72277,30.295346), 
+bw.map <- get_map(location = c(-97.742802,30.277942,-97.72277,30.292040), 
                   source = "osm",col='bw')
 
 #Plot predicted FRK run.

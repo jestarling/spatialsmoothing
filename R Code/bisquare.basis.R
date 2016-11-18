@@ -1,4 +1,4 @@
-bisquare.basis <- function(coord, level1, level2, level3){
+bisquare.basis <- function(coord, scale, level1, level2, level3){
   
   n <- dim(coord)[1]
   # level_i is the matrix with r_i*2 centers
@@ -6,8 +6,6 @@ bisquare.basis <- function(coord, level1, level2, level3){
   S <- array(NA, dim = c(n, r))
   
   levels <- list(level1, level2, level3)
-  
-  scale <- c(5E-3, 2E-3, 1E-3)
   
   count <- 0
   for (i in 1:3){
