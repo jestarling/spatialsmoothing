@@ -321,9 +321,17 @@ We did remove the police station measurements in the calculation of this semivar
 This was considerably higher than the estimate obtained for the Katzfuss and Cressie simulated CO2 data.  However, their data was simulated with $\sigma2_\epsilon = 0.25$, and our normalized data has a range of -51 to 54, with a total variance of 287, so our result is reasonable. To check reasonableness, we split the region of interest into four quadrants and calculated semivariograms for each quandrant to ensure that they yielded comparable $\hat{\sigma}^2_\epsilon$ estimates. Estimates were similar in all regions, and did not differ significantly from the overall estimate.   The data is known to have some outliers which affect the variance.\\
 
 
-\subsection{Estimation of $\sigma^2_{\chi}$ and $K$ via EM Algorithm}
+\subsection{Estimation of $\sigma^2_{\xi}$ and $K$ via EM Algorithm}
 
-Stuff.\\
+The next step of the Fixed Rank Kriging process is to estimate the parameters $\sigma^2_{\xi}$ and $K$.  \\
+
+As described above, $K$ is the $(r x r)$ covariance matrix, where $r$ is the number of basis functions selected.  $K$ represents the covariance in the spatial-random-effects (SRE) model.\\
+
+$\sigma^2_{\xi}$ is the fine-scale variance in the SRE model, accounting for error introduced to the model through the dimension reduction. \\
+
+Katzfuss and Cressie suggest two methods for estimating these parameters: Method of Moments and the EM Algorithm.  We have implemented the EM algorithm to estimate these values.  (Details for the formulas are included previously in the Methods section; R code is included in the appendix.)\\
+
+We obtain an estimated $\hat{\sigma}^2_{\xi} = 99999999$.  The R code saves $\hat{\sigma}^2_{\xi}$ and $\hat{K}$ as part of the EM function output.\\
 
 \subsection{Fixed Rank Kriging: Smoothing and Prediction}
 
