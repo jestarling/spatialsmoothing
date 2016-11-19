@@ -48,8 +48,10 @@ df <- as.data.frame(cbind(data$lon,data$lat, data$y, data$temp,data$day, data$mo
 colnames(df) <- c('Lon','Lat','y','temp','day','month','wday','hour')
 
 # Preprocess LOCATIONS: cut latitude and longitude that are outside UT campus
-#idx <- which(df$Lat > 30.277942 & df$Lat < 30.295346 & df$Lon > -97.742802 & df$Lon < -97.72277)
-idx <- which(df$Lat > 30.277942 & df$Lat < 30.292040 & df$Lon > -97.742802 & df$Lon < -97.72277)
+#idx <- which(df$Lat > 30.277942 & df$Lat < 30.295346 & df$Lon > -97.742802 & df$Lon < -97.72277) # Original crop
+# idx <- which(df$Lat > 30.277942 & df$Lat < 30.292040 & df$Lon > -97.742802 & df$Lon < -97.72277) # Cropping zones without data
+idx <- which(df$Lat > 30.277942 & df$Lat < 30.293142 & df$Lon > -97.742802 & df$Lon < -97.727602) # Square crop
+
 
 df <- df[idx,]
 
@@ -59,22 +61,28 @@ idx.police <- which(df$Lat > 30.283093 & df$Lat < 30.285740 & df$Lon > -97.73235
 ################# 
 ### PLOT DATA ###
 #################
-#ggplot() + geom_point(data=df, aes(x=Lon,y=Lat),col='blue')
-# Plot heatmap using ggmap
-#qmplot(Lon, Lat, data = df, colour = y, size = I(0.8), darken = .4, alpha = I(.6))
-
+# ggplot() + geom_point(data=df, aes(x=Lon,y=Lat),col='blue')
+# # Plot heatmap using ggmap
+qmplot(Lon, Lat, data = df, colour = y, size = I(0.8), darken = .4, alpha = I(.6)) + 
+  geom_point(data=as.data.frame(level1), aes(x=Var1, y=Var2), color="red", size=4, alpha=0.5) + 
+  geom_point(data=as.data.frame(level2), aes(x=Var1, y=Var2), color="red", size=2, alpha=0.5) + 
+  geom_point(data=as.data.frame(level3), aes(x=Var1, y=Var2), color="red", size=1, alpha=0.5)
 ##################### 
 ### DE-TREND DATA ###
 #####################
 
 # #Plot data versus each direction and versus temp.
+# plot(df$Lat,df$y,pch=20)  #Plot y versus latitude.
+# plot(df$Lon,df$y,pch=20)  #Plot y versus longitude.
+# plot(df$temp,df$y,pch=20) #Plot y versus temperature.
+
 #jpeg(file='/Users/jennstarling/UTAustin/2016_Fall_SDS 385_Big_Data/Final Project/spatialsmoothing/LaTeX Files/Images/detrending_plots2.jpg')
 par(mfrow=c(3,1))
 plot(df$Lat,df$y,pch=20)  #Plot y versus latitude.
 plot(df$Lon,df$y,pch=20)  #Plot y versus longitude.
 plot(df$temp,df$y,pch=20) #Plot y versus temperature.
 #dev.off()
-# 
+
 # #Temperature looks like a source of trend.  
 # #Will de-trend based on temperature.
 # mylm = lm(y~temp,data=df)
@@ -118,21 +126,22 @@ df$y.norm = y.norm
 
 #Set up data used to create centers.
 fine.grid <- 40
-x <- seq(-97.74280, -97.72277, length.out = fine.grid)
-y <- seq(30.27794, 30.29534, length.out = fine.grid)
+x <- seq(-97.742802, -97.727602, length.out = fine.grid)
+y <- seq(30.277942, 30.293142, length.out = fine.grid)
 pred.grid = expand.grid(x, y)
 
 rangex <- range(x)[2] - range(x)[1]
 rangey <- range(y)[2] - range(y)[1]
 
 # Create the centers of the three scale levels
-level1 <- as.matrix(expand.grid(seq(min(x) + rangex/5, max(x) - rangex/5, length.out = 3), seq(min(y) + rangey/5, max(y) - rangey/5, length.out = 3)))
-level2 <- as.matrix(expand.grid(seq(min(x) + rangex/10, max(x) - rangex/10, length.out = 4), seq(min(y) + rangey/10, max(y) - rangey/10, length.out = 4)))
-level3 <- as.matrix(expand.grid(seq(min(x) + rangex/20, max(x) - rangex/20, length.out = 5), seq(min(y) + rangey/20, max(y) - rangey/20, length.out = 5)))
+level1 <- as.matrix(expand.grid(seq(min(x) + rangex/4, max(x) - rangex/4, length.out = 3), seq(min(y) + rangey/4, max(y) - rangey/4, length.out = 3)))
+level2 <- as.matrix(expand.grid(seq(min(x) + rangex/6, max(x) - rangex/6, length.out = 4), seq(min(y) + rangey/6, max(y) - rangey/6, length.out = 4)))
+level3 <- as.matrix(expand.grid(seq(min(x) + rangex/10, max(x) - rangex/10, length.out = 5), seq(min(y) + rangey/10, max(y) - rangey/10, length.out = 5)))
+level3 <- level3[-c(24, 25), ]
 
 # Choose the three scales for the basis functions
 #scale <- c(2E-2, 1E-2, 5E-3)
-scale <- c(1E-2, 8E-3, 5E-3)
+scale <- c(1E-2, 7E-3, 5E-3)
 
 # #Create basis for predicted coordinate locations
 # S = bisquare.basis(coord = pred.grid, scale, level1, level2, level3)
@@ -181,19 +190,17 @@ v_eps = rep(1,length(df$y.norm))
 #Cressie robust variogram estimate: we here take out the POLICE STATION COORDINATES
 df.nopolice <- df[-idx.police,]
 vargram = sigma2_eps_vargram_est(df.nopolice)
-sigma2_eps = vargram$sigma2_eps
-
-# Divide the data in 4 quadrants
-idx21 <- which(df.nopolice$Lat < min(df.nopolice$Lat) + 0.5*(max(df.nopolice$Lat) - min(df.nopolice$Lat)) & df$Lon < min(df.nopolice$Lon) + 0.5*(max(df.nopolice$Lon) - min(df.nopolice$Lon)))
-idx11 <- which(df.nopolice$Lat >= min(df.nopolice$Lat) + 0.5*(max(df.nopolice$Lat) - min(df.nopolice$Lat)) & df$Lon < min(df.nopolice$Lon) + 0.5*(max(df.nopolice$Lon) - min(df.nopolice$Lon)))
-idx22 <- which(df.nopolice$Lat < min(df.nopolice$Lat) + 0.5*(max(df.nopolice$Lat) - min(df.nopolice$Lat)) & df$Lon >= min(df.nopolice$Lon) + 0.5*(max(df.nopolice$Lon) - min(df.nopolice$Lon)))
-idx12 <- which(df.nopolice$Lat >= min(df.nopolice) + 0.5*(max(df.nopolice$Lat) - min(df.nopolice$Lat)) & df$Lon >= min(df.nopolice$Lon) + 0.5*(max(df.nopolice$Lon) - min(df.nopolice$Lon)))
 
 # RUN ONLY if you want to get the 4 semivariograms
-vargram11 = sigma2_eps_vargram_est(df.nopolice[idx11,])
-vargram12 = sigma2_eps_vargram_est(df.nopolice[idx12,])
-vargram21 = sigma2_eps_vargram_est(df.nopolice[idx21,])
-vargram22 = sigma2_eps_vargram_est(df.nopolice[idx22,])
+# # Divide the data in 4 quadrants
+# idx21 <- which(df.nopolice$Lat < min(df.nopolice$Lat) + 0.5*(max(df.nopolice$Lat) - min(df.nopolice$Lat)) & df$Lon < min(df.nopolice$Lon) + 0.5*(max(df.nopolice$Lon) - min(df.nopolice$Lon)))
+# idx11 <- which(df.nopolice$Lat >= min(df.nopolice$Lat) + 0.5*(max(df.nopolice$Lat) - min(df.nopolice$Lat)) & df$Lon < min(df.nopolice$Lon) + 0.5*(max(df.nopolice$Lon) - min(df.nopolice$Lon)))
+# idx22 <- which(df.nopolice$Lat < min(df.nopolice$Lat) + 0.5*(max(df.nopolice$Lat) - min(df.nopolice$Lat)) & df$Lon >= min(df.nopolice$Lon) + 0.5*(max(df.nopolice$Lon) - min(df.nopolice$Lon)))
+# idx12 <- which(df.nopolice$Lat >= min(df.nopolice) + 0.5*(max(df.nopolice$Lat) - min(df.nopolice$Lat)) & df$Lon >= min(df.nopolice$Lon) + 0.5*(max(df.nopolice$Lon) - min(df.nopolice$Lon)))
+# vargram11 = sigma2_eps_vargram_est(df.nopolice[idx11,])
+# vargram12 = sigma2_eps_vargram_est(df.nopolice[idx12,])
+# vargram21 = sigma2_eps_vargram_est(df.nopolice[idx21,])
+# vargram22 = sigma2_eps_vargram_est(df.nopolice[idx22,])
 # 
 # plot(vargram11$vargram_cressie)
 # plot(vargram12$vargram_cressie)
@@ -204,10 +211,10 @@ vargram22 = sigma2_eps_vargram_est(df.nopolice[idx22,])
 #ALTERNATIVE:
 #Variogram function to estimate sigma2_eps takes a long time to run on data this size.
 #Saved vargram_cressie and sigma2_eps as R objects to load.
-#load(file='./spatialsmoothing/R Objects/vargram_cressie_ctr.Rdata')
+#load(file='./spatialsmoothing/R Objects/vargram_cressie_nopolice.Rdata')
 
-#sigma2_eps = vargram$sigma2_eps
-#vargram = vargram$vargram_cressie
+sigma2_eps = vargram$sigma2_eps
+vargram = vargram$vargram_cressie
 
 #Code for saving vargram and sigma2_eps if need to rerun code.
 #save(vargram, file='./spatialsmoothing/vargram_cressie.Rdata')
@@ -283,12 +290,12 @@ mean(frkPred$sig2FRK)
 ### PLOT FRK RESULTS             ###
 ####################################
 #lat_lims= c(30.277942, 30.295346)
-lat_lims= c(30.277942, 30.292040)
-lon_lims = c(-97.742802, -97.72277)
+lat_lims= lat_range
+lon_lims = lon_range
 
 
 #Save map for fast re-use.
-bw.map <- get_map(location = c(-97.742802,30.277942,-97.72277,30.292040), 
+bw.map <- get_map(location = as.numeric(rbind(lon_lims, lat_lims)), 
                   source = "osm",col='bw')
 
 #Plot predicted FRK run.
