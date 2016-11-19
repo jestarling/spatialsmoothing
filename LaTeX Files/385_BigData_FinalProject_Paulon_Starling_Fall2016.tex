@@ -298,9 +298,27 @@ This leaves us with $\sigma^2_\epsilon$ to estimate. \\
 
 Katzfuss and Cressie note that $\sigma^2_\epsilon$ may be specified in advance, if there is previous knowledge about measurement error for the instrument being used.  We do not assume prior knowledge of $\sigma^2_\epsilon$. \\
 
-The semivariogram estimation method presented in Katzfuss and Cressie is known as the 'Robust Cressie Variogram.'  We use this method to estimate a semi-variogram for the data, and then fit a straight line to the semivariogram and let $\hat{\sigma}^2_\epsilon$ be equal to the intercept.
+The semivariogram estimation method presented in Katzfuss and Cressie is known as the 'Robust Cressie Variogram.'  \\
 
+\myindent $\bullet$ $2\gamma(h) = \left( \frac{1}{|N(h)|} \sum_{N(h)}|
+\frac{\tilde{Z}(s_i)}{\sqrt{\nu_\epsilon (s_i)}} - 
+\frac{\tilde{Z}(s_j)}{\sqrt{\nu_\epsilon (s_j)}} - 
+|^{.5} \right)^4 / \left(0.457 + 0.494 / |N(h)|\right)$ \\
 
+\myindent\myindent where: \\
+\myindent \myindent  $\tilde{Z}(s_i)$ are the normalized, de-trended data. \\
+\myindent \myindent $N(h) = {(i,j): ||s_i - s_j|| \in [h - \delta, h + \delta ] }$, \\
+\myindent \myindent \myindent the set of all indices for location pairs roughly $h$ distance apart.\\
+
+\myindent $\bullet$ Then straight line $\hat{\gamma}(h) = \hat{\gamma}(0) + bh$ is fit, and $\sigma^2_\epsilon = \hat{\gamma}(0)$.\\
+
+(For further detail on this methodology, see Cressie and Hawkins (1980), Cressie (1985), and Kang et al. (2010). \\
+
+We use this method to estimate a semi-variogram for the data, and then fit a straight line to the semivariogram and let $\hat{\sigma}^2_\epsilon$ be equal to the intercept.  Our resulting estimate is $\hat{\sigma}^2_\epsilon$ = 106.3635. \\
+
+We did remove the police station measurements in the calculation of this semivariogram.  The police car carrying the measurement device parked in the police station lot overnight, so there were a disproportionate number of measurements at this location, including specifically nighttime measurements where cooler temperatures mean the measurement device is more prone to error. \\
+
+This was considerably higher than the estimate obtained for the Katzfuss and Cressie simulated CO2 data.  However, their data was simulated with $\sigma2_\epsilon = 0.25$, and our normalized data has a range of -51 to 54, with a total variance of 287, so our result is reasonable. To check reasonableness, we split the region of interest into four quadrants and calculated semivariograms for each quandrant to ensure that they yielded comparable $\hat{\sigma}^2_\epsilon$ estimates. Estimates were similar in all regions, and did not differ significantly from the overall estimate.   \\
 
 
 
