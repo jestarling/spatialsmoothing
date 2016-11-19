@@ -61,12 +61,9 @@ idx.police <- which(df$Lat > 30.283093 & df$Lat < 30.285740 & df$Lon > -97.73235
 ################# 
 ### PLOT DATA ###
 #################
-# ggplot() + geom_point(data=df, aes(x=Lon,y=Lat),col='blue')
-# # Plot heatmap using ggmap
-qmplot(Lon, Lat, data = df, colour = y, size = I(0.8), darken = .4, alpha = I(.6)) + 
-  geom_point(data=as.data.frame(level1), aes(x=Var1, y=Var2), color="red", size=4, alpha=0.5) + 
-  geom_point(data=as.data.frame(level2), aes(x=Var1, y=Var2), color="red", size=2, alpha=0.5) + 
-  geom_point(data=as.data.frame(level3), aes(x=Var1, y=Var2), color="red", size=1, alpha=0.5)
+
+ggplot() + geom_point(data=df, aes(x=Lon,y=Lat),col='blue')
+
 ##################### 
 ### DE-TREND DATA ###
 #####################
@@ -168,12 +165,15 @@ scale <- c(1E-2, 7E-3, 5E-3)
 # # Contour plot
 # filled.contour(x, y, z, color.palette = heat.colors, asp = 1, plot.axes={points(level3)})
 
-
-
-
-
 #Create basis for observed coordinate locations.
 S = bisquare.basis(coord = df[,1:2], scale, level1, level2, level3)
+
+#Plot data including basis functions in red.
+# # Plot heatmap using ggmap
+qmplot(Lon, Lat, data = df, colour = y, size = I(0.8), darken = .4, alpha = I(.6)) + 
+  geom_point(data=as.data.frame(level1), aes(x=Var1, y=Var2), color="red", size=4, alpha=0.5) + 
+  geom_point(data=as.data.frame(level2), aes(x=Var1, y=Var2), color="red", size=2, alpha=0.5) + 
+  geom_point(data=as.data.frame(level3), aes(x=Var1, y=Var2), color="red", size=1, alpha=0.5)
 
 ####################################
 ### Estimate Parameters          ###
@@ -311,6 +311,11 @@ ggmap(bw.map) +
   geom_tile(data = plot_FRK_var, aes(x = Lon, y = Lat, alpha = FRKvar),
             fill = 'red') + 
   theme(axis.title.y = element_blank(), axis.title.x = element_blank())
+
+#Plot histogram of residuals for normality.
+#Note: for smoothing only.
+hist(results.Smooth[,4] - results.Smooth[,3],xlab='Residuals',ylab='Frequency',
+     main='Residuals for Smoothed Data')
 
 #Plot Kriging Variances boxplot:
 boxplot(frkPred$sig2FRK)

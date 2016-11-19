@@ -214,7 +214,7 @@ We include several preparatory steps before formally beginning the Fixed Rank Kr
 
 The first step is to select a subset of the original data, limited to the latitudes and longitudes containing the University of Texas campus.  The data set contains several outliers, including measurements which appear to be from San Antonio.  These outliers are excluded. \\
 
-\begin{figure}[h!]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=90mm,keepaspectratio]{Images/original_data_plot.jpg}
 \caption{Observed data \label{fig:1}}
@@ -224,7 +224,7 @@ Second, Katzfuss and Cressie suggest de-trending to adjust for any large-scale s
 
 We chose not to de-trend the data by temperature, as this introduced strange patterns in the data when plotted by latitude and longitude. \\
 
-\begin{figure}[h!]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=90mm,keepaspectratio]{Images/detrending_plots.jpg}
 \caption{Data by Latitude, Longitude and Temperature \label{fig:2}}
@@ -237,7 +237,7 @@ Third, Katzfuss and Cressie recommend that the data be checked for approximate n
 \myindent $y \rightarrow \left(\frac{y}{2}\right)^2 - \frac{1}{8}$ 
 \myindent (instead of the direct algebraic inverse, where $\frac{3}{8}$ is subtracted.)
 
-\begin{figure}[h!]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=90mm,keepaspectratio]{Images/histogram_ynorm.jpg}
 \caption{Anscombe-Transformed Responses \label{fig:3}}
@@ -344,7 +344,59 @@ Stuff.\\
 \newpage
 \section{3. Results}
 
-Results go here. \\
+Using a uniform set of basis functions, predicted kriging values are shown in the heatmap below, followed by a plot of the kriging variance. \\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=160mm,keepaspectratio]{Images/pred.pdf}
+\caption{Predicted values, uniform basis \label{fig:4}}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=160mm,keepaspectratio]{Images/var.pdf}
+\caption{FRK variance, uniform basis \label{fig:5}}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=160mm,keepaspectratio]{Images/data_grid.png}
+\caption{Observed data and basis function centers \label{fig:6}}
+\end{figure}
+
+We noticed an area in the top right of very high variance.  This issue is caused by very sparse observed data coverage in the top right area of the grid; there is one blue point by itself which is near East 32nd Street.  There are no other close points informing the kriging estimate in this area of the grid, and compounding the issue, there are two spiky basis centers quite close to this point. \\
+
+To address this issue, we adjusted the basis centers by removing the two spiky centers in this corner.  We justified this by noting that kriging is not intended to extrapolate into new regions without surrounding estimates to inform the prediction.  Of course a lone point is going to have a high kriging variance, when none of its neighbors are near. The result of this adjustment is below. \\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=160mm,keepaspectratio]{Images/pred_newgrid.pdf}
+\caption{Predicted values, adjusted basis \label{fig:7}}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=160mm,keepaspectratio]{Images/var_newgrid.pdf}
+\caption{FRK variance, adjusted basis \label{fig:8}}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=160mm,keepaspectratio]{Images/data_grid_new.png}
+\caption{Observed data and adjusted basis function centers \label{fig:9}}
+\end{figure}
+
+The result of this adjustment yields desirable results for the predicted data.  The kriging variance is nearly uniform across the predicted grid of locations, with the area of high variance in the top right region reduced in size.\\
+
+Finally, we include a histogram of the observed versus predicted residual for the kriging function applied to the observed locations.  These values should be normally distributed to indicate goodness of model fit.\\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=90mm,keepaspectratio]{Images/Residuals_for_smoothing.pdf}
+\caption{Residuals \label{fig:10}}
+\end{figure}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                     DISCUSSION                                 %%
