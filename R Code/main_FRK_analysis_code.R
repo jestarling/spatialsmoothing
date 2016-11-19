@@ -59,18 +59,21 @@ idx.police <- which(df$Lat > 30.283093 & df$Lat < 30.285740 & df$Lon > -97.73235
 ################# 
 ### PLOT DATA ###
 #################
-# ggplot() + geom_point(data=df, aes(x=Lon,y=Lat),col='blue')
-# # Plot heatmap using ggmap
-# qmplot(Lon, Lat, data = df, colour = y, size = I(0.8), darken = .4, alpha = I(.6))
+#ggplot() + geom_point(data=df, aes(x=Lon,y=Lat),col='blue')
+# Plot heatmap using ggmap
+#qmplot(Lon, Lat, data = df, colour = y, size = I(0.8), darken = .4, alpha = I(.6))
 
 ##################### 
 ### DE-TREND DATA ###
 #####################
 
 # #Plot data versus each direction and versus temp.
-# plot(df$Lat,df$y,pch=20)  #Plot y versus latitude.
-# plot(df$Lon,df$y,pch=20)  #Plot y versus longitude.
-# plot(df$temp,df$y,pch=20) #Plot y versus temperature.
+#jpeg(file='/Users/jennstarling/UTAustin/2016_Fall_SDS 385_Big_Data/Final Project/spatialsmoothing/LaTeX Files/Images/detrending_plots2.jpg')
+par(mfrow=c(3,1))
+plot(df$Lat,df$y,pch=20)  #Plot y versus latitude.
+plot(df$Lon,df$y,pch=20)  #Plot y versus longitude.
+plot(df$temp,df$y,pch=20) #Plot y versus temperature.
+#dev.off()
 # 
 # #Temperature looks like a source of trend.  
 # #Will de-trend based on temperature.

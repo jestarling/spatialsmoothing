@@ -192,12 +192,58 @@ Kriging is intended for predicting response values at new locations.  In this wo
 \newpage
 \section{2. Method}
 
-Method goes here. \\
+We follow the method described by Katzfuss and Cressie, outlined as follows. \\
+$\bullet$ Data exploration and de-trending. \\
+$\bullet$ Estimation of basis functions. \\
+$\bullet$ Estimation of $\sigma^2_\epsilon$ via semivariogram. \\
+$\bullet$ Estimation of covariance matrix $K$ and $\sigma^2_\psi$ via EM algorithm. \\
+$\bullet$ Fixed-rank Kriging calculations. \\
+$\bullet$ Estimation of FRK variance. \\
+
+All components of these steps are described in detail below in \textbf{Method Description}. \\
+
 
 \subsection{Method Description}
 
 GIORGIO CALCULATIONS STUFF GOES HERE.\\
 
+\subsection{Data Exploration and De-trending}
+We include several preparatory steps before formally beginning the Fixed Rank Kriging process.\\
+
+\underline{De-Trending}\\
+
+The first step is to select a subset of the original data, limited to the latitudes and longitudes containing the University of Texas campus.  The data set contains several outliers, including measurements which appear to be from San Antonio.  These outliers are excluded. \\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=90mm,keepaspectratio]{Images/original_data_plot.jpg}
+\caption{Observed data \label{fig:1}}
+\end{figure}
+
+Second, Katzfuss and Cressie suggest de-trending to adjust for any large-scale spatial variation and any key covariates.  We plotted the raw data versus longitude, latitude, and temperature.  The data do not show any trend by latitude or longitude, ruling out deterministic trends.  There is a trend by temperature, which is not surprising as lower temperatures may affect the accuracy of the radiation measurements. \\
+
+We chose not to de-trend the data by temperature, as this introduced strange patterns in the data when plotted by latitude and longitude. \\
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=90mm,keepaspectratio]{Images/detrending_plots.jpg}
+\caption{Data by Latitude, Longitude and Temperature \label{fig:2}}
+\end{figure}
+
+\underline{Transformation to Normality}\\
+Third, Katzfuss and Cressie recommend that the data be checked for approximate normality and transformed if necessary.  The radiation data is in the form of counts (intensity measurements) and is likely Poisson, so we use an Anscombe transformation to induce normality.  A histogram of the normalized observations $(y.norm)$ confirm this transformation was successful.  Note that Anscombe back-transformations can lead to a biased result, and so we use the following transform and back-transform. \\
+
+\myindent $x \rightarrow 2\sqrt(x + \frac{3}{8})$\\
+\myindent $y \rightarrow \left(\frac{y}{2}\right)^2 - \frac{1}{8}$ 
+\myindent (instead of the direct algebraic inverse, where $\frac{3}{8}$ is subtracted.)
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=90mm,keepaspectratio]{Images/histogram_ynorm.jpg}
+\caption{Anscombe-Transformed Responses \label{fig:3}}
+\end{figure}
+
+\newpage
 \subsection{Basis Function Generation}
 
 The choice of the basis functions is a very important step in the model specification for FRK. In fact, the matrix $S$ allows us to represent the covariance structure as a linear combination of some basis function $S_1(\bm{u}), \dots, S_r(\bm{u})$, which results in a loss of information with respect to the full covariance representation.
@@ -244,7 +290,21 @@ In this work we use a total of $r = $ basis functions with three different resol
 
 \subsection{Estimation of $\sigma^2_{\epsilon}$ via Semivariogram}
 
-Stuff.\\
+The FRK model specifies that $n$ measurements are modeled as $Z(s_i) = Y(s_i) + \epsilon(s_i)$, where $s_i$ are locations in the region of interest, and $\epsilon(s_i)$ is additive measurement error.\\
+
+As detailed above, the measurement error is assumed to be independent of $Y(s_i)$ and normally distributed as $\epsilon(s_i) \sim N(0,\sigma^2_\epsilon \nu_\epsilon (s_i))$.  The $\nu_\epsilon (s_i)$ component is a function that is assumed to be known, which describes the random spatial variation.  As with the CO2 data, we assume $\nu_\epsilon (s_i)$ is a constant function equal to 1 at every location, as we assume that random spatial variation is constant over the campus. \\
+
+This leaves us with $\sigma^2_\epsilon$ to estimate. \\
+
+Katzfuss and Cressie note that $\sigma^2_\epsilon$ may be specified in advance, if there is previous knowledge about measurement error for the instrument being used.  We do not assume prior knowledge of $\sigma^2_\epsilon$. \\
+
+The semivariogram estimation method presented in Katzfuss and Cressie is known as the 'Robust Cressie Variogram.'  We use this method to estimate a semi-variogram for the data, and then fit a straight line to the semivariogram and let $\hat{\sigma}^2_\epsilon$ be equal to the intercept.
+
+
+
+
+
+
 
 \subsection{Estimation of $\sigma^2_{\psi}$ and $K$ via EM Algorithm}
 
