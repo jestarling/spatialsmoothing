@@ -318,13 +318,10 @@ We use this method to estimate a semi-variogram for the data, and then fit a str
 
 We did remove the police station measurements in the calculation of this semivariogram.  The police car carrying the measurement device parked in the police station lot overnight, so there were a disproportionate number of measurements at this location, including specifically nighttime measurements where cooler temperatures mean the measurement device is more prone to error. \\
 
-This was considerably higher than the estimate obtained for the Katzfuss and Cressie simulated CO2 data.  However, their data was simulated with $\sigma2_\epsilon = 0.25$, and our normalized data has a range of -51 to 54, with a total variance of 287, so our result is reasonable. To check reasonableness, we split the region of interest into four quadrants and calculated semivariograms for each quandrant to ensure that they yielded comparable $\hat{\sigma}^2_\epsilon$ estimates. Estimates were similar in all regions, and did not differ significantly from the overall estimate.   \\
+This was considerably higher than the estimate obtained for the Katzfuss and Cressie simulated CO2 data.  However, their data was simulated with $\sigma2_\epsilon = 0.25$, and our normalized data has a range of -51 to 54, with a total variance of 287, so our result is reasonable. To check reasonableness, we split the region of interest into four quadrants and calculated semivariograms for each quandrant to ensure that they yielded comparable $\hat{\sigma}^2_\epsilon$ estimates. Estimates were similar in all regions, and did not differ significantly from the overall estimate.   The data is known to have some outliers which affect the variance.\\
 
 
-
-
-
-\subsection{Estimation of $\sigma^2_{\psi}$ and $K$ via EM Algorithm}
+\subsection{Estimation of $\sigma^2_{\chi}$ and $K$ via EM Algorithm}
 
 Stuff.\\
 
