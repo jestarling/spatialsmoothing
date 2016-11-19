@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  19 NOV 2016 14:29
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  19 NOV 2016 14:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -691,20 +691,23 @@ Underfull \hbox (badness 10000) in paragraph at lines 347--348
 File: Images/pred.pdf Graphic file (type pdf)
  <use Images/pred.pdf>
 Package pdftex.def Info: Images/pred.pdf used on input line 351.
-(pdftex.def)             Requested size: 398.33858pt x 239.0012pt.
+(pdftex.def)             Requested size: 455.24408pt x 273.14896pt.
 
 <Images/var.pdf, id=95, 722.7pt x 433.62pt>
 File: Images/var.pdf Graphic file (type pdf)
  <use Images/var.pdf>
 Package pdftex.def Info: Images/var.pdf used on input line 357.
-(pdftex.def)             Requested size: 398.33858pt x 239.0012pt.
+(pdftex.def)             Requested size: 455.24408pt x 273.14896pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 <Images/data_grid.png, id=96, 1003.75pt x 673.51625pt>
 File: Images/data_grid.png Graphic file (type png)
 
 <use Images/data_grid.png>
 Package pdftex.def Info: Images/data_grid.png used on input line 363.
-(pdftex.def)             Requested size: 398.33858pt x 267.28465pt.
+(pdftex.def)             Requested size: 455.24408pt x 305.47406pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -715,17 +718,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 367--368
  []
 
 
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[10 <./Images/pred.pdf> <./Images/var.pdf>]
 Underfull \hbox (badness 10000) in paragraph at lines 369--370
 
  []
 
-<Images/pred_newgrid.pdf, id=539, 722.7pt x 433.62pt>
+<Images/pred_newgrid.pdf, id=98, 722.7pt x 433.62pt>
 File: Images/pred_newgrid.pdf Graphic file (type pdf)
 
 <use Images/pred_newgrid.pdf>
@@ -735,7 +732,7 @@ Package pdftex.def Info: Images/pred_newgrid.pdf used on input line 373.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<Images/var_newgrid.pdf, id=540, 722.7pt x 433.62pt>
+<Images/var_newgrid.pdf, id=99, 722.7pt x 433.62pt>
 File: Images/var_newgrid.pdf Graphic file (type pdf)
 
 <use Images/var_newgrid.pdf>
@@ -745,7 +742,7 @@ Package pdftex.def Info: Images/var_newgrid.pdf used on input line 379.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<Images/data_grid_new.png, id=541, 1003.75pt x 673.51625pt>
+<Images/data_grid_new.png, id=100, 1003.75pt x 673.51625pt>
 File: Images/data_grid_new.png Graphic file (type png)
 
 <use Images/data_grid_new.png>
@@ -765,7 +762,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 391--392
 
  []
 
-<Images/Residuals_for_smoothing.pdf, id=542, 348.30125pt x 298.11375pt>
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[10 <./Images/pred.pdf>]
+<Images/Residuals_for_smoothing.pdf, id=338, 348.30125pt x 298.11375pt>
 File: Images/Residuals_for_smoothing.pdf Graphic file (type pdf)
 
 <use Images/Residuals_for_smoothing.pdf>
@@ -782,23 +786,34 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[11 <./Images/data_grid.png>]
-
-LaTeX Warning: Text page 12 contains only floats.
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[12 <./Images/pred_newgrid.pdf> <./Images/var_newgrid.pdf>]
+[11 <./Images/var.pdf>]
 Underfull \hbox (badness 10000) in paragraph at lines 407--408
 
  []
 
 
-Overfull \vbox (11.61179pt too high) has occurred while \output is active []
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[12 <./Images/data_grid.png>]
+
+LaTeX Warning: Text page 13 contains only floats.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[13 <./Images/pred_newgrid.pdf> <./Images/var_newgrid.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 417--418
+
+ []
+
+
+Overfull \vbox (35.4836pt too high) has occurred while \output is active []
 
 
 
@@ -807,22 +822,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[13 <./Images/data_grid_new.png> <./Images/Residuals_for_smoothing.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 409--410
-
- []
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[14]
-Underfull \hbox (badness 10000) in paragraph at lines 418--419
-
- []
-
+[14 <./Images/data_grid_new.png> <./Images/Residuals_for_smoothing.pdf>]
 
 AED: lastpage setting LastPage
 
@@ -854,7 +854,7 @@ exmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2015/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2015/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
 Output written on 385_BigData_FinalProject_Paulon_Starling_Fall2016.pdf (15 pag
-es, 4699430 bytes).
+es, 4699160 bytes).
 PDF statistics:
  1061 PDF objects out of 1200 (max. 8388607)
  983 compressed objects within 10 object streams
