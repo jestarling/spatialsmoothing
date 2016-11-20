@@ -205,8 +205,81 @@ All components of these steps are described in detail below in \textbf{Method De
 
 \subsection{Method Description}
 
-GIORGIO CALCULATIONS STUFF GOES HERE.\\
+We briefly here describe the model underlying the Fixed Rank Kriging (FRK), highlighting the differences between the latter and the ordinary Kriging. \\
 
+Let us suppose that we are interested in making inference on a hidden spatial process $\{Y(\bm{s}), \bm{s} \in D \}$, where $D$ is a spatial domain identified by latitude and longitude, i.e. $D \in \mathbb{R}^2$. What is actually observed are the $n$ noisy data measurements
+\begin{equation}
+Z(\bm{s}_i) = Y(\bm{s}_i) + \epsilon(\bm{s}_i), \quad i = 1, \dots, n,
+\label{eq:hier1}
+\end{equation}
+where $\epsilon(\bm{s}_i)$ is the measurement error which is free to vary around the grid. The problem can be seen as a smoothing of the observed values $Z(\bm{s}_i)$ that takes into account the covariance structure of the data itself. The measurement error is usually estimated by the data. A general assumption is that $\epsilon(\cdot)$ is independent of $Y(\cdot)$ and distributed as $$\epsilon \sim N (\bm{0}, \sigma_\epsilon^2 V_\epsilon).$$
+Moreover, if one assumes that the measurement error variances are not different in different parts of the domain $D$, then $V_\epsilon = \mathcal{I}_n$, where $\mathcal{I}_n$ denotes the identity matrix of dimension $n \times n$. The latter assumption will be implicit in the following of this work. The global scaling variance $\sigma_\epsilon^2$ is estimated via the semivariogram of the data near the origin, as we will see later.\\
+
+The hidden process $Y(\cdot)$ is supposed to be decomposed in a linear term $\mu(\cdot)$ and in a random spatial variation $\nu(\cdot)$, that is, 
+\begin{equation}
+Y (\bm{s}_i) = \mu ( \bm{s}_i) + \nu (\bm{s}_i) = \bm{t}(\bm{s}_i)^T \bm{\alpha} + \nu(\bm{s}_i), \quad i = 1, \dots, n.
+\label{eq:hier2}
+\end{equation}
+The linear term can be thought as a linear regression, where $\bm{t}(\cdot)$ is a vector of known space-dependent covariates. It is fundamental to detrend the data prior to apply the Kriging techniques, since we want to recover the pure covariance structure given by the spatial dimension, and not by any other variable. In absence of significant covariates, the process has at least to be centered (detrended by the grand mean). The spatial variation term is the key goal of spatial statistics, that is to infer on the underlying covariance structure of the data. We define the spatial covariance function $$C(\bm{u}, \bm{v}) = \text{Cov} (\nu(\bm{u}),  \nu(\bm{v})), \quad \bm{u}, \bm{v} \in D.$$ 
+One can also rewrite the model by grouping the two hierarchical levels \eqref{eq:hier1} - \eqref{eq:hier2} as
+\begin{equation*}
+\bm{Z} = T \bm{\alpha} + \bm{\delta}, 
+\end{equation*}
+where
+\begin{equation*}
+\Sigma = \text{Cov} (\bm{\delta}) = C + \sigma_\epsilon^2 \mathcal{I}_n =  \begin{cases}
+C(\bm{s}_i, \bm{s}_i) + \sigma_\epsilon^2
+\\
+C(\bm{s}_i, \bm{s}_j) & i \neq j.
+\end{cases}
+\end{equation*}
+Ordinary Kriging is a smoothing technique which is based on the following formula
+\begin{equation}
+\hat{Y}(\bm{s}^*) = \bm{t}(\bm{s}^*)^T \hat{\bm{\alpha}} + \bm{k}(\bm{s}^*)^T (\bm{Z} - T \hat{\bm{\alpha}}), \quad \bm{s}^* \in \mathbb{R}^2
+\end{equation}
+where 
+\begin{align*}
+&\hat{\bm{\alpha}} = (T^T \Sigma^{-1} T)^{-1} T^T \Sigma^{-1} \bm{Z}
+\\
+&\bm{k}(\bm{s}^*)^T = \bm{c}(\bm{s}^*)^T \Sigma^{-1}
+\\
+&\bm{c}(\bm{s}^*) = (C(\bm{s}^*, \bm{s}_1), \dots, C(\bm{s}^*, \bm{s}_n))^T.
+\end{align*}
+Therefore, the computation of ordinary Kriging requires the inversion of the $n \times n$ covariance matrix, which is computationally unfeasible in a big data framework, where $n$ can be up to one million. FRK, instead, tries to seek an approximation of this matrix on a low-dimensional subspace. We specify, in particular, a form of the $C$ matrix that makes the inversion of $\Sigma$ easier. We hypothesize a Spatial Random Effects model for the random spatial variation term $\nu (\cdot)$, that is
+\begin{equation}
+\nu (\cdot) = \bm{S} (\cdot)^T \bm{\eta} + \xi (\cdot),
+\label{eq:sre1}
+\end{equation} 
+where 
+\begin{equation}
+\begin{split}
+&\bm{\eta} \sim N_r (\bm{0}, K)
+\\
+&\xi (\cdot) \sim N(0, \sigma_\xi^2 V_\xi (\cdot) ),
+\end{split}
+\label{eq:sre2}
+\end{equation}
+where $K$ is a $r \times r$ matrix. In this latter expression $\xi(\cdot)$ represents the fine scale variation process that accounts for the error introduced by the dimension reduction. In the following we assume that $V_\xi (\cdot)$ is constant, whereas $K$ and $\sigma_\xi^2$ are estimated by the data via the EM algorithm presented in the following section. It is easy to see that a consequence of \eqref{eq:sre1} - \eqref{eq:sre2} is that the matrix of the covariance structure $C$ can be written as 
+\begin{equation*}
+C (\bm{u}, \bm{v}) = \bm{S}(\bm{u}) K \bm{S}(\bm{v})^T + \sigma_\xi^2, \quad \bm{u}, \bm{v} \in \mathbb{R}^2
+\end{equation*}
+where $\bm{S}(\bm{u})$ represents the basis function approximation in the point $\bm{u}$. Thus, the covariance structure of the observed data is $\Sigma = S K S^T + D = S K S^T + (\sigma_\epsilon^2 + \sigma_\xi^2) \mathcal{I}_n$, where $S$ is the $n \times r$ matrix of the basis functions evaluated at each data point.\\
+
+Let us define $\sigma^2 = \sigma_\epsilon^2 + \sigma_\xi^2$. The inverse of the covariance matrix can now be efficiently computed using the Sherman-Morrison-Woodbury formula
+$$\Sigma^{-1} = \frac{1}{\sigma^2} - \frac{1}{\sigma^4} S \left( K^{-1} + \frac{1}{\sigma^2}S^T S \right)^{-1} S^T, $$
+which requires only the inversion of the $r \times r$ matrix $K$. The Kriging equation becomes then
+\begin{equation}
+\hat{Y}(\bm{s}^*) = \bm{t}(\bm{s}^*)^T \hat{\bm{\alpha}} + \bm{S}(\bm{s}^*)^T K S^T \Sigma^{-1} (\bm{Z} - T \hat{\bm{\alpha}}), \quad \bm{s}^* \in \mathbb{R}^2
+\end{equation}
+and the standard error is
+\begin{equation}
+\begin{split}
+\sigma_k(\bm{s}^*) = \big[ &\bm{S}(\bm{s}^*)^T K \bm{S}(\bm{s}^*) - \bm{S}(\bm{s}^*)^T K S^T \Sigma^{-1} S K \bm{S}(\bm{s}^*) + 
+\\
+&+ (\bm{t}(\bm{s}^*) - T^T \Sigma^{-1} S K \bm{S}(\bm{s}^*))^T (T^T \Sigma^{-1} T)^{-1} (\bm{t}(\bm{s}^*) - T^T \Sigma^{-1} S K \bm{S}(\bm{s}^*)) \big]^{1/2}.
+\end{split}
+\end{equation}
+This approach reduces the computational burden of the algorithm from $\mathcal{O}(n^3)$ to $\mathcal{O}(r^2 n)$.
 \subsection{Data Exploration and De-trending}
 We include several preparatory steps before formally beginning the Fixed Rank Kriging process.\\
 
