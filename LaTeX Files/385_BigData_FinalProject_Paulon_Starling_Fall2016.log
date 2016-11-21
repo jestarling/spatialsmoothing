@@ -1,0 +1,938 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  21 NOV 2016 12:16
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**385_BigData_FinalProject_Paulon_Starling_Fall2016.tex
+(./385_BigData_FinalProject_Paulon_Starling_Fall2016.tex
+LaTeX2e <2015/01/01>
+Babel <3.9l> and hyphenation patterns for 79 languages loaded.
+(/usr/local/texlive/2015/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(/usr/local/texlive/2015/texmf-dist/tex/latex/base/size11.clo
+File: size11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+\fancy@headwidth=\skip43
+\f@ncyO@elh=\skip44
+\f@ncyO@erh=\skip45
+\f@ncyO@olh=\skip46
+\f@ncyO@orh=\skip47
+\f@ncyO@elf=\skip48
+\f@ncyO@erf=\skip49
+\f@ncyO@olf=\skip50
+\f@ncyO@orf=\skip51
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/lastpage/lastpage.sty
+Package: lastpage 2015/03/29 v1.2m Refers to last page's name (HMM; JPG)
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/fancyhdr/extramarks.sty
+\@temptokenb=\toks14
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2014/10/28 v1.1a Standard LaTeX Color (DPC)
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 142.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count87
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/dvipsnam.def
+File: dvipsnam.def 2014/10/14 v3.0j Driver-dependent file (DPC,SPQR)
+))
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks15
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2014/10/28 v1.0p Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 94.
+)
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count88
+\lst@gtempboxa=\box26
+\lst@token=\toks16
+\lst@length=\count89
+\lst@currlwidth=\dimen105
+\lst@column=\count90
+\lst@pos=\count91
+\lst@lostspace=\dimen106
+\lst@width=\dimen107
+\lst@newlines=\count92
+\lst@lineno=\count93
+\lst@maxwidth=\dimen108
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2014/09/06 1.5e (Carsten Heinz)
+\c@lstnumber=\count94
+\lst@skipnumbers=\count95
+\lst@framebox=\box27
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2014/09/06 1.5e listings configuration
+))
+Package: listings 2014/09/06 1.5e (Carsten Heinz)
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2013/01/14 v2.14 AMS math features
+\@mathmargin=\skip52
+
+For additional information on amsmath, use the `?' option.
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks17
+\ex@=\dimen109
+))
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen110
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count96
+LaTeX Info: Redefining \frac on input line 210.
+\uproot@=\count97
+\leftroot@=\count98
+LaTeX Info: Redefining \overline on input line 306.
+\classnum@=\count99
+\DOTSCASE@=\count100
+LaTeX Info: Redefining \ldots on input line 378.
+LaTeX Info: Redefining \dots on input line 381.
+LaTeX Info: Redefining \cdots on input line 466.
+\Mathstrutbox@=\box28
+\strutbox@=\box29
+\big@size=\dimen111
+LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
+\macc@depth=\count101
+\c@MaxMatrixCols=\count102
+\dotsspace@=\muskip10
+\c@parentequation=\count103
+\dspbrk@lvl=\count104
+\tag@help=\toks18
+\row@=\count105
+\column@=\count106
+\maxfields@=\count107
+\andhelp@=\toks19
+\eqnshift@=\dimen112
+\alignsep@=\dimen113
+\tagshift@=\dimen114
+\tagwidth@=\dimen115
+\totwidth@=\dimen116
+\lineht@=\dimen117
+\@envbody=\toks20
+\multlinegap=\skip53
+\multlinetaggap=\skip54
+\mathdisplay@stack=\toks21
+LaTeX Info: Redefining \[ on input line 2665.
+LaTeX Info: Redefining \] on input line 2666.
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/pdfpages/pdfpages.sty
+Package: pdfpages 2015/05/11 v0.4x Insert pages of external PDF documents (AM)
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count108
+\calc@Bcount=\count109
+\calc@Adimen=\dimen118
+\calc@Bdimen=\dimen119
+\calc@Askip=\skip55
+\calc@Bskip=\skip56
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count110
+\calc@Cskip=\skip57
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/eso-pic/eso-pic.sty
+Package: eso-pic 2015/04/20 v2.0e eso-pic (RN)
+
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/atbegshi.sty
+Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
+
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+)))
+\AM@pagewidth=\dimen120
+\AM@pageheight=\dimen121
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/pdfpages/pppdftex.def
+File: pppdftex.def 2015/05/11 v0.4x Pdfpages driver for pdfTeX (AM)
+)
+\AM@pagebox=\box30
+\AM@toc@title=\toks22
+\c@AM@survey=\count111
+\AM@templatesizebox=\box31
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/tools/enumerate.sty
+Package: enumerate 2014/10/28 v3.00 enumerate extensions (DPC)
+\@enLab=\toks23
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(/usr/local/texlive/2015/texmf-dist/tex/latex/bbm-macros/bbm.sty
+Package: bbm 1999/03/15 V 1.2 provides fonts for set symbols - TH
+LaTeX Font Info:    Overwriting math alphabet `\mathbbm' in version `bold'
+(Font)                  U/bbm/m/n --> U/bbm/bx/n on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathbbmss' in version `bold'
+(Font)                  U/bbmss/m/n --> U/bbmss/bx/n on input line 35.
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/tools/bm.sty
+Package: bm 2014/10/28 v1.1c Bold Symbol Support (DPC/FMi)
+\symboldoperators=\mathgroup6
+\symboldletters=\mathgroup7
+\symboldsymbols=\mathgroup8
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 141.
+LaTeX Info: Redefining \bm on input line 207.
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2014/09/06 1.5e listings language file
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/listings/lstlang2.sty
+File: lstlang2.sty 2014/09/06 1.5e listings language file
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/listings/lstlang3.sty
+File: lstlang3.sty 2014/09/06 1.5e listings language file
+)
+\c@homeworkProblemCounter=\count112
+
+(./385_BigData_FinalProject_Paulon_Starling_Fall2016.aux)
+\openout1 = `385_BigData_FinalProject_Paulon_Starling_Fall2016.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 164.
+LaTeX Font Info:    ... okay on input line 164.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 164.
+LaTeX Font Info:    ... okay on input line 164.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 164.
+LaTeX Font Info:    ... okay on input line 164.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 164.
+LaTeX Font Info:    ... okay on input line 164.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 164.
+LaTeX Font Info:    ... okay on input line 164.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 164.
+LaTeX Font Info:    ... okay on input line 164.
+Package lastpage Info: Please have a look at the pageslts package at
+(lastpage)             https://www.ctan.org/pkg/pageslts
+(lastpage)             ! on input line 164.
+
+(/usr/local/texlive/2015/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count113
+\scratchdimen=\dimen122
+\scratchbox=\box32
+\nofMPsegments=\count114
+\nofMParguments=\count115
+\everyMPshowfont=\toks24
+\MPscratchCnt=\count116
+\MPscratchDim=\dimen123
+\MPnumerator=\count117
+\makeMPintoPDFobject=\count118
+\everyMPtoPDFconversion=\toks25
+) (/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
+
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
+))
+(/usr/local/texlive/2015/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+\c@lstlisting=\count119
+\AtBeginShipoutBox=\box33
+LaTeX Font Info:    Try loading font information for U+msa on input line 166.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 166.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) [1
+
+{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+Underfull \hbox (badness 10000) in paragraph at lines 179--180
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 181--182
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 183--184
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 185--186
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 187--188
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[2]
+Underfull \hbox (badness 10000) in paragraph at lines 195--202
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 203--204
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 208--209
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 215--217
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 265--267
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[4]
+Underfull \hbox (badness 10000) in paragraph at lines 285--286
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 287--288
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 289--290
+
+ []
+
+<Images/original_data_plot.jpg, id=26, 465.74pt x 398.48875pt>
+File: Images/original_data_plot.jpg Graphic file (type jpg)
+
+<use Images/original_data_plot.jpg>
+Package pdftex.def Info: Images/original_data_plot.jpg used on input line 293.
+(pdftex.def)             Requested size: 256.0748pt x 219.1026pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 297--298
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 299--300
+
+ []
+
+<Images/detrending_plots.jpg, id=27, 481.8pt x 481.8pt>
+File: Images/detrending_plots.jpg Graphic file (type jpg)
+
+<use Images/detrending_plots.jpg>
+Package pdftex.def Info: Images/detrending_plots.jpg used on input line 303.
+(pdftex.def)             Requested size: 256.0748pt x 256.0806pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 307--309
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[5]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[6 <./Images/original_data_plot.jpg> <./Images/detrending_plots.jpg>]
+<Images/histogram_ynorm.jpg, id=34, 465.74pt x 398.48875pt>
+File: Images/histogram_ynorm.jpg Graphic file (type jpg)
+
+<use Images/histogram_ynorm.jpg>
+Package pdftex.def Info: Images/histogram_ynorm.jpg used on input line 316.
+(pdftex.def)             Requested size: 256.0748pt x 219.1026pt.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[7 <./Images/histogram_ynorm.jpg>]
+Package epstopdf Info: Source file: <./Images/res1.eps>
+(epstopdf)                    date: 2016-11-17 10:52:22
+(epstopdf)                    size: 498328 bytes
+(epstopdf)             Output file: <./Images/res1-eps-converted-to.pdf>
+(epstopdf)                    date: 2016-11-17 10:52:22
+(epstopdf)                    size: 132124 bytes
+(epstopdf)             Command: <repstopdf --outfile=./Images/res1-eps-converte
+d-to.pdf ./Images/res1.eps>
+(epstopdf)             \includegraphics on input line 343.
+Package epstopdf Info: Output file is already uptodate.
+
+<./Images/res1-eps-converted-to.pdf, id=39, 602.25pt x 404.51125pt>
+File: ./Images/res1-eps-converted-to.pdf Graphic file (type pdf)
+
+<use ./Images/res1-eps-converted-to.pdf>
+Package pdftex.def Info: ./Images/res1-eps-converted-to.pdf used on input line 
+343.
+(pdftex.def)             Requested size: 258.36667pt x 173.54141pt.
+Package epstopdf Info: Source file: <./Images/res11.eps>
+(epstopdf)                    date: 2016-11-17 10:52:22
+(epstopdf)                    size: 533239 bytes
+(epstopdf)             Output file: <./Images/res11-eps-converted-to.pdf>
+(epstopdf)                    date: 2016-11-17 10:52:22
+(epstopdf)                    size: 70617 bytes
+(epstopdf)             Command: <repstopdf --outfile=./Images/res11-eps-convert
+ed-to.pdf ./Images/res11.eps>
+(epstopdf)             \includegraphics on input line 344.
+Package epstopdf Info: Output file is already uptodate.
+
+<./Images/res11-eps-converted-to.pdf, id=40, 602.25pt x 404.51125pt>
+File: ./Images/res11-eps-converted-to.pdf Graphic file (type pdf)
+
+<use ./Images/res11-eps-converted-to.pdf>
+Package pdftex.def Info: ./Images/res11-eps-converted-to.pdf used on input line
+ 344.
+(pdftex.def)             Requested size: 206.69333pt x 138.82819pt.
+Package epstopdf Info: Source file: <./Images/res2.eps>
+(epstopdf)                    date: 2016-11-17 10:52:22
+(epstopdf)                    size: 610556 bytes
+(epstopdf)             Output file: <./Images/res2-eps-converted-to.pdf>
+(epstopdf)                    date: 2016-11-17 10:52:22
+(epstopdf)                    size: 145717 bytes
+(epstopdf)             Command: <repstopdf --outfile=./Images/res2-eps-converte
+d-to.pdf ./Images/res2.eps>
+(epstopdf)             \includegraphics on input line 351.
+Package epstopdf Info: Output file is already uptodate.
+
+<./Images/res2-eps-converted-to.pdf, id=41, 602.25pt x 404.51125pt>
+File: ./Images/res2-eps-converted-to.pdf Graphic file (type pdf)
+
+<use ./Images/res2-eps-converted-to.pdf>
+Package pdftex.def Info: ./Images/res2-eps-converted-to.pdf used on input line 
+351.
+(pdftex.def)             Requested size: 258.36667pt x 173.54141pt.
+Package epstopdf Info: Source file: <./Images/res21.eps>
+(epstopdf)                    date: 2016-11-17 10:52:22
+(epstopdf)                    size: 1166570 bytes
+(epstopdf)             Output file: <./Images/res21-eps-converted-to.pdf>
+(epstopdf)                    date: 2016-11-17 10:52:22
+(epstopdf)                    size: 182004 bytes
+(epstopdf)             Command: <repstopdf --outfile=./Images/res21-eps-convert
+ed-to.pdf ./Images/res21.eps>
+(epstopdf)             \includegraphics on input line 352.
+Package epstopdf Info: Output file is already uptodate.
+
+<./Images/res21-eps-converted-to.pdf, id=42, 602.25pt x 404.51125pt>
+File: ./Images/res21-eps-converted-to.pdf Graphic file (type pdf)
+
+<use ./Images/res21-eps-converted-to.pdf>
+Package pdftex.def Info: ./Images/res21-eps-converted-to.pdf used on input line
+ 352.
+(pdftex.def)             Requested size: 206.69333pt x 138.82819pt.
+Package epstopdf Info: Source file: <./Images/res3.eps>
+(epstopdf)                    date: 2016-11-17 10:52:22
+(epstopdf)                    size: 532932 bytes
+(epstopdf)             Output file: <./Images/res3-eps-converted-to.pdf>
+(epstopdf)                    date: 2016-11-17 10:52:22
+(epstopdf)                    size: 137529 bytes
+(epstopdf)             Command: <repstopdf --outfile=./Images/res3-eps-converte
+d-to.pdf ./Images/res3.eps>
+(epstopdf)             \includegraphics on input line 359.
+Package epstopdf Info: Output file is already uptodate.
+
+<./Images/res3-eps-converted-to.pdf, id=43, 602.25pt x 404.51125pt>
+File: ./Images/res3-eps-converted-to.pdf Graphic file (type pdf)
+
+<use ./Images/res3-eps-converted-to.pdf>
+Package pdftex.def Info: ./Images/res3-eps-converted-to.pdf used on input line 
+359.
+(pdftex.def)             Requested size: 258.36667pt x 173.54141pt.
+Package epstopdf Info: Source file: <./Images/res31.eps>
+(epstopdf)                    date: 2016-11-17 10:52:22
+(epstopdf)                    size: 1175466 bytes
+(epstopdf)             Output file: <./Images/res31-eps-converted-to.pdf>
+(epstopdf)                    date: 2016-11-17 10:52:22
+(epstopdf)                    size: 179773 bytes
+(epstopdf)             Command: <repstopdf --outfile=./Images/res31-eps-convert
+ed-to.pdf ./Images/res31.eps>
+(epstopdf)             \includegraphics on input line 360.
+Package epstopdf Info: Output file is already uptodate.
+
+<./Images/res31-eps-converted-to.pdf, id=44, 602.25pt x 404.51125pt>
+File: ./Images/res31-eps-converted-to.pdf Graphic file (type pdf)
+
+<use ./Images/res31-eps-converted-to.pdf>
+Package pdftex.def Info: ./Images/res31-eps-converted-to.pdf used on input line
+ 360.
+(pdftex.def)             Requested size: 206.69333pt x 138.82819pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 367--368
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 369--370
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 371--372
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[8]
+
+LaTeX Warning: Text page 9 contains only floats.
+
+
+Overfull \vbox (2.54163pt too high) has occurred while \output is active []
+
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[9 <./Images/res1-eps-converted-to.pdf> <./Images/res11-eps-converted-to.pdf> <
+./Images/res2-eps-converted-to.pdf> <./Images/res21-eps-converted-to.pdf> <./Im
+ages/res3-eps-converted-to.pdf> <./Images/res31-eps-converted-to.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 373--374
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 375--376
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 377--381
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 382--386
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 387--388
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 389--390
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 391--392
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 393--394
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 395--396
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 400--401
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[10]
+Underfull \hbox (badness 10000) in paragraph at lines 402--403
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 404--405
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 406--407
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 408--409
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 410--413
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 414--415
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 416--419
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 420--425
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 426--427
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 428--434
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 436--438
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[11]
+Underfull \hbox (badness 10000) in paragraph at lines 455--456
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 457--458
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 459--460
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[12]
+Underfull \hbox (badness 10000) in paragraph at lines 467--468
+
+ []
+
+<Images/pred.pdf, id=104, 722.7pt x 433.62pt>
+File: Images/pred.pdf Graphic file (type pdf)
+ <use Images/pred.pdf>
+Package pdftex.def Info: Images/pred.pdf used on input line 471.
+(pdftex.def)             Requested size: 455.24408pt x 273.14896pt.
+
+<Images/var.pdf, id=105, 722.7pt x 433.62pt>
+File: Images/var.pdf Graphic file (type pdf)
+ <use Images/var.pdf>
+Package pdftex.def Info: Images/var.pdf used on input line 477.
+(pdftex.def)             Requested size: 455.24408pt x 273.14896pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<Images/data_grid.png, id=106, 1003.75pt x 673.51625pt>
+File: Images/data_grid.png Graphic file (type png)
+
+<use Images/data_grid.png>
+Package pdftex.def Info: Images/data_grid.png used on input line 483.
+(pdftex.def)             Requested size: 455.24408pt x 305.47406pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 487--488
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 489--490
+
+ []
+
+<Images/pred_newgrid.pdf, id=108, 722.7pt x 433.62pt>
+File: Images/pred_newgrid.pdf Graphic file (type pdf)
+
+<use Images/pred_newgrid.pdf>
+Package pdftex.def Info: Images/pred_newgrid.pdf used on input line 493.
+(pdftex.def)             Requested size: 455.24408pt x 273.14896pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<Images/var_newgrid.pdf, id=109, 722.7pt x 433.62pt>
+File: Images/var_newgrid.pdf Graphic file (type pdf)
+
+<use Images/var_newgrid.pdf>
+Package pdftex.def Info: Images/var_newgrid.pdf used on input line 499.
+(pdftex.def)             Requested size: 455.24408pt x 273.14896pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<Images/data_grid_new.png, id=110, 1003.75pt x 673.51625pt>
+File: Images/data_grid_new.png Graphic file (type png)
+
+<use Images/data_grid_new.png>
+Package pdftex.def Info: Images/data_grid_new.png used on input line 505.
+(pdftex.def)             Requested size: 455.24408pt x 305.47406pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 509--510
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 511--512
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[13 <./Images/pred.pdf>]
+<Images/Residuals_for_smoothing.pdf, id=349, 348.30125pt x 298.11375pt>
+File: Images/Residuals_for_smoothing.pdf Graphic file (type pdf)
+
+<use Images/Residuals_for_smoothing.pdf>
+Package pdftex.def Info: Images/Residuals_for_smoothing.pdf used on input line 
+515.
+(pdftex.def)             Requested size: 256.0748pt x 219.18602pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[14 <./Images/var.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 527--528
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[15 <./Images/data_grid.png>]
+
+LaTeX Warning: Text page 16 contains only floats.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[16 <./Images/pred_newgrid.pdf> <./Images/var_newgrid.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 537--538
+
+ []
+
+
+Overfull \vbox (35.4836pt too high) has occurred while \output is active []
+
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[17 <./Images/data_grid_new.png> <./Images/Residuals_for_smoothing.pdf>]
+
+AED: lastpage setting LastPage
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[18] (./385_BigData_FinalProject_Paulon_Starling_Fall2016.aux) ) 
+Here is how much of TeX's memory you used:
+ 5166 strings out of 493089
+ 75153 string characters out of 6134842
+ 178714 words of memory out of 5000000
+ 8516 multiletter control sequences out of 15000+600000
+ 15081 words of font info for 55 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 38i,19n,43p,861b,242s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/tex
+live/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texl
+ive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texli
+ve/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texliv
+e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive
+/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/
+2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/20
+15/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2015
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2015
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2015/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2015/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2015/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2015/texmf-d
+ist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on 385_BigData_FinalProject_Paulon_Starling_Fall2016.pdf (18 pag
+es, 4720213 bytes).
+PDF statistics:
+ 1074 PDF objects out of 1200 (max. 8388607)
+ 992 compressed objects within 10 object streams
+ 0 named destinations out of 1000 (max. 500000)
+ 81 words of extra memory for PDF output out of 10000 (max. 10000000)
+
