@@ -17,6 +17,8 @@
 \usepackage{amssymb} %Required for QED symbols.
 \usepackage{bbm}  %Required for indicator function.
 \usepackage{bm}
+\usepackage{float}  %Required for fixing position of figures.
+\usepackage{hyperref} %Required for hyperlink to github site.
 
 %CUSTOMIZE INDENTS:
 \newcommand{\myindent}{\hspace*{1cm}}
@@ -137,7 +139,7 @@
 %----------------------------------------------------------------------------------------
 
 \newcommand{\hmwkTitle}{Fixed Rank Kriging\\ for\\ Continuous Gamma Radiation Data} % Assignment title
-\newcommand{\hmwkDueDate}{November\ 15,\ 2016} % Due date
+\newcommand{\hmwkDueDate}{December\ 5,\ 2016} % Due date
 \newcommand{\hmwkClass}{SDS\ 385 - Big Data} % Course/class
 \newcommand{\hmwkClassTime}{} % Class/lecture time
 \newcommand{\hmwkClassInstructor}{} % Teacher/lecturer
@@ -288,7 +290,7 @@ We include several preparatory steps before formally beginning the Fixed Rank Kr
 
 The first step is to select a subset of the original data, limited to the latitudes and longitudes containing the University of Texas campus.  The data set contains several outliers, including measurements which appear to be from San Antonio.  These outliers are excluded. \\
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \centering
 \includegraphics[width=90mm,keepaspectratio]{Images/original_data_plot.jpg}
 \caption{Observed data \label{fig:1}}
@@ -298,9 +300,9 @@ Second, Katzfuss and Cressie suggest de-trending to adjust for any large-scale s
 
 We chose not to de-trend the data by temperature, as this introduced strange patterns in the data when plotted by latitude and longitude. \\
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \centering
-\includegraphics[width=90mm,keepaspectratio]{Images/detrending_plots.jpg}
+\includegraphics[width=70mm,keepaspectratio]{Images/detrending_plots.jpg}
 \caption{Data by Latitude, Longitude and Temperature \label{fig:2}}
 \end{figure}
 
@@ -311,7 +313,7 @@ Third, Katzfuss and Cressie recommend that the data be checked for approximate n
 \myindent $y \rightarrow \left(\frac{y}{2}\right)^2 - \frac{1}{8}$ 
 \myindent (instead of the direct algebraic inverse, where $\frac{3}{8}$ is subtracted.)
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \centering
 \includegraphics[width=90mm,keepaspectratio]{Images/histogram_ynorm.jpg}
 \caption{Anscombe-Transformed Responses \label{fig:3}}
@@ -338,7 +340,7 @@ In this work we use a total of $r = $ basis functions with three different resol
 
 \textbf{Check and try again to use resolution = 1.5 times the shortest distance between the center of any of the functions with that resolution [see Cressie, pag 6].}
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.55\columnwidth]{./Images/res1}
 \includegraphics[width=0.44\columnwidth]{./Images/res11}
@@ -346,7 +348,7 @@ In this work we use a total of $r = $ basis functions with three different resol
 \label{fig:res1}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.55\columnwidth]{./Images/res2}
 \includegraphics[width=0.44\columnwidth]{./Images/res21}
@@ -354,7 +356,7 @@ In this work we use a total of $r = $ basis functions with three different resol
 \label{fig:res2}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.55\columnwidth]{./Images/res3}
 \includegraphics[width=0.44\columnwidth]{./Images/res31}
@@ -464,21 +466,21 @@ The Kriging function returns a grid of locations and estimated responses, along 
 
 Using a uniform set of basis functions, predicted kriging values are shown in the heatmap below, followed by a plot of the kriging variance. \\
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
-\includegraphics[width=160mm,keepaspectratio]{Images/pred.pdf}
+\includegraphics[width=120mm,keepaspectratio]{Images/pred.pdf}
 \caption{Predicted values, uniform basis \label{fig:4}}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
-\includegraphics[width=160mm,keepaspectratio]{Images/var.pdf}
+\includegraphics[width=120mm,keepaspectratio]{Images/var.pdf}
 \caption{FRK variance, uniform basis \label{fig:5}}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
-\includegraphics[width=160mm,keepaspectratio]{Images/data_grid.png}
+\includegraphics[width=120mm,keepaspectratio]{Images/data_grid.png}
 \caption{Observed data and basis function centers \label{fig:6}}
 \end{figure}
 
@@ -486,21 +488,21 @@ We noticed an area in the top right of very high variance.  This issue is caused
 
 To address this issue, we adjusted the basis centers by removing the two spiky centers in this corner.  We justified this by noting that kriging is not intended to extrapolate into new regions without surrounding estimates to inform the prediction.  Of course a lone point is going to have a high kriging variance, when none of its neighbors are near. The result of this adjustment is below. \\
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
-\includegraphics[width=160mm,keepaspectratio]{Images/pred_newgrid.pdf}
+\includegraphics[width=120mm,keepaspectratio]{Images/pred_newgrid_origscale.pdf}
 \caption{Predicted values, adjusted basis \label{fig:7}}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
 \includegraphics[width=160mm,keepaspectratio]{Images/var_newgrid.pdf}
 \caption{FRK variance, adjusted basis \label{fig:8}}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
-\includegraphics[width=160mm,keepaspectratio]{Images/data_grid_new.png}
+\includegraphics[width=120mm,keepaspectratio]{Images/data_grid_new.png}
 \caption{Observed data and adjusted basis function centers \label{fig:9}}
 \end{figure}
 
@@ -508,9 +510,9 @@ The result of this adjustment yields desirable results for the predicted data.  
 
 Finally, we include a histogram of the observed versus predicted residual for the kriging function applied to the observed locations.  These values should be normally distributed to indicate goodness of model fit.\\
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
-\includegraphics[width=90mm,keepaspectratio]{Images/Residuals_for_smoothing.pdf}
+\includegraphics[width=70mm,keepaspectratio]{Images/Residuals_for_smoothing.pdf}
 \caption{Residuals \label{fig:10}}
 \end{figure}
 
@@ -535,24 +537,10 @@ One limitation in our code is the calculation of the Fixed Rank Kriging variance
 \section{5. R Code Appendix}
 
 \subsection{Documentation Source}
-All project documentation and source code is available in the following github repository. \\
+All project documentation and source code is available in the following github repository.\\
 
-\myindent \underline{https://github.com/jstarling1/spatialsmoothing}
+\myindent \url{https://github.com/jstarling1/spatialsmoothing}\\
 
-\subsection{R Code: Main Launcher File}
-
-
-\subsection{R Code: Main Launcher File}
-
-
-% 
-% \subsection{R Code: Main Analysis Code}
-% \linespread{1} % Line spacing for R code section.
-% \lstinputlisting[language=R,breaklines=true]{"/Users/jennstarling/UTAustin/2016_Fall_SDS 383C_Statistical Modeling 1/Final Project/penalized-matrix-decomp/R Code/383C_FinalProject_RCode.R"}
-% 
-% \subsection{R Code: Penalized Matrix Decomposition Functions}
-% 
-% %% Display R script.
-% \lstinputlisting[language=R,breaklines=true]{"/Users/jennstarling/UTAustin/2016_Fall_SDS 383C_Statistical Modeling 1/Final Project/penalized-matrix-decomp/R Code/Penalized_Matrix_Decomp_Functions.R"}
+The R code launcher is available in the \textit{R Code\_Launcher} directory.\\
 
 \end{document}
