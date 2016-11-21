@@ -1,5 +1,4 @@
-print('start')
-Sys.time()
+
 rm(list=ls()) #Clean workspace.
 
 ###############################
@@ -14,7 +13,6 @@ setwd('~/Desktop/Semester 1/Stat Models for Big Data/Project/')
 library(SpatialTools)
 library(Matrix) #For sparse matrix V_eps.
 library(gstat) #For semi-variogram estimation.
-#library(rgl)
 library(splines)
 library(ggmap)
 library(leaflet)
@@ -25,10 +23,10 @@ library(lubridate)
 ############################### 
 ### LOAD SOURCE FUNCTIONS   ###
 ###############################
-source('./spatialsmoothing/R Code/em.R')
-source('./spatialsmoothing/R Code/frk.R')
-source('./spatialsmoothing/R Code/variogram_est.R')
-source('./spatialsmoothing/R Code/bisquare.basis.R')
+source('./spatialsmoothing/R Code_Functions/em.R')
+source('./spatialsmoothing/R Code_Functions/frk.R')
+source('./spatialsmoothing/R Code_Functions/variogram_est.R')
+source('./spatialsmoothing/R Code_Functions/bisquare.basis.R')
 
 ############################### 
 ### READ & PRE-PROCESS DATA ###
@@ -68,11 +66,6 @@ ggplot() + geom_point(data=df, aes(x=Lon,y=Lat),col='blue')
 ##################### 
 ### DE-TREND DATA ###
 #####################
-
-# #Plot data versus each direction and versus temp.
-# plot(df$Lat,df$y,pch=20)  #Plot y versus latitude.
-# plot(df$Lon,df$y,pch=20)  #Plot y versus longitude.
-# plot(df$temp,df$y,pch=20) #Plot y versus temperature.
 
 #jpeg(file='/Users/jennstarling/UTAustin/2016_Fall_SDS 385_Big_Data/Final Project/spatialsmoothing/LaTeX Files/Images/detrending_plots2.jpg')
 par(mfrow=c(3,1))
@@ -299,10 +292,10 @@ lon_lims = lon_range
 bw.map <- get_map(location = as.numeric(rbind(lon_lims, lat_lims)), 
                   source = "osm",col='bw')
 
-#Plot predicted FRK run.
+#Plot predicted FRK run. (Real-scaled, not normalized.)
 ggmap(bw.map) +
   geom_tile(data = as.data.frame(as.matrix(results.Pred)), 
-            aes(x = Lon, y = Lat, alpha = pred),
+            aes(x = Lon, y = Lat, alpha = yhat),
             fill = 'red') + 
   theme(axis.title.y = element_blank(), axis.title.x = element_blank())
 
