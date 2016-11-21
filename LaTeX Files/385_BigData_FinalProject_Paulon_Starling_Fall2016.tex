@@ -280,6 +280,7 @@ and the standard error is
 \end{split}
 \end{equation}
 This approach reduces the computational burden of the algorithm from $\mathcal{O}(n^3)$ to $\mathcal{O}(r^2 n)$.
+
 \subsection{Data Exploration and De-trending}
 We include several preparatory steps before formally beginning the Fixed Rank Kriging process.\\
 
@@ -402,14 +403,58 @@ As described above, $K$ is the $(r x r)$ covariance matrix, where $r$ is the num
 
 $\sigma^2_{\xi}$ is the fine-scale variance in the SRE model, accounting for error introduced to the model through the dimension reduction. \\
 
-Katzfuss and Cressie suggest two methods for estimating these parameters: Method of Moments and the EM Algorithm.  We have implemented the EM algorithm to estimate these values.  (Details for the formulas are included previously in the Methods section; R code is included in the appendix.)\\
+Katzfuss and Cressie suggest two methods for estimating these parameters: Method of Moments and the EM Algorithm.  We have implemented the EM algorithm to estimate these values.\\
 
+\myindent $\bullet$ Begin with default choices suggested in Katzfuss and Cressie: \\
+
+\myindent \myindent $K^{[0]} = (.9)\nu ^2 I_r$ \\
+\myindent \myindent $\sigma_\xi^{2[0]} = (.1)\nu ^2 I_r$ \\
+\myindent \myindent \myindent where $\nu^2 = \tilde{Z}'\tilde{Z}/n$.\\
+
+\myindent $\bullet$ Iteratively update the two parameters until convergence is met:\\
+
+\myindent \myindent $K^{[t+1]} = K^{[t]} - K^{[t]} S' \Sigma^{[t]-1}SK^{[t]}
+  + \left(K^{[t]}S' \Sigma^{[t]-1} \tilde{Z} \right)\left(K^{[t]}S' \Sigma^{[t]-1} \tilde{Z} \right)'$ \\
+\myindent \myindent $\sigma_\xi^{2[t+1]} = \sigma_\xi^{2[t]} + \left(\sigma_\xi^{2[t]} \right)^2 \text{tr} \left(\Sigma^{[t]-1}[\tilde{Z}\tilde{Z}'\Sigma^{[t]-1} - I_n]V_\xi \right)$\\
+
+\underline{Computational notes:} \\
+\myindent $\bullet$ $\Sigma^{[t]-1}$ is shorthand for $(\Sigma^{[t]})^{-1}$ \\
+\myindent $\bullet$ As discussed previously, we used the Sherman-Morrison-Woodbury formula to  \\ \myindent \myindent calculate $\Sigma^{[t]-1}$, to efficiently compute the inverse.\\
+\myindent $\bullet$ So we let $D^{[t]} = \sigma^{2[t]}V_\xi + \sigma^2_\epsilon V_\epsilon$. \\
+\myindent $\bullet$ Then $\Sigma^{[t]-1} = D^{[t]-1} -  D^{[t]-1}S[K^{[t]-1} + SD^{[t]-1}S]^{-1}S'D^{[t]-1}$\\
+
+We can use these results to re-write the $\sigma_\xi^{2[t+1]}$ update in a more efficient way: \\
+
+\myindent \myindent $\sigma_\xi^{2[t+1]} = \sigma_\xi^{2[t]} 
++ \left( \sigma_\xi^{2[t]} \right)^2 \text{tr} \left([S'D^{[t]-1}V_\xi D^{[t]-1}S][K^{[t]-1} + S'D^{[t]-1}S]^{-1} \right)/n \\ \myindent \myindent \myindent
+- \left( \sigma_\xi^{2[t]} \right)^2 \text{tr}(D^{[t]-1}V_\xi)/n
++ \left(\sigma_\xi^{2[t]}V_\xi \Sigma^{[t]-1} \tilde{Z}\right)' 
+V_\xi^{-1}
+\left(\sigma_\xi^{2[t]}V_\xi \Sigma^{[t]-1} \tilde{Z}\right)/n$\\
+
+
+\underline{Results:}\\
 We obtain an estimated $\hat{\sigma}^2_{\xi} = 174.4245$.  The R code saves $\hat{\sigma}^2_{\xi}$ and $\hat{K}$ as part of the EM function output.\\
 
 \subsection{Fixed Rank Kriging: Smoothing and Prediction}
 
-Stuff.\\
+We implemented the Fixed Rank Kriging process using the equations described previously.
 
+\begin{equation}
+\hat{Y}(\bm{s}^*) = \bm{t}(\bm{s}^*)^T \hat{\bm{\alpha}} + \bm{S}(\bm{s}^*)^T K S^T \Sigma^{-1} (\bm{Z} - T \hat{\bm{\alpha}}), \quad \bm{s}^* \in \mathbb{R}^2
+\end{equation}
+and the standard error is
+\begin{equation}
+\begin{split}
+\sigma_k(\bm{s}^*) = \big[ &\bm{S}(\bm{s}^*)^T K \bm{S}(\bm{s}^*) - \bm{S}(\bm{s}^*)^T K S^T \Sigma^{-1} S K \bm{S}(\bm{s}^*) + 
+\\
+&+ (\bm{t}(\bm{s}^*) - T^T \Sigma^{-1} S K \bm{S}(\bm{s}^*))^T (T^T \Sigma^{-1} T)^{-1} (\bm{t}(\bm{s}^*) - T^T \Sigma^{-1} S K \bm{S}(\bm{s}^*)) \big]^{1/2}
+\end{split}
+\end{equation}
+
+where $\Sigma = S K S^T + D = S K S^T + (\sigma_\epsilon^2 + \sigma_\xi^2) \mathcal{I}_n$.\\
+
+The Kriging function returns a grid of locations and estimated responses, along with a vector of kriging variances.  Results are included in subsequent sections. \\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                     RESULTS                                    %%
@@ -477,8 +522,11 @@ Finally, we include a histogram of the observed versus predicted residual for th
 \newpage
 \section{4. Discussion}
 
-Discussion goes here. \\
+Our Fixed Rank Kriging results looked to be reasonable based on comparison with the underlying observed data, our knowledge of potential higher-radiation areas on campus, and based on the normality of the histogram of the residuals.  Our code was computationally efficient, executing the entire process including semivariogram estimation, basis function generation, EM algorithm calculations, and Fixed Rank Kriging computations in 18 minutes.\\
 
+To increase efficiency over a large data set, our implementation uses pre-caching and sparse matrix functionality to the extent possible.  $D^{-1}$ is stored as a sparse matrix since it is diagonal.  Computations involving matrix multiplications that always appear together in updates are pre-cached, such as $K^{[t]}S'\Sigma^{[t]-1}$.\\
+
+One limitation in our code is the calculation of the Fixed Rank Kriging variance in the case where the code is run for smoothing the observed values, instead of predicting over a grid of new values.  We omitted the computation of the Fixed Rank Kriging variance in the case where the function is smoothing, ie 100\% of the locations to be predicted correspond with already-observed locations.  The variance computation becomes very computationally intensive in this case, and a future area for expansion is to implement the FRK variance calculation in C++.\\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                     R APPENDIX & DOCUMENTATION                 %%

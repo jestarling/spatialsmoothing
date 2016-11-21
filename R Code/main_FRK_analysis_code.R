@@ -1,4 +1,5 @@
-
+print('start')
+Sys.time()
 rm(list=ls()) #Clean workspace.
 
 ###############################
@@ -319,3 +320,6 @@ hist(results.Smooth[,4] - results.Smooth[,3],xlab='Residuals',ylab='Frequency',
 
 #Plot Kriging Variances boxplot:
 boxplot(frkPred$sig2FRK)
+
+print('stop:')
+Sys.time()

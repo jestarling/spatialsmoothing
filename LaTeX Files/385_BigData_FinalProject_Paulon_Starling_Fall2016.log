@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  19 NOV 2016 14:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  21 NOV 2016 12:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -382,44 +382,66 @@ Underfull \hbox (badness 10000) in paragraph at lines 208--209
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 211--212
+Underfull \hbox (badness 10000) in paragraph at lines 215--217
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 213--214
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 265--267
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 215--216
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[4]
+Underfull \hbox (badness 10000) in paragraph at lines 285--286
 
  []
 
-<Images/original_data_plot.jpg, id=13, 465.74pt x 398.48875pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 287--288
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 289--290
+
+ []
+
+<Images/original_data_plot.jpg, id=26, 465.74pt x 398.48875pt>
 File: Images/original_data_plot.jpg Graphic file (type jpg)
 
 <use Images/original_data_plot.jpg>
-Package pdftex.def Info: Images/original_data_plot.jpg used on input line 219.
+Package pdftex.def Info: Images/original_data_plot.jpg used on input line 293.
 (pdftex.def)             Requested size: 256.0748pt x 219.1026pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 223--224
+Underfull \hbox (badness 10000) in paragraph at lines 297--298
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 225--226
+Underfull \hbox (badness 10000) in paragraph at lines 299--300
 
  []
 
-<Images/detrending_plots.jpg, id=14, 481.8pt x 481.8pt>
+<Images/detrending_plots.jpg, id=27, 481.8pt x 481.8pt>
 File: Images/detrending_plots.jpg Graphic file (type jpg)
 
 <use Images/detrending_plots.jpg>
-Package pdftex.def Info: Images/detrending_plots.jpg used on input line 229.
+Package pdftex.def Info: Images/detrending_plots.jpg used on input line 303.
 (pdftex.def)             Requested size: 256.0748pt x 256.0806pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 233--235
+Underfull \hbox (badness 10000) in paragraph at lines 307--309
 
  []
 
@@ -429,11 +451,19 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[3] <Images/histogram_ynorm.jpg, id=21, 465.74pt x 398.48875pt>
+[5]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[6 <./Images/original_data_plot.jpg> <./Images/detrending_plots.jpg>]
+<Images/histogram_ynorm.jpg, id=34, 465.74pt x 398.48875pt>
 File: Images/histogram_ynorm.jpg Graphic file (type jpg)
 
 <use Images/histogram_ynorm.jpg>
-Package pdftex.def Info: Images/histogram_ynorm.jpg used on input line 242.
+Package pdftex.def Info: Images/histogram_ynorm.jpg used on input line 316.
 (pdftex.def)             Requested size: 256.0748pt x 219.1026pt.
 
 
@@ -442,14 +472,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[4 <./Images/original_data_plot.jpg> <./Images/detrending_plots.jpg>]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[5 <./Images/histogram_ynorm.jpg>]
+[7 <./Images/histogram_ynorm.jpg>]
 Package epstopdf Info: Source file: <./Images/res1.eps>
 (epstopdf)                    date: 2016-11-17 10:52:22
 (epstopdf)                    size: 498328 bytes
@@ -458,15 +481,15 @@ Package epstopdf Info: Source file: <./Images/res1.eps>
 (epstopdf)                    size: 132124 bytes
 (epstopdf)             Command: <repstopdf --outfile=./Images/res1-eps-converte
 d-to.pdf ./Images/res1.eps>
-(epstopdf)             \includegraphics on input line 269.
+(epstopdf)             \includegraphics on input line 343.
 Package epstopdf Info: Output file is already uptodate.
 
-<./Images/res1-eps-converted-to.pdf, id=29, 602.25pt x 404.51125pt>
+<./Images/res1-eps-converted-to.pdf, id=39, 602.25pt x 404.51125pt>
 File: ./Images/res1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./Images/res1-eps-converted-to.pdf>
 Package pdftex.def Info: ./Images/res1-eps-converted-to.pdf used on input line 
-269.
+343.
 (pdftex.def)             Requested size: 258.36667pt x 173.54141pt.
 Package epstopdf Info: Source file: <./Images/res11.eps>
 (epstopdf)                    date: 2016-11-17 10:52:22
@@ -476,15 +499,15 @@ Package epstopdf Info: Source file: <./Images/res11.eps>
 (epstopdf)                    size: 70617 bytes
 (epstopdf)             Command: <repstopdf --outfile=./Images/res11-eps-convert
 ed-to.pdf ./Images/res11.eps>
-(epstopdf)             \includegraphics on input line 270.
+(epstopdf)             \includegraphics on input line 344.
 Package epstopdf Info: Output file is already uptodate.
 
-<./Images/res11-eps-converted-to.pdf, id=30, 602.25pt x 404.51125pt>
+<./Images/res11-eps-converted-to.pdf, id=40, 602.25pt x 404.51125pt>
 File: ./Images/res11-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./Images/res11-eps-converted-to.pdf>
 Package pdftex.def Info: ./Images/res11-eps-converted-to.pdf used on input line
- 270.
+ 344.
 (pdftex.def)             Requested size: 206.69333pt x 138.82819pt.
 Package epstopdf Info: Source file: <./Images/res2.eps>
 (epstopdf)                    date: 2016-11-17 10:52:22
@@ -494,15 +517,15 @@ Package epstopdf Info: Source file: <./Images/res2.eps>
 (epstopdf)                    size: 145717 bytes
 (epstopdf)             Command: <repstopdf --outfile=./Images/res2-eps-converte
 d-to.pdf ./Images/res2.eps>
-(epstopdf)             \includegraphics on input line 277.
+(epstopdf)             \includegraphics on input line 351.
 Package epstopdf Info: Output file is already uptodate.
 
-<./Images/res2-eps-converted-to.pdf, id=31, 602.25pt x 404.51125pt>
+<./Images/res2-eps-converted-to.pdf, id=41, 602.25pt x 404.51125pt>
 File: ./Images/res2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./Images/res2-eps-converted-to.pdf>
 Package pdftex.def Info: ./Images/res2-eps-converted-to.pdf used on input line 
-277.
+351.
 (pdftex.def)             Requested size: 258.36667pt x 173.54141pt.
 Package epstopdf Info: Source file: <./Images/res21.eps>
 (epstopdf)                    date: 2016-11-17 10:52:22
@@ -512,15 +535,15 @@ Package epstopdf Info: Source file: <./Images/res21.eps>
 (epstopdf)                    size: 182004 bytes
 (epstopdf)             Command: <repstopdf --outfile=./Images/res21-eps-convert
 ed-to.pdf ./Images/res21.eps>
-(epstopdf)             \includegraphics on input line 278.
+(epstopdf)             \includegraphics on input line 352.
 Package epstopdf Info: Output file is already uptodate.
 
-<./Images/res21-eps-converted-to.pdf, id=32, 602.25pt x 404.51125pt>
+<./Images/res21-eps-converted-to.pdf, id=42, 602.25pt x 404.51125pt>
 File: ./Images/res21-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./Images/res21-eps-converted-to.pdf>
 Package pdftex.def Info: ./Images/res21-eps-converted-to.pdf used on input line
- 278.
+ 352.
 (pdftex.def)             Requested size: 206.69333pt x 138.82819pt.
 Package epstopdf Info: Source file: <./Images/res3.eps>
 (epstopdf)                    date: 2016-11-17 10:52:22
@@ -530,15 +553,15 @@ Package epstopdf Info: Source file: <./Images/res3.eps>
 (epstopdf)                    size: 137529 bytes
 (epstopdf)             Command: <repstopdf --outfile=./Images/res3-eps-converte
 d-to.pdf ./Images/res3.eps>
-(epstopdf)             \includegraphics on input line 285.
+(epstopdf)             \includegraphics on input line 359.
 Package epstopdf Info: Output file is already uptodate.
 
-<./Images/res3-eps-converted-to.pdf, id=33, 602.25pt x 404.51125pt>
+<./Images/res3-eps-converted-to.pdf, id=43, 602.25pt x 404.51125pt>
 File: ./Images/res3-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./Images/res3-eps-converted-to.pdf>
 Package pdftex.def Info: ./Images/res3-eps-converted-to.pdf used on input line 
-285.
+359.
 (pdftex.def)             Requested size: 258.36667pt x 173.54141pt.
 Package epstopdf Info: Source file: <./Images/res31.eps>
 (epstopdf)                    date: 2016-11-17 10:52:22
@@ -548,28 +571,28 @@ Package epstopdf Info: Source file: <./Images/res31.eps>
 (epstopdf)                    size: 179773 bytes
 (epstopdf)             Command: <repstopdf --outfile=./Images/res31-eps-convert
 ed-to.pdf ./Images/res31.eps>
-(epstopdf)             \includegraphics on input line 286.
+(epstopdf)             \includegraphics on input line 360.
 Package epstopdf Info: Output file is already uptodate.
 
-<./Images/res31-eps-converted-to.pdf, id=34, 602.25pt x 404.51125pt>
+<./Images/res31-eps-converted-to.pdf, id=44, 602.25pt x 404.51125pt>
 File: ./Images/res31-eps-converted-to.pdf Graphic file (type pdf)
 
 <use ./Images/res31-eps-converted-to.pdf>
 Package pdftex.def Info: ./Images/res31-eps-converted-to.pdf used on input line
- 286.
+ 360.
 (pdftex.def)             Requested size: 206.69333pt x 138.82819pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 293--294
+Underfull \hbox (badness 10000) in paragraph at lines 367--368
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 295--296
+Underfull \hbox (badness 10000) in paragraph at lines 369--370
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 297--298
+Underfull \hbox (badness 10000) in paragraph at lines 371--372
 
  []
 
@@ -579,9 +602,9 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[6]
+[8]
 
-LaTeX Warning: Text page 7 contains only floats.
+LaTeX Warning: Text page 9 contains only floats.
 
 
 Overfull \vbox (2.54163pt too high) has occurred while \output is active []
@@ -593,164 +616,32 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[7 <./Images/res1-eps-converted-to.pdf> <./Images/res11-eps-converted-to.pdf> <
+[9 <./Images/res1-eps-converted-to.pdf> <./Images/res11-eps-converted-to.pdf> <
 ./Images/res2-eps-converted-to.pdf> <./Images/res21-eps-converted-to.pdf> <./Im
 ages/res3-eps-converted-to.pdf> <./Images/res31-eps-converted-to.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 299--300
+Underfull \hbox (badness 10000) in paragraph at lines 373--374
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 301--302
+Underfull \hbox (badness 10000) in paragraph at lines 375--376
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 303--307
+Underfull \hbox (badness 10000) in paragraph at lines 377--381
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 308--312
+Underfull \hbox (badness 10000) in paragraph at lines 382--386
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 313--314
+Underfull \hbox (badness 10000) in paragraph at lines 387--388
 
  []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 315--316
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 317--318
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 319--320
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 321--322
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 326--327
-
- []
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[8]
-Underfull \hbox (badness 10000) in paragraph at lines 328--329
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 330--331
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 332--333
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 334--335
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 338--339
-
- []
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[9]
-Underfull \hbox (badness 10000) in paragraph at lines 347--348
-
- []
-
-<Images/pred.pdf, id=94, 722.7pt x 433.62pt>
-File: Images/pred.pdf Graphic file (type pdf)
- <use Images/pred.pdf>
-Package pdftex.def Info: Images/pred.pdf used on input line 351.
-(pdftex.def)             Requested size: 455.24408pt x 273.14896pt.
-
-<Images/var.pdf, id=95, 722.7pt x 433.62pt>
-File: Images/var.pdf Graphic file (type pdf)
- <use Images/var.pdf>
-Package pdftex.def Info: Images/var.pdf used on input line 357.
-(pdftex.def)             Requested size: 455.24408pt x 273.14896pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<Images/data_grid.png, id=96, 1003.75pt x 673.51625pt>
-File: Images/data_grid.png Graphic file (type png)
-
-<use Images/data_grid.png>
-Package pdftex.def Info: Images/data_grid.png used on input line 363.
-(pdftex.def)             Requested size: 455.24408pt x 305.47406pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 367--368
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 369--370
-
- []
-
-<Images/pred_newgrid.pdf, id=98, 722.7pt x 433.62pt>
-File: Images/pred_newgrid.pdf Graphic file (type pdf)
-
-<use Images/pred_newgrid.pdf>
-Package pdftex.def Info: Images/pred_newgrid.pdf used on input line 373.
-(pdftex.def)             Requested size: 455.24408pt x 273.14896pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<Images/var_newgrid.pdf, id=99, 722.7pt x 433.62pt>
-File: Images/var_newgrid.pdf Graphic file (type pdf)
-
-<use Images/var_newgrid.pdf>
-Package pdftex.def Info: Images/var_newgrid.pdf used on input line 379.
-(pdftex.def)             Requested size: 455.24408pt x 273.14896pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<Images/data_grid_new.png, id=100, 1003.75pt x 673.51625pt>
-File: Images/data_grid_new.png Graphic file (type png)
-
-<use Images/data_grid_new.png>
-Package pdftex.def Info: Images/data_grid_new.png used on input line 385.
-(pdftex.def)             Requested size: 455.24408pt x 305.47406pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 389--390
@@ -763,18 +654,201 @@ Underfull \hbox (badness 10000) in paragraph at lines 391--392
  []
 
 
+Underfull \hbox (badness 10000) in paragraph at lines 393--394
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 395--396
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 400--401
+
+ []
+
+
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[10 <./Images/pred.pdf>]
-<Images/Residuals_for_smoothing.pdf, id=338, 348.30125pt x 298.11375pt>
+[10]
+Underfull \hbox (badness 10000) in paragraph at lines 402--403
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 404--405
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 406--407
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 408--409
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 410--413
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 414--415
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 416--419
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 420--425
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 426--427
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 428--434
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 436--438
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[11]
+Underfull \hbox (badness 10000) in paragraph at lines 455--456
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 457--458
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 459--460
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[12]
+Underfull \hbox (badness 10000) in paragraph at lines 467--468
+
+ []
+
+<Images/pred.pdf, id=104, 722.7pt x 433.62pt>
+File: Images/pred.pdf Graphic file (type pdf)
+ <use Images/pred.pdf>
+Package pdftex.def Info: Images/pred.pdf used on input line 471.
+(pdftex.def)             Requested size: 455.24408pt x 273.14896pt.
+
+<Images/var.pdf, id=105, 722.7pt x 433.62pt>
+File: Images/var.pdf Graphic file (type pdf)
+ <use Images/var.pdf>
+Package pdftex.def Info: Images/var.pdf used on input line 477.
+(pdftex.def)             Requested size: 455.24408pt x 273.14896pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<Images/data_grid.png, id=106, 1003.75pt x 673.51625pt>
+File: Images/data_grid.png Graphic file (type png)
+
+<use Images/data_grid.png>
+Package pdftex.def Info: Images/data_grid.png used on input line 483.
+(pdftex.def)             Requested size: 455.24408pt x 305.47406pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 487--488
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 489--490
+
+ []
+
+<Images/pred_newgrid.pdf, id=108, 722.7pt x 433.62pt>
+File: Images/pred_newgrid.pdf Graphic file (type pdf)
+
+<use Images/pred_newgrid.pdf>
+Package pdftex.def Info: Images/pred_newgrid.pdf used on input line 493.
+(pdftex.def)             Requested size: 455.24408pt x 273.14896pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<Images/var_newgrid.pdf, id=109, 722.7pt x 433.62pt>
+File: Images/var_newgrid.pdf Graphic file (type pdf)
+
+<use Images/var_newgrid.pdf>
+Package pdftex.def Info: Images/var_newgrid.pdf used on input line 499.
+(pdftex.def)             Requested size: 455.24408pt x 273.14896pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<Images/data_grid_new.png, id=110, 1003.75pt x 673.51625pt>
+File: Images/data_grid_new.png Graphic file (type png)
+
+<use Images/data_grid_new.png>
+Package pdftex.def Info: Images/data_grid_new.png used on input line 505.
+(pdftex.def)             Requested size: 455.24408pt x 305.47406pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 509--510
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 511--512
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[13 <./Images/pred.pdf>]
+<Images/Residuals_for_smoothing.pdf, id=349, 348.30125pt x 298.11375pt>
 File: Images/Residuals_for_smoothing.pdf Graphic file (type pdf)
 
 <use Images/Residuals_for_smoothing.pdf>
 Package pdftex.def Info: Images/Residuals_for_smoothing.pdf used on input line 
-395.
+515.
 (pdftex.def)             Requested size: 256.0748pt x 219.18602pt.
 
 
@@ -786,8 +860,8 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[11 <./Images/var.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 407--408
+[14 <./Images/var.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 527--528
 
  []
 
@@ -797,9 +871,9 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[12 <./Images/data_grid.png>]
+[15 <./Images/data_grid.png>]
 
-LaTeX Warning: Text page 13 contains only floats.
+LaTeX Warning: Text page 16 contains only floats.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -807,8 +881,8 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[13 <./Images/pred_newgrid.pdf> <./Images/var_newgrid.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 417--418
+[16 <./Images/pred_newgrid.pdf> <./Images/var_newgrid.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 537--538
 
  []
 
@@ -822,7 +896,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[14 <./Images/data_grid_new.png> <./Images/Residuals_for_smoothing.pdf>]
+[17 <./Images/data_grid_new.png> <./Images/Residuals_for_smoothing.pdf>]
 
 AED: lastpage setting LastPage
 
@@ -831,15 +905,15 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[15] (./385_BigData_FinalProject_Paulon_Starling_Fall2016.aux) ) 
+[18] (./385_BigData_FinalProject_Paulon_Starling_Fall2016.aux) ) 
 Here is how much of TeX's memory you used:
- 5162 strings out of 493089
- 75115 string characters out of 6134842
+ 5166 strings out of 493089
+ 75153 string characters out of 6134842
  178714 words of memory out of 5000000
- 8512 multiletter control sequences out of 15000+600000
+ 8516 multiletter control sequences out of 15000+600000
  15081 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,12n,43p,861b,242s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,19n,43p,861b,242s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/tex
 live/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texl
 ive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texli
@@ -852,12 +926,13 @@ e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2015/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2015/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2015/texmf
--dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on 385_BigData_FinalProject_Paulon_Starling_Fall2016.pdf (15 pag
-es, 4699160 bytes).
+-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2015/texmf-d
+ist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on 385_BigData_FinalProject_Paulon_Starling_Fall2016.pdf (18 pag
+es, 4720213 bytes).
 PDF statistics:
- 1061 PDF objects out of 1200 (max. 8388607)
- 983 compressed objects within 10 object streams
+ 1074 PDF objects out of 1200 (max. 8388607)
+ 992 compressed objects within 10 object streams
  0 named destinations out of 1000 (max. 500000)
  81 words of extra memory for PDF output out of 10000 (max. 10000000)
 
