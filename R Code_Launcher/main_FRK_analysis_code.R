@@ -98,7 +98,8 @@ plot(df$temp,df$y,pch=20) #Plot y versus temperature.
 #####################################################
 
 #Data y is in form of Poisson counts.
-hist(df$y)
+par(mar=c(4,4,2,2))
+hist(df$y, col = 'gray')
 #Performing Anscombe variance-stabilizing transform to normalize counts.
 y.norm = 2*sqrt(df$y + 3/8)
 hist(y.norm)
@@ -106,7 +107,7 @@ hist(y.norm)
 #De-trend the mean.
 mean.to.add = mean(y.norm)
 y.norm = y.norm - mean(y.norm)
-hist(y.norm)
+hist(y.norm, col = 'gray', freq = T, xlab = bquote(y[norm]), main = bquote(Histogram~of~y[norm]))
 
 #Add y.norm to data frame.
 df$y.norm = y.norm
@@ -142,7 +143,7 @@ scale <- c(1E-2, 7E-3, 5E-3)
 # r3 <- dim(level3)[1]
 # 
 # z <- rowSums(S[,(r1+r2+1):(r1+r2+r3)])
-# z <- S[,30]
+# z <- S[,35]
 # z <- matrix(z, fine.grid, fine.grid, byrow = T)
 # 
 # # Define colors
@@ -308,8 +309,8 @@ ggmap(bw.map) +
 
 #Plot histogram of residuals for normality.
 #Note: for smoothing only.
-hist(results.Smooth[,4] - results.Smooth[,3],xlab='Residuals',ylab='Frequency',
-     main='Residuals for Smoothed Data')
+hist(results.Smooth[,4] - results.Smooth[,3],xlab=bquote(y[norm] - hat(y)[norm]),
+     main='Histogram of the residuals for Smoothed Data', col = 'gray')
 
 #Plot Kriging Variances boxplot:
 boxplot(frkPred$sig2FRK)
