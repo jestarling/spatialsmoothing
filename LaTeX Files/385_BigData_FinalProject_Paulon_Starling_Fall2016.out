@@ -1,0 +1,12 @@
+\BOOKMARK [1][-]{section*.1}{1. Introduction}{}% 1
+\BOOKMARK [1][-]{section*.2}{2. Method}{}% 2
+\BOOKMARK [2][-]{section*.3}{Method Description}{section*.2}% 3
+\BOOKMARK [2][-]{section*.4}{Data Exploration and De-trending}{section*.2}% 4
+\BOOKMARK [2][-]{section*.5}{Basis Function Generation}{section*.2}% 5
+\BOOKMARK [2][-]{section*.6}{Estimation of 2 via Semivariogram}{section*.2}% 6
+\BOOKMARK [2][-]{section*.7}{Estimation of 2 and K via EM Algorithm}{section*.2}% 7
+\BOOKMARK [2][-]{section*.8}{Fixed Rank Kriging: Smoothing and Prediction}{section*.2}% 8
+\BOOKMARK [1][-]{section*.9}{3. Results}{}% 9
+\BOOKMARK [1][-]{section*.10}{4. Discussion}{}% 10
+\BOOKMARK [1][-]{section*.11}{5. R Code Appendix}{}% 11
+\BOOKMARK [2][-]{section*.12}{Documentation Source}{section*.11}% 12

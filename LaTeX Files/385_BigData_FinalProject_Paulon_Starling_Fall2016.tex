@@ -174,15 +174,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 
-Here we apply the Fixed Rank Kriging method, as described by Katzfuss and Cressie in their 2011 paper "Tutorial on Fixed Rank Kriging of CO2 Data", to continuous spatial data consisting of gamma radiation measurements over the University of Texas at Austin campus.  
+Here we apply the Fixed Rank Kriging method, as described by Katzfuss and Cressie in their 2011 paper ``Tutorial on Fixed Rank Kriging of CO2 Data'', to continuous spatial data consisting of gamma radiation measurements over the University of Texas at Austin campus.  
 
 \section{1. Introduction}
 
-Kriging is a general technique for interpolating a response variable over a geospatial region, where the response has been observed at a limited number of locations within the region, and measurement error is present.  Kriging allows us to predict the response on a fine mesh grid over the region. There are various methods of Kriging.  The most basic technique, 'Ordinary Kriging', uses a weighted average of surrounding observations to predict the estimated response at the new location.  A semi-variogram is used to optimize the weights.  \\
+Kriging is a general technique for interpolating a response variable over a geospatial region, where the response has been observed at a limited number of locations within the region, and measurement error is present.  Kriging allows us to predict the response on a fine mesh grid over the region. There are various methods of Kriging.  The most basic technique, `Ordinary Kriging', uses a weighted average of surrounding observations to predict the estimated response at the new location.  A semi-variogram is used to optimize the weights.  \\
 
-Traditional kriging methods are computationally intractible in the big data setting, as they  require inversion of the covariance matrix of the observed data set.  With $n$ observations, the efficiency of the inversion is $O(n^3)$.  With data sets ranging from $n$ in the tens of thousands to millions, covariance matrix inversion quickly becomes unscalable. \\
+Traditional kriging methods are computationally intractible in the big data setting, as they  require inversion of the covariance matrix of the observed data set.  With $n$ observations, the efficiency of the inversion is $\mathcal{O}(n^3)$. With data sets ranging from $n$ in the tens of thousands to millions, covariance matrix inversion quickly becomes unscalable. \\
 
-Katfuss and Cressie describe a variation on the traditional techniques called Fixed Rank Kriging (FRK).  This technique was originally presented by Cressie and Johnanneson (2008).  Fixed Rank Kriging relies on dimension reduction by way of basis functions; the response is modeled using a combinations of basis functions and fine-scale variance.  This results in a covariance matrix which is the dimension of the number of basis functions used.  In order for Fixed Rank Kriging to be computationally efficient compared to traditional kriging methods, the number of basis functions must be considerably smaller than the number of total observations in the data set.  This is easily managed; Katzfuss and Cressie model CO2 readings over the entire globe using 396 basis functions of varying resolutions.  \\
+Katfuss and Cressie describe a variation of the traditional techniques called Fixed Rank Kriging (FRK). This technique was originally presented by Cressie and Johnanneson (2008).  Fixed Rank Kriging relies on dimension reduction by way of basis functions; the covariance structure of the data is modeled using a combinations of basis functions and fine-scale variance.  This results in an approximated covariance matrix which has the dimension of the number of basis functions used.  In order for Fixed Rank Kriging to be computationally efficient compared to traditional kriging methods, the number of basis functions must be considerably smaller than the number of total observations in the data set.  This is easily managed: Katzfuss and Cressie, for example, model CO2 readings over the entire globe using $396$ basis functions of varying resolutions.  \\
 
 Here we apply the Fixed Rank Kriging data to a large data set of gamma-radiation readings from the University of Texas at Austin campus.  The data is spatio-temporal in nature; here we focus on modeling only the spatial aspect of the data.  We follow the analysis steps laid out in the Katzfuss and Cressie tutorial, including an exploratory analysis of the data. \\
 
@@ -198,7 +198,7 @@ We follow the method described by Katzfuss and Cressie, outlined as follows. \\
 $\bullet$ Data exploration and de-trending. \\
 $\bullet$ Estimation of basis functions. \\
 $\bullet$ Estimation of $\sigma^2_\epsilon$ via semivariogram. \\
-$\bullet$ Estimation of covariance matrix $K$ and $\sigma^2_\psi$ via EM algorithm. \\
+$\bullet$ Estimation of covariance matrix $K$ and $\sigma^2_\xi$ via EM algorithm. \\
 $\bullet$ Fixed-rank Kriging calculations. \\
 $\bullet$ Estimation of FRK variance. \\
 
@@ -261,7 +261,7 @@ where
 \end{split}
 \label{eq:sre2}
 \end{equation}
-where $K$ is a $r \times r$ matrix. In this latter expression $\xi(\cdot)$ represents the fine scale variation process that accounts for the error introduced by the dimension reduction. In the following we assume that $V_\xi (\cdot)$ is constant, whereas $K$ and $\sigma_\xi^2$ are estimated by the data via the EM algorithm presented in the following section. It is easy to see that a consequence of \eqref{eq:sre1} - \eqref{eq:sre2} is that the matrix of the covariance structure $C$ can be written as 
+and $K$ is a $r \times r$ matrix. In this latter expression $\xi(\cdot)$ represents the fine scale variation process that accounts for the error introduced by the dimension reduction. In the following we assume that $V_\xi (\cdot)$ is constant, whereas $K$ and $\sigma_\xi^2$ are estimated by the data via the EM algorithm presented in the following section. It is easy to see that a consequence of \eqref{eq:sre1} - \eqref{eq:sre2} is that the matrix of the covariance structure $C$ can be written as 
 \begin{equation*}
 C (\bm{u}, \bm{v}) = \bm{S}(\bm{u}) K \bm{S}(\bm{v})^T + \sigma_\xi^2, \quad \bm{u}, \bm{v} \in \mathbb{R}^2
 \end{equation*}
@@ -288,45 +288,50 @@ We include several preparatory steps before formally beginning the Fixed Rank Kr
 
 \underline{De-Trending}\\
 
-The first step is to select a subset of the original data, limited to the latitudes and longitudes containing the University of Texas campus.  The data set contains several outliers, including measurements which appear to be from San Antonio.  These outliers are excluded. \\
+The first step is to select a subset of the original data, limited to the latitudes and longitudes containing the University of Texas campus.  The raw data set contains several outliers, including measurements which appear to be located in San Antonio.  These outliers are excluded, obtaining the data shown in Figure \ref{fig:1}. \\
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=90mm,keepaspectratio]{Images/original_data_plot.jpg}
-\caption{Observed data \label{fig:1}}
+\includegraphics[width=0.7\columnwidth]{Images/original_data_plot.jpg}
+\caption{Observed data.}
+\label{fig:1}
 \end{figure}
 
-Second, Katzfuss and Cressie suggest de-trending to adjust for any large-scale spatial variation and any key covariates.  We plotted the raw data versus longitude, latitude, and temperature.  The data do not show any trend by latitude or longitude, ruling out deterministic trends.  There is a trend by temperature, which is not surprising as lower temperatures may affect the accuracy of the radiation measurements. \\
+Second, Katzfuss and Cressie suggest de-trending to adjust for any large-scale spatial variation and any key covariates.  We plotted the raw data versus longitude, latitude, and temperature in Figure \ref{fig:2}.  The data do not show any trend by latitude or longitude, ruling out deterministic trends.  There is a trend by temperature, which is not surprising as lower temperatures may affect the accuracy of the radiation measurements. \\
 
 We chose not to de-trend the data by temperature, as this introduced strange patterns in the data when plotted by latitude and longitude. \\
 
+\textcolor{red}{Explain better / fit a linear model? Or do a better descriptive / change plots.}
+
 \begin{figure}[H]
 \centering
-\includegraphics[width=70mm,keepaspectratio]{Images/detrending_plots.jpg}
-\caption{Data by Latitude, Longitude and Temperature \label{fig:2}}
+\includegraphics[width=0.45\columnwidth]{Images/detrending_plots.jpg}
+\caption{Data by Latitude, Longitude and Temperature.}
+\label{fig:2}
 \end{figure}
 
 \underline{Transformation to Normality}\\
-Third, Katzfuss and Cressie recommend that the data be checked for approximate normality and transformed if necessary.  The radiation data is in the form of counts (intensity measurements) and is likely Poisson, so we use an Anscombe transformation to induce normality.  A histogram of the normalized observations $(y.norm)$ confirm this transformation was successful.  Note that Anscombe back-transformations can lead to a biased result, and so we use the following transform and back-transform. \\
+Third, Katzfuss and Cressie recommend the data to be checked for approximate normality and transformed if necessary.  The radiation data is in the form of counts (intensity measurements) and is likely to be Poisson distributed, so we use an Anscombe transformation to induce normality.  A histogram of the normalized observations (see Figure \ref{fig:3}) confirms this transformation was successful.  Note that Anscombe back-transformations can lead to a biased result, and so we use the following transform and back-transform. \\
 
-\myindent $x \rightarrow 2\sqrt(x + \frac{3}{8})$\\
+\myindent $x \rightarrow 2\sqrt{x + \frac{3}{8}}$\\
 \myindent $y \rightarrow \left(\frac{y}{2}\right)^2 - \frac{1}{8}$ 
 \myindent (instead of the direct algebraic inverse, where $\frac{3}{8}$ is subtracted.)
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=90mm,keepaspectratio]{Images/histogram_ynorm.jpg}
-\caption{Anscombe-Transformed Responses \label{fig:3}}
+\includegraphics[width=0.5\columnwidth]{Images/histogram_ynorm}
+\caption{Anscombe-Transformed Responses.}
+\label{fig:3}
 \end{figure}
 
 \newpage
 \subsection{Basis Function Generation}
 
-The choice of the basis functions is a very important step in the model specification for FRK. In fact, the matrix $S$ allows us to represent the covariance structure as a linear combination of some basis function $S_1(\bm{u}), \dots, S_r(\bm{u})$, which results in a loss of information with respect to the full covariance representation.
+The choice of the basis functions is a very important step in the model specification for FRK. In fact, the matrix $S$ allows us to represent the covariance structure as a linear combination of some basis function $S_1(\bm{u}), \dots, S_r(\bm{u})$, which results in a loss of information with respect to the full covariance representation. \\
 
-The choice of the basis functions has to combine two goals. First of all, we should choose a number of basis functions $r \ll n$ in order to see an actual gain in terms of computational efficiency. Moreover, the basis functions have to be multiresolutional, that is, they should be allowed to capture multiple scales of variation in the covariance structure. In practice, there are a few smooth basis functions with large support (the limit case is the constant basis function, that is already implied in the centering step), and many spiky basis functions with small support. 
+The choice of the basis functions has to combine two goals. First of all, we should choose a number of basis functions $r \ll n$ in order to see an actual gain in terms of computational efficiency. Moreover, the basis functions have to be multiresolutional, that is, they should be allowed to capture multiple scales of variation in the covariance structure. In practice, there are a few smooth basis functions with large support (the limit case is the constant basis function, that is already implied in the centering step), and many spiky basis functions with small support. \\
 
-The choice of the basis functions involves three separate problem: the choice of the type, the number $r$ and the locations. The basis functions do not have to be necessarily orthogonal. In this work, we use bisquare functions, i.e. functions of the form
+The choice of the basis functions involves three separate problems: the choice of the \textit{type}, the \textit{number} $r$ and the \textit{locations}. The basis functions do not have to be necessarily orthogonal. In this work, we use bisquare functions, i.e. functions of the form
 \begin{equation*}
 f(r) = \begin{cases}
 \left[ 1 - \left( \frac{r}{c} \right)^2 \right]^2 & r \leq c
@@ -334,17 +339,15 @@ f(r) = \begin{cases}
 0 & r > c
 \end{cases}
 \end{equation*}
-where $c$ represents the resolution of the function and $r$ is the euclidean distance of the coordinate from the center of the function. The number of basis functions $r$ is chosen heuristically, in such a way that it can represent well the domain but that it does not compromise the performance of the algorithm. As far as the locations are concerned, they should cover as much as possible the spatial domain of interest (the prediction grid), and they should not overlap for different basis functions.
+where $c$ represents the resolution of the function and $r$ is the euclidean distance of the coordinate from the center of the function. The number of basis functions $r$ is chosen heuristically, in such a way that it can represent well the domain but that it does not compromise the performance of the algorithm. As far as the locations are concerned, they should cover as much as possible the spatial domain of interest (the prediction grid), and they should not overlap for different basis functions.\\
 
-In this work we use a total of $r = $ basis functions with three different resolutions. In particular, $r_1 = 9$ functions have a low resolution $c_1 = 5 \cdot 10^{-3}$, $r_2 = 16$ functions have an intermediate resolution $c_2 = 2 \cdot 10^{-3}$ and $r_3 = 25$ functions have a high resolution $c_3 = 10^{-3}$. 
-
-\textbf{Check and try again to use resolution = 1.5 times the shortest distance between the center of any of the functions with that resolution [see Cressie, pag 6].}
+In this work we use a total of $r = 50$ basis functions with three different resolutions. In particular, $r_1 = 9$ functions have a low resolution $c_1 = 10^{-2}$, $r_2 = 16$ functions have an intermediate resolution $c_2 = 7 \cdot 10^{-3}$ and $r_3 = 25$ functions have a high resolution $c_3 = 5 \cdot 10^{-3}$. In order to choose the basis resolution, we followed Cressie's rule, which consists in setting it equal to $1.5$ times the shortest distance between the centers of any of the functions with that resolution. In Figure \ref{fig:res1} - \ref{fig:res3} some examples of basis functions are illustrated.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.55\columnwidth]{./Images/res1}
 \includegraphics[width=0.44\columnwidth]{./Images/res11}
-\caption{}
+\caption{Example of low resolution basis function.}
 \label{fig:res1}
 \end{figure}
 
@@ -352,7 +355,7 @@ In this work we use a total of $r = $ basis functions with three different resol
 \centering
 \includegraphics[width=0.55\columnwidth]{./Images/res2}
 \includegraphics[width=0.44\columnwidth]{./Images/res21}
-\caption{}
+\caption{Example of intermediate resolution basis function.}
 \label{fig:res2}
 \end{figure}
 
@@ -360,7 +363,7 @@ In this work we use a total of $r = $ basis functions with three different resol
 \centering
 \includegraphics[width=0.55\columnwidth]{./Images/res3}
 \includegraphics[width=0.44\columnwidth]{./Images/res31}
-\caption{}
+\caption{Example of high resolution basis function.}
 \label{fig:res3}
 \end{figure}
 
@@ -368,18 +371,16 @@ In this work we use a total of $r = $ basis functions with three different resol
 
 The FRK model specifies that $n$ measurements are modeled as $Z(s_i) = Y(s_i) + \epsilon(s_i)$, where $s_i$ are locations in the region of interest, and $\epsilon(s_i)$ is additive measurement error.\\
 
-As detailed above, the measurement error is assumed to be independent of $Y(s_i)$ and normally distributed as $\epsilon(s_i) \sim N(0,\sigma^2_\epsilon \nu_\epsilon (s_i))$.  The $\nu_\epsilon (s_i)$ component is a function that is assumed to be known, which describes the random spatial variation.  As with the CO2 data, we assume $\nu_\epsilon (s_i)$ is a constant function equal to 1 at every location, as we assume that random spatial variation is constant over the campus. \\
+As detailed above, the measurement error is assumed to be independent of $Y(s_i)$ and normally distributed as $\epsilon(s_i) \sim N(0,\sigma^2_\epsilon v_\epsilon (s_i))$.  The $v_\epsilon (s_i)$ component is a function that is assumed to be known, which describes the random spatial variation.  As with the CO2 data, we assume $v_\epsilon (s_i)$ is a constant function equal to 1 at every location, as we assume that random spatial variation is constant over the campus. \\
 
-This leaves us with $\sigma^2_\epsilon$ to estimate. \\
+This leaves us with $\sigma^2_\epsilon$ to estimate. Katzfuss and Cressie note that $\sigma^2_\epsilon$ may be specified in advance, if there is previous knowledge about measurement error for the instrument being used.  We do not assume prior knowledge of $\sigma^2_\epsilon$. \\
 
-Katzfuss and Cressie note that $\sigma^2_\epsilon$ may be specified in advance, if there is previous knowledge about measurement error for the instrument being used.  We do not assume prior knowledge of $\sigma^2_\epsilon$. \\
+The semivariogram estimation method presented in Katzfuss and Cressie is known as the `Robust Cressie Variogram'.  \\
 
-The semivariogram estimation method presented in Katzfuss and Cressie is known as the 'Robust Cressie Variogram.'  \\
-
-\myindent $\bullet$ $2\gamma(h) = \left( \frac{1}{|N(h)|} \sum_{N(h)}|
-\frac{\tilde{Z}(s_i)}{\sqrt{\nu_\epsilon (s_i)}} - 
-\frac{\tilde{Z}(s_j)}{\sqrt{\nu_\epsilon (s_j)}} - 
-|^{.5} \right)^4 / \left(0.457 + 0.494 / |N(h)|\right)$ \\
+\myindent $\bullet$ $2\gamma(h) = \left( \frac{1}{|N(h)|} \sum_{N(h)} \biggr\rvert
+\frac{\tilde{Z}(s_i)}{\sqrt{v_\epsilon (s_i)}} - 
+\frac{\tilde{Z}(s_j)}{\sqrt{v_\epsilon (s_j)}} - 
+\biggr\rvert^{1/2} \right)^4 / \left(0.457 + 0.494 / |N(h)|\right)$ \\
 
 \myindent\myindent where: \\
 \myindent \myindent  $\tilde{Z}(s_i)$ are the normalized, de-trended data. \\
@@ -388,51 +389,47 @@ The semivariogram estimation method presented in Katzfuss and Cressie is known a
 
 \myindent $\bullet$ Then straight line $\hat{\gamma}(h) = \hat{\gamma}(0) + bh$ is fit, and $\sigma^2_\epsilon = \hat{\gamma}(0)$.\\
 
-(For further detail on this methodology, see Cressie and Hawkins (1980), Cressie (1985), and Kang et al. (2010). \\
+For further detail on this methodology, see Cressie and Hawkins (1980), Cressie (1985), and Kang et al. (2010). We use this method to estimate a semi-variogram for the data, and then fit a straight line to the semivariogram and let $\hat{\sigma}^2_\epsilon$ be equal to the intercept.  Our resulting estimate is $\hat{\sigma}^2_\epsilon$ = 106.3635. \\
 
-We use this method to estimate a semi-variogram for the data, and then fit a straight line to the semivariogram and let $\hat{\sigma}^2_\epsilon$ be equal to the intercept.  Our resulting estimate is $\hat{\sigma}^2_\epsilon$ = 106.3635. \\
+We did remove the police station measurements in the calculation of this semivariogram.  The police car carrying the measurement device parked in the police station lot overnight, so there were a disproportionate number of measurements at this location, including specifically night-time measurements where cooler temperatures mean the measurement device is more prone to error. \\
 
-We did remove the police station measurements in the calculation of this semivariogram.  The police car carrying the measurement device parked in the police station lot overnight, so there were a disproportionate number of measurements at this location, including specifically nighttime measurements where cooler temperatures mean the measurement device is more prone to error. \\
-
-This was considerably higher than the estimate obtained for the Katzfuss and Cressie simulated CO2 data.  However, their data was simulated with $\sigma2_\epsilon = 0.25$, and our normalized data has a range of -51 to 54, with a total variance of 287, so our result is reasonable. To check reasonableness, we split the region of interest into four quadrants and calculated semivariograms for each quandrant to ensure that they yielded comparable $\hat{\sigma}^2_\epsilon$ estimates. Estimates were similar in all regions, and did not differ significantly from the overall estimate.   The data is known to have some outliers which affect the variance.\\
+Our estimate was considerably higher than the estimate obtained for the Katzfuss and Cressie simulated CO2 data.  However, their data was simulated with $\sigma^2_\epsilon = 0.25$. Our normalized data, instead, has a range of $-51$ to $54$, with a total variance of around $287$, so our result is reasonable. To check reasonableness, we split the region of interest into four quadrants and calculated semivariograms for each quandrant to ensure that they yielded comparable $\hat{\sigma}^2_\epsilon$ estimates. Estimates were similar in all regions, and did not differ significantly from the overall estimate.   The data is known to have some outliers which affect the variance.\\
 
 
 \subsection{Estimation of $\sigma^2_{\xi}$ and $K$ via EM Algorithm}
 
 The next step of the Fixed Rank Kriging process is to estimate the parameters $\sigma^2_{\xi}$ and $K$.  \\
 
-As described above, $K$ is the $(r x r)$ covariance matrix, where $r$ is the number of basis functions selected.  $K$ represents the covariance in the spatial-random-effects (SRE) model.\\
+As described above, $K$ is the $r \times r$ covariance matrix, where $r$ is the number of basis functions selected.  $K$ represents the covariance in the spatial-random-effects (SRE) model. $\sigma^2_{\xi}$ is the fine-scale variance in the SRE model, accounting for error introduced to the model through the dimension reduction. \\
 
-$\sigma^2_{\xi}$ is the fine-scale variance in the SRE model, accounting for error introduced to the model through the dimension reduction. \\
-
-Katzfuss and Cressie suggest two methods for estimating these parameters: Method of Moments and the EM Algorithm.  We have implemented the EM algorithm to estimate these values.\\
+Katzfuss and Cressie suggest two methods for estimating these parameters: the method of Moments and the EM Algorithm.  We have implemented the EM algorithm to estimate these values.\\
 
 \myindent $\bullet$ Begin with default choices suggested in Katzfuss and Cressie: \\
 
-\myindent \myindent $K^{[0]} = (.9)\nu ^2 I_r$ \\
-\myindent \myindent $\sigma_\xi^{2[0]} = (.1)\nu ^2 I_r$ \\
-\myindent \myindent \myindent where $\nu^2 = \tilde{Z}'\tilde{Z}/n$.\\
+\myindent \myindent $K^{[0]} = (0.9)\nu ^2 I_r$ \\
+\myindent \myindent $\sigma_\xi^{2[0]} = (0.1)\nu ^2 I_r$ \\
+\myindent \myindent \myindent where $\nu^2 = \tilde{\bm{Z}}^T\tilde{\bm{Z}}/n$.\\
 
 \myindent $\bullet$ Iteratively update the two parameters until convergence is met:\\
 
-\myindent \myindent $K^{[t+1]} = K^{[t]} - K^{[t]} S' \Sigma^{[t]-1}SK^{[t]}
-  + \left(K^{[t]}S' \Sigma^{[t]-1} \tilde{Z} \right)\left(K^{[t]}S' \Sigma^{[t]-1} \tilde{Z} \right)'$ \\
-\myindent \myindent $\sigma_\xi^{2[t+1]} = \sigma_\xi^{2[t]} + \left(\sigma_\xi^{2[t]} \right)^2 \text{tr} \left(\Sigma^{[t]-1}[\tilde{Z}\tilde{Z}'\Sigma^{[t]-1} - I_n]V_\xi \right)$\\
+\myindent \myindent $K^{[t+1]} = K^{[t]} - K^{[t]} S^T \Sigma^{[t]-1}SK^{[t]}
+  + \left(K^{[t]}S^T \Sigma^{[t]-1} \tilde{\bm{Z}} \right)\left(K^{[t]}S^T \Sigma^{[t]-1} \tilde{\bm{Z}} \right)^T$ \\
+\myindent \myindent $\sigma_\xi^{2[t+1]} = \sigma_\xi^{2[t]} + \left(\sigma_\xi^{2[t]} \right)^2 \text{tr} \left(\Sigma^{[t]-1}[\tilde{\bm{Z}}\tilde{\bm{Z}}^T\Sigma^{[t]-1} - \mathcal{I}_n]V_\xi \right)$\\
 
 \underline{Computational notes:} \\
 \myindent $\bullet$ $\Sigma^{[t]-1}$ is shorthand for $(\Sigma^{[t]})^{-1}$ \\
-\myindent $\bullet$ As discussed previously, we used the Sherman-Morrison-Woodbury formula to  \\ \myindent \myindent calculate $\Sigma^{[t]-1}$, to efficiently compute the inverse.\\
+\myindent $\bullet$ As discussed previously, we used the Sherman-Morrison-Woodbury formula to  \\ \myindent \myindent efficiently compute $\Sigma^{[t]-1}$.\\
 \myindent $\bullet$ So we let $D^{[t]} = \sigma^{2[t]}V_\xi + \sigma^2_\epsilon V_\epsilon$. \\
-\myindent $\bullet$ Then $\Sigma^{[t]-1} = D^{[t]-1} -  D^{[t]-1}S[K^{[t]-1} + SD^{[t]-1}S]^{-1}S'D^{[t]-1}$\\
+\myindent $\bullet$ Then $\Sigma^{[t]-1} = D^{[t]-1} -  D^{[t]-1}S[K^{[t]-1} + SD^{[t]-1}S]^{-1}S^TD^{[t]-1}$\\
 
 We can use these results to re-write the $\sigma_\xi^{2[t+1]}$ update in a more efficient way: \\
 
 \myindent \myindent $\sigma_\xi^{2[t+1]} = \sigma_\xi^{2[t]} 
-+ \left( \sigma_\xi^{2[t]} \right)^2 \text{tr} \left([S'D^{[t]-1}V_\xi D^{[t]-1}S][K^{[t]-1} + S'D^{[t]-1}S]^{-1} \right)/n \\ \myindent \myindent \myindent
++ \left( \sigma_\xi^{2[t]} \right)^2 \text{tr} \left([S^TD^{[t]-1}V_\xi D^{[t]-1}S][K^{[t]-1} + S^TD^{[t]-1}S]^{-1} \right)/n \\ \myindent \myindent \myindent
 - \left( \sigma_\xi^{2[t]} \right)^2 \text{tr}(D^{[t]-1}V_\xi)/n
-+ \left(\sigma_\xi^{2[t]}V_\xi \Sigma^{[t]-1} \tilde{Z}\right)' 
++ \left(\sigma_\xi^{2[t]}V_\xi \Sigma^{[t]-1} \tilde{\bm{Z}}\right)^T
 V_\xi^{-1}
-\left(\sigma_\xi^{2[t]}V_\xi \Sigma^{[t]-1} \tilde{Z}\right)/n$\\
+\left(\sigma_\xi^{2[t]}V_\xi \Sigma^{[t]-1} \tilde{\bm{Z}}\right)/n$\\
 
 
 \underline{Results:}\\
@@ -464,58 +461,66 @@ The Kriging function returns a grid of locations and estimated responses, along 
 \newpage
 \section{3. Results}
 
-Using a uniform set of basis functions, predicted kriging values are shown in the heatmap below, followed by a plot of the kriging variance. \\
+Using a the uniform set of basis functions presented in the previous section, predicted kriging values are shown in Figure \ref{fig:4}, followed by a plot of the kriging variance in Figure \ref{fig:5}. 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=120mm,keepaspectratio]{Images/pred.pdf}
-\caption{Predicted values, uniform basis \label{fig:4}}
+\includegraphics[width=0.8\columnwidth]{Images/pred.pdf}
+\caption{Predicted values, uniform basis.}
+\label{fig:4}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=120mm,keepaspectratio]{Images/var.pdf}
-\caption{FRK variance, uniform basis \label{fig:5}}
+\includegraphics[width=0.8\columnwidth]{Images/var.pdf}
+\caption{FRK variance, uniform basis.}
+\label{fig:5}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=120mm,keepaspectratio]{Images/data_grid.png}
-\caption{Observed data and basis function centers \label{fig:6}}
+\includegraphics[width=0.8\columnwidth]{Images/data_grid}
+\caption{Observed data are plotted in different shades of blue, according to their intensity. The centers of the basis function are displayed in red. The size of the dots denotes the resolution of the function (the bigger the dot, the lower the resolution).}
+\label{fig:6}
 \end{figure}
 
 We noticed an area in the top right of very high variance.  This issue is caused by very sparse observed data coverage in the top right area of the grid; there is one blue point by itself which is near East 32nd Street.  There are no other close points informing the kriging estimate in this area of the grid, and compounding the issue, there are two spiky basis centers quite close to this point. \\
 
-To address this issue, we adjusted the basis centers by removing the two spiky centers in this corner.  We justified this by noting that kriging is not intended to extrapolate into new regions without surrounding estimates to inform the prediction.  Of course a lone point is going to have a high kriging variance, when none of its neighbors are near. The result of this adjustment is below. \\
+To address this issue, we adjusted the basis centers by removing the two spiky centers in this corner.  We justified this by noting that kriging is not intended to extrapolate into new regions without surrounding estimates to inform the prediction.  Of course a lone point is going to have a high kriging variance, when none of its neighbors are near. The result of this adjustment is presented in Figure \ref{fig:7} - \ref{fig:9}.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=120mm,keepaspectratio]{Images/pred_newgrid_origscale.pdf}
-\caption{Predicted values, adjusted basis \label{fig:7}}
+\includegraphics[width=0.8\columnwidth]{Images/pred_newgrid_origscale.pdf}
+\caption{Predicted values, adjusted basis.}
+\label{fig:7}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=160mm,keepaspectratio]{Images/var_newgrid.pdf}
-\caption{FRK variance, adjusted basis \label{fig:8}}
+\includegraphics[width=0.8\columnwidth]{Images/var_newgrid.pdf}
+\caption{FRK variance, adjusted basis.}
+\label{fig:8}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=120mm,keepaspectratio]{Images/data_grid_new.png}
-\caption{Observed data and adjusted basis function centers \label{fig:9}}
+\includegraphics[width=0.8\columnwidth]{Images/data_grid_new.png}
+\caption{Observed data are plotted in different shades of blue, according to their intensity. The centers of the basis function are displayed in red. The size of the dots denotes the resolution of the function (the bigger the dot, the lower the resolution).}
+\label{fig:9}
 \end{figure}
 
-The result of this adjustment yields desirable results for the predicted data.  The kriging variance is nearly uniform across the predicted grid of locations, with the area of high variance in the top right region reduced in size.\\
+The result of this adjustment yields desirable results for the predicted data. The kriging variance is nearly uniform across the predicted grid of locations, with the area of high variance in the top right region reduced in size.\\
 
-Finally, we include a histogram of the observed versus predicted residual for the kriging function applied to the observed locations.  These values should be normally distributed to indicate goodness of model fit.\\
+Finally, in Figure \ref{fig:10}, we include a histogram of the observed versus predicted residual for the kriging function applied to the observed locations.  These values should be normally distributed to indicate goodness of model fit.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=70mm,keepaspectratio]{Images/Residuals_for_smoothing.pdf}
-\caption{Residuals \label{fig:10}}
+\includegraphics[width=0.5\columnwidth]{Images/Residuals_for_smoothing}
+\caption{Histogram of the residuals.}
+\label{fig:10}
 \end{figure}
 
+\textcolor{red}{We could also add a section about smoothing, evaluating the model via MSE?}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -526,7 +531,7 @@ Finally, we include a histogram of the observed versus predicted residual for th
 
 Our Fixed Rank Kriging results looked to be reasonable based on comparison with the underlying observed data, our knowledge of potential higher-radiation areas on campus, and based on the normality of the histogram of the residuals.  Our code was computationally efficient, executing the entire process including semivariogram estimation, basis function generation, EM algorithm calculations, and Fixed Rank Kriging computations in 18 minutes.\\
 
-To increase efficiency over a large data set, our implementation uses pre-caching and sparse matrix functionality to the extent possible.  $D^{-1}$ is stored as a sparse matrix since it is diagonal.  Computations involving matrix multiplications that always appear together in updates are pre-cached, such as $K^{[t]}S'\Sigma^{[t]-1}$.\\
+To increase efficiency over a large data set, our implementation uses pre-caching and sparse matrix functionality to the extent possible.  $D^{-1}$ is stored as a sparse matrix since it is diagonal.  Computations involving matrix multiplications that always appear together in updates are pre-cached, such as $K^{[t]}S^T\Sigma^{[t]-1}$.\\
 
 One limitation in our code is the calculation of the Fixed Rank Kriging variance in the case where the code is run for smoothing the observed values, instead of predicting over a grid of new values.  We omitted the computation of the Fixed Rank Kriging variance in the case where the function is smoothing, ie 100\% of the locations to be predicted correspond with already-observed locations.  The variance computation becomes very computationally intensive in this case, and a future area for expansion is to implement the FRK variance calculation in C++.\\
 
