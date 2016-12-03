@@ -178,13 +178,13 @@ Here we apply the Fixed Rank Kriging method, as described by Katzfuss and Cressi
 
 \section{1. Introduction}
 
-Kriging is a general technique for interpolating a response variable over a geospatial region, where the response has been observed at a limited number of locations within the region, and measurement error is present.  Kriging allows us to predict the response on a fine mesh grid over the region. There are various methods of Kriging.  The most basic technique, `Ordinary Kriging', uses a weighted average of surrounding observations to predict the estimated response at the new location.  A semi-variogram is used to optimize the weights.  \\
+Kriging is a general technique for interpolating a response variable over a geospatial region, where the response has been observed at a limited number of locations within the region, and measurement error is present.  Kriging allows us to predict the response on a fine mesh grid over the region. There are various methods of Kriging.  The most basic technique, `Ordinary Kriging', uses a weighted average of surrounding observations to predict the estimated response at the new location.  A semi-variogram is used to optimize the weights. For a comprehensive introduction to Spatial data and to the Kriging technique, see \cite{Cressiebook}.  \\
 
 Traditional kriging methods are computationally intractible in the big data setting, as they  require inversion of the covariance matrix of the observed data set.  With $n$ observations, the efficiency of the inversion is $\mathcal{O}(n^3)$. With data sets ranging from $n$ in the tens of thousands to millions, covariance matrix inversion quickly becomes unscalable. \\
 
-Katfuss and Cressie describe a variation of the traditional techniques called Fixed Rank Kriging (FRK). This technique was originally presented by Cressie and Johnanneson (2008).  Fixed Rank Kriging relies on dimension reduction by way of basis functions; the covariance structure of the data is modeled using a combinations of basis functions and fine-scale variance.  This results in an approximated covariance matrix which has the dimension of the number of basis functions used.  In order for Fixed Rank Kriging to be computationally efficient compared to traditional kriging methods, the number of basis functions must be considerably smaller than the number of total observations in the data set.  This is easily managed: Katzfuss and Cressie, for example, model CO2 readings over the entire globe using $396$ basis functions of varying resolutions.  \\
+Katfuss and Cressie describe a variation of the traditional techniques called Fixed Rank Kriging (FRK). This technique was originally presented in \cite{Cressie}.  Fixed Rank Kriging relies on dimension reduction by way of basis functions; the covariance structure of the data is modeled using a combination of basis functions and fine-scale variance.  This results in an approximated covariance matrix which has the dimension of the number of basis functions used.  In order for Fixed Rank Kriging to be computationally efficient compared to traditional kriging methods, the number of basis functions must be considerably smaller than the number of total observations in the data set.  This is easily managed: Katzfuss and Cressie, for example, model CO2 readings over the entire globe using $396$ basis functions of varying resolutions (see \cite{Katzfuss}).  \\
 
-Here we apply the Fixed Rank Kriging data to a large data set of gamma-radiation readings from the University of Texas at Austin campus.  The data is spatio-temporal in nature; here we focus on modeling only the spatial aspect of the data.  We follow the analysis steps laid out in the Katzfuss and Cressie tutorial, including an exploratory analysis of the data. \\
+Here we apply the Fixed Rank Kriging data to a large data set of gamma-radiation readings from the University of Texas at Austin campus.  The data is spatio-temporal in nature; here we focus on modeling only the spatial aspect of the data.  We follow the analysis steps laid out in \cite{Katzfuss}, including an exploratory analysis of the data. \\
 
 Kriging is intended for predicting response values at new locations.  In this work, we use Kriging to smooth the locations already observed, as well as predict responses over a grid of new locations. \\
 
@@ -299,7 +299,7 @@ The first step is to select a subset of the original data, limited to the latitu
 
 Second, Katzfuss and Cressie suggest de-trending to adjust for any large-scale spatial variation and any key covariates.  We plotted the raw data versus longitude, latitude, and temperature in Figure \ref{fig:2}.  The data do not show any trend by latitude or longitude, ruling out deterministic trends.  There is a trend by temperature, which is not surprising as lower temperatures may affect the accuracy of the radiation measurements. \\
 
-We chose not to de-trend the data by temperature, as this introduced strange patterns in the data when plotted by latitude and longitude. \\
+We chose not to de-trend the data by temperature, as this introduced strange patterns in the data when plotted by latitude and longitude. Therefore, the data are only centred with respect to their grand mean. \\
 
 \begin{figure}[H]
 \centering
@@ -309,7 +309,7 @@ We chose not to de-trend the data by temperature, as this introduced strange pat
 \end{figure}
 
 \underline{Transformation to Normality}\\
-Third, Katzfuss and Cressie recommend the data to be checked for approximate normality and transformed if necessary.  The radiation data is in the form of counts (intensity measurements) and is likely to be Poisson distributed, so we use an Anscombe transformation to induce normality.  A histogram of the normalized observations (see Figure \ref{fig:3}) confirms this transformation was successful.  Note that Anscombe back-transformations can lead to a biased result, and so we use the following transform and back-transform. \\
+Third, Katzfuss and Cressie recommend the data to be checked for approximate normality and transformed if necessary.  The radiation data is in the form of counts (intensity measurements), so we use an Anscombe transformation to induce normality.  A histogram of the normalized observations (see Figure \ref{fig:3}) confirms this transformation was successful.  Note that Anscombe back-transformations can lead to a biased result, and so we use the following transform and back-transform. \\
 
 \myindent $x \rightarrow 2\sqrt{x + \frac{3}{8}}$\\
 \myindent $y \rightarrow \left(\frac{y}{2}\right)^2 - \frac{1}{8}$ 
@@ -367,13 +367,13 @@ In this work we use a total of $r = 50$ basis functions with three different res
 
 \subsection{Estimation of $\sigma^2_{\epsilon}$ via Semivariogram}
 
-The FRK model specifies that $n$ measurements are modeled as $Z(s_i) = Y(s_i) + \epsilon(s_i)$, where $s_i$ are locations in the region of interest, and $\epsilon(s_i)$ is additive measurement error.\\
+The FRK model specifies that $n$ measurements are modeled as $Z(\bm{s}_i) = Y(\bm{s}_i) + \epsilon(\bm{s}_i)$, where $\bm{s}_i$ are locations in the region of interest, and $\epsilon(\bm{s}_i)$ is additive measurement error.\\
 
-As detailed above, the measurement error is assumed to be independent of $Y(s_i)$ and normally distributed as $\epsilon(s_i) \sim N(0,\sigma^2_\epsilon v_\epsilon (s_i))$.  The $v_\epsilon (s_i)$ component is a function that is assumed to be known, which describes the random spatial variation.  As with the CO2 data, we assume $v_\epsilon (s_i)$ is a constant function equal to 1 at every location, as we assume that random spatial variation is constant over the campus. \\
+As detailed above, the measurement error is assumed to be independent of $Y(\bm{s}_i)$ and normally distributed as $\epsilon(\bm{s}_i) \sim N(0,\sigma^2_\epsilon v_\epsilon (\bm{s}_i))$.  The $v_\epsilon (\bm{s}_i)$ component is a function that is assumed to be known, which describes the random spatial variation.  As with the CO2 data, we assume $v_\epsilon (\bm{s}_i)$ is a constant function equal to 1 at every location, as we assume that random spatial variation is constant over the campus. \\
 
 This leaves us with $\sigma^2_\epsilon$ to estimate. Katzfuss and Cressie note that $\sigma^2_\epsilon$ may be specified in advance, if there is previous knowledge about measurement error for the instrument being used.  We do not assume prior knowledge of $\sigma^2_\epsilon$. \\
 
-The semivariogram estimation method presented in Katzfuss and Cressie is known as the `Robust Cressie Variogram'.  \\
+The semivariogram estimation method presented in \cite{Katzfuss} is known as the `Robust Cressie Variogram'.  \\
 
 \myindent $\bullet$ $2\gamma(h) = \left( \frac{1}{|N(h)|} \sum_{N(h)} \biggr\rvert
 \frac{\tilde{Z}(s_i)}{\sqrt{v_\epsilon (s_i)}} - 
@@ -385,13 +385,16 @@ The semivariogram estimation method presented in Katzfuss and Cressie is known a
 \myindent \myindent $N(h) = {(i,j): ||s_i - s_j|| \in [h - \delta, h + \delta ] }$, \\
 \myindent \myindent \myindent the set of all indices for location pairs roughly $h$ distance apart.\\
 
-\myindent $\bullet$ Then straight line $\hat{\gamma}(h) = \hat{\gamma}(0) + bh$ is fit, and $\sigma^2_\epsilon = \hat{\gamma}(0)$.\\
+\myindent $\bullet$ Then straight line $\hat{\gamma}(h) = \hat{\gamma}(0) + bh$ is fit, and $\hat{\sigma}^2_\epsilon = \hat{\gamma}(0)$.\\
 
-For further detail on this methodology, see Cressie and Hawkins (1980), Cressie (1985), and Kang et al. (2010). We use this method to estimate a semi-variogram for the data, and then fit a straight line to the semivariogram and let $\hat{\sigma}^2_\epsilon$ be equal to the intercept.  Our resulting estimate is $\hat{\sigma}^2_\epsilon$ = 106.3635. \\
+For further detail on this methodology, see \cite{CressieHawkins}, \cite{Cressievariogram}, \cite{Kangetal}. We use this method to estimate a semi-variogram for the data, and then fit a straight line to the semivariogram and let $\hat{\sigma}^2_\epsilon$ be equal to the intercept.  Our resulting estimate is $\hat{\sigma}^2_\epsilon$ = 106.3635. \\
 
 We did remove the police station measurements in the calculation of this semivariogram.  The police car carrying the measurement device parked in the police station lot overnight, so there were a disproportionate number of measurements at this location, including specifically night-time measurements where cooler temperatures mean the measurement device is more prone to error. \\
 
-Our estimate was considerably higher than the estimate obtained for the Katzfuss and Cressie simulated CO2 data.  However, their data was simulated with $\sigma^2_\epsilon = 0.25$. Our normalized data, instead, has a range of $-51$ to $54$, with a total variance of around $287$, so our result is reasonable. To check reasonableness, we split the region of interest into four quadrants and calculated semivariograms for each quandrant to ensure that they yielded comparable $\hat{\sigma}^2_\epsilon$ estimates. Estimates were similar in all regions, and did not differ significantly from the overall estimate.   The data is known to have some outliers which affect the variance.\\
+Our estimate was considerably higher than the estimate obtained for the Katzfuss and Cressie simulated CO2 data.  However, their data was simulated with $\sigma^2_\epsilon = 0.25$. Our normalized data, instead, has a range of $-51$ to $54$, with a total variance of around $287$, so our result is reasonable. Moreover, because our data is being collected over several months, the nugget effect in the estimated semivariogram will be more evident. This suggests that there is a temporal component in our data which implies that observations close to each other have significantly different values.
+
+
+To check reasonableness, we split the region of interest into four quadrants and calculated semivariograms for each quadrant to ensure that they yielded comparable $\hat{\sigma}^2_\epsilon$ estimates. Estimates were similar in all regions, and did not differ significantly from the overall estimate.   The data is known to have some outliers which affect the variance.\\
 
 
 \subsection{Estimation of $\sigma^2_{\xi}$ and $K$ via EM Algorithm}
@@ -400,7 +403,7 @@ The next step of the Fixed Rank Kriging process is to estimate the parameters $\
 
 As described above, $K$ is the $r \times r$ covariance matrix, where $r$ is the number of basis functions selected.  $K$ represents the covariance in the spatial-random-effects (SRE) model. $\sigma^2_{\xi}$ is the fine-scale variance in the SRE model, accounting for error introduced to the model through the dimension reduction. \\
 
-Katzfuss and Cressie suggest two methods for estimating these parameters: the method of Moments and the EM Algorithm.  We have implemented the EM algorithm to estimate these values.\\
+In \cite{Katzfuss}, two methods for estimating these parameters are suggested: the method of Moments and the EM Algorithm.  We have implemented the EM algorithm to estimate these values.\\
 
 \myindent $\bullet$ Begin with default choices suggested in Katzfuss and Cressie: \\
 
@@ -429,6 +432,7 @@ We can use these results to re-write the $\sigma_\xi^{2[t+1]}$ update in a more 
 V_\xi^{-1}
 \left(\sigma_\xi^{2[t]}V_\xi \Sigma^{[t]-1} \tilde{\bm{Z}}\right)/n$\\
 
+\textcolor{red}{Being this a big data course, I would underline here as well that the operations in the code are optimized thanks to precaching. I know you did it in the end, but it seems to me that it is a very important point that we should highlight.}
 
 \underline{Results:}\\
 We obtain an estimated $\hat{\sigma}^2_{\xi} = 174.4245$.  The R code saves $\hat{\sigma}^2_{\xi}$ and $\hat{K}$ as part of the EM function output.\\
@@ -459,7 +463,7 @@ The Kriging function returns a grid of locations and estimated responses, along 
 \newpage
 \section{3. Results}
 
-Using a the uniform set of basis functions presented in the previous section, predicted kriging values are shown in Figure \ref{fig:4}, followed by a plot of the kriging variance in Figure \ref{fig:5}. 
+Using the ''uniform'' set of basis functions presented in the previous section (and shown in Figure \ref{fig:6}), predicted kriging values are shown in Figure \ref{fig:4}, followed by a plot of the kriging variance in Figure \ref{fig:5}. 
 
 \begin{figure}[H]
 \centering
@@ -543,5 +547,24 @@ All project documentation and source code is available in the following github r
 \myindent \url{https://github.com/jstarling1/spatialsmoothing}\\
 
 The R code launcher is available in the \textit{R Code\_Launcher} directory.\\
+
+\small
+\begin{thebibliography}{50}
+
+\bibitem{Cressiebook} Cressie, N. (2015). Statistics for spatial data. \textit{John Wiley \& Sons.}
+
+\bibitem{Cressie} Cressie, N., \& Johannesson, G. (2008). Fixed rank kriging for very large spatial data sets. \textit{Journal of the Royal Statistical Society: Series B (Statistical Methodology)}, \textbf{70}, 209-226.
+
+\bibitem{CressieHawkins} Cressie, N., \& Hawkins, D. M. (1980). Robust estimation of the variogram: I. \textit{Journal of the International Association for Mathematical Geology}, \textbf{12}, 115-125.
+
+\bibitem{Cressievariogram} Cressie, N. (1985). Fitting variogram models by weighted least squares. \textit{Journal of the International Association for Mathematical Geology}, \textbf{17}, 563-586.
+
+\bibitem{Kangetal} Kang, E. L., Cressie, N., \& Shi, T. (2010). Using temporal variability to improve spatial mapping with application to satellite data. \textit{Canadian Journal of Statistics}, \textbf{38}, 271-289.
+
+\bibitem{Katzfuss} Katzfuss, M., \& Cressie, N. (2011). \textit{Tutorial on fixed rank kriging (FRK) of CO2 data.} The Ohio State University: Columbus, OH, USA.
+
+
+\end{thebibliography}
+
 
 \end{document}
